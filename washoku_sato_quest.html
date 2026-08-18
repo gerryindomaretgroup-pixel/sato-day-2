@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATO Master Crew Quest 2026</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              yellow: '#FFE600',
+              pink: '#FF2A85',
+              cyan: '#00F0FF',
+              purple: '#8B5CF6',
+              green: '#10B981',
+              dark: '#0F172A',
+            }
+          },
+          boxShadow: {
+            'brutal': '5px 5px 0px 0px #0F172A',
+            'brutal-lg': '8px 8px 0px 0px #0F172A',
+            'brutal-sm': '3px 3px 0px 0px #0F172A',
+            'brutal-glow': '0px 0px 20px rgba(255, 42, 133, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #090D16;
+      background-image: radial-gradient(#1E293B 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .font-display {
+      font-family: 'Outfit', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0F172A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #FF2A85;
+      border-radius: 4px;
+      border: 2px solid #0F172A;
+    }
+    .brutal-card {
+      background: #1E293B;
+      border: 3.5px solid #0F172A;
+      box-shadow: 6px 6px 0px 0px #000000;
+    }
+    .brutal-btn {
+      transition: all 0.15s ease;
+      border: 3px solid #0F172A;
+      box-shadow: 4px 4px 0px 0px #0F172A;
+    }
+    .brutal-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px 0px #0F172A;
+    }
+    .brutal-btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px 0px #0F172A;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between overflow-x-hidden">
+
+  <!-- TOP BAR / HEADER -->
+  <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b-4 border-slate-950 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-brand-yellow text-slate-950 font-black flex items-center justify-center text-xl rounded-lg border-2 border-slate-900 shadow-brutal-sm font-display">
+          SATO
+        </div>
+        <div>
+          <h1 class="font-display font-black text-lg sm:text-xl tracking-tight text-brand-cyan leading-none">
+            QUEST <span class="text-brand-pink">2026</span>
+          </h1>
+          <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider">Washoku Sato Master Academy</p>
+        </div>
+      </div>
+
+      <!-- Audio Control & Score HUD -->
+      <div class="flex items-center gap-2">
+        <div id="hud-stats" class="hidden flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-lg border-2 border-slate-800">
+          <div class="text-xs font-extrabold text-amber-400">
+            ⚡ <span id="hud-score">0</span> PTS
+          </div>
+          <div class="text-xs font-extrabold text-brand-cyan border-l border-slate-800 pl-2">
+            📊 <span id="hud-progress-text">0%</span>
+          </div>
+        </div>
+
+        <button id="btn-audio-toggle" onclick="toggleAudio()" class="brutal-btn bg-slate-800 hover:bg-slate-700 p-2 rounded-lg text-lg flex items-center justify-center text-brand-yellow">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+
+    <!-- SCREEN 1: GATEWAY & USER IDENTITY -->
+    <section id="screen-gateway" class="w-full my-auto space-y-6">
+      <div class="brutal-card bg-slate-900 rounded-2xl p-6 sm:p-8 border-4 border-slate-950 relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-36 h-36 bg-brand-pink/20 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-brand-cyan/20 rounded-full blur-2xl"></div>
+
+        <!-- Hook / WHY Banner -->
+        <div class="bg-gradient-to-r from-purple-900/60 to-pink-900/60 border-2 border-brand-pink/50 rounded-xl p-4 mb-6 relative shadow-brutal-sm">
+          <div class="inline-block bg-brand-pink text-slate-950 font-black text-xs px-2.5 py-1 rounded mb-2 uppercase tracking-wide">
+            🔥 TAUKAH KAMU?
+          </div>
+          <p class="text-xs sm:text-sm text-slate-200 font-semibold leading-relaxed">
+            <span class="text-brand-yellow font-bold">80% kesalahan operasional di dunia kerja</span> terjadi akibat komunikasi yang buruk! Dan 1 kesalahan kecil di Cloud Kitchen dapat menghambat puluhan pesanan pelanggan! 
+            <br class="hidden sm:inline">
+            <span class="text-brand-cyan font-bold">Apakah kamu punya kualifikasi untuk menjadi Crew Master SATO sejati?</span>
+          </p>
+        </div>
+
+        <div class="text-center space-y-2 mb-6">
+          <h2 class="font-display font-black text-2xl sm:text-4xl text-slate-100 tracking-tight">
+            THE GATEWAY <span class="text-brand-yellow">ACCESS</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 font-medium">Masukkan identitas lengkapmu untuk memulai autentikasi misi training.</p>
+        </div>
+
+        <!-- Identity Form -->
+        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 max-w-md mx-auto">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Lengkap Peserta</label>
+            <input type="text" id="input-nama" required placeholder="Contoh: Budi Pratama" class="w-full bg-slate-950 border-2 border-slate-700 rounded-xl px-4 py-3 text-slate-100 font-semibold focus:outline-none focus:border-brand-cyan transition">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Nomor Induk Karyawan (NIK)</label>
+            <input type="text" id="input-nik" required placeholder="Contoh: NIK-2026-889" class="w-full bg-slate-950 border-2 border-slate-700 rounded-xl px-4 py-3 text-slate-100 font-semibold focus:outline-none focus:border-brand-cyan transition">
+          </div>
+          <button type="submit" class="brutal-btn w-full bg-brand-yellow text-slate-950 font-black py-3.5 px-6 rounded-xl text-base sm:text-lg flex items-center justify-center gap-2 mt-6">
+            MASUK KE MISSION BRIEFING 🚀
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: MISSION BRIEFING -->
+    <section id="screen-briefing" class="hidden w-full my-auto space-y-6">
+      <div class="brutal-card bg-slate-900 rounded-2xl p-6 sm:p-8 border-4 border-slate-950 space-y-6">
+        <div class="border-b-2 border-slate-800 pb-4 flex flex-wrap justify-between items-center gap-2">
+          <div>
+            <span class="text-xs font-extrabold text-brand-pink uppercase tracking-widest">AGENT IDENTIFIED</span>
+            <h2 class="font-display font-black text-xl sm:text-2xl text-slate-100" id="briefing-agent-name">Nama Peserta</h2>
+            <p class="text-xs text-slate-400 font-mono" id="briefing-agent-nik">NIK: -</p>
+          </div>
+          <div class="bg-brand-purple/20 border border-brand-purple text-brand-purple text-xs font-bold px-3 py-1.5 rounded-full">
+            LEVEL: CREW IN TRAINING
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display font-black text-lg text-brand-cyan flex items-center gap-2">
+            🎯 MISSION OBJECTIVES
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Selesaikan 5 Tantangan Spesialisasi Washoku Sato dengan total 25 soal. Raih skor maksimal, kumpulkan 5 Badge Keahlian, dan buktikan kamu siap menjadi Crew Unggulan!
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+              <span class="text-xl">⛩️</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-200">Level 1: Profile & History</h4>
+                <p class="text-[11px] text-slate-400">Sejarah 1958, SRS Holdings & Washoku Sato</p>
+              </div>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+              <span class="text-xl">🏬</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-200">Level 2: Cloud Kitchen & Safety</h4>
+                <p class="text-[11px] text-slate-400">Layout 16m², Safety 170°C, LPG & Cut Gloves</p>
+              </div>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+              <span class="text-xl">🍱</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-200">Level 3: Bahan Baku & Kitchen</h4>
+                <p class="text-[11px] text-slate-400">FIFO, Kaldu Dashi, Hangiri & Sub-Divisi</p>
+              </div>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+              <span class="text-xl">🛵</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-200">Level 4: Online Delivery Ops</h4>
+                <p class="text-[11px] text-slate-400">SOP Merchant, Cable Ties & 3 Struk POS</p>
+              </div>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-start gap-3 sm:col-span-2">
+              <span class="text-xl">💬</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-200">Level 5: Komunikasi & Teamwork</h4>
+                <p class="text-[11px] text-slate-400">3 Magic Words, Gestur Ojigi & 70% Rules</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rules & Gameplay mechanics -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+          <h4 class="text-xs font-black text-brand-yellow uppercase tracking-wider">⚡ ATURAN GAME:</h4>
+          <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside">
+            <li>Setiap jawaban <span class="text-emerald-400 font-bold">BENAR</span> menambah <span class="font-bold text-brand-yellow">+100 Poin</span>.</li>
+            <li>Jawaban <span class="text-rose-400 font-bold">SALAH</span> mengurangi <span class="font-bold text-rose-400">-20 Poin</span>.</li>
+            <li>Gunakan tombol <span class="text-brand-cyan font-bold">💡 HINT</span> jika butuh petunjuk (bebas tanpa penalti).</li>
+            <li>Target Kelulusan Minimal: <span class="font-bold text-brand-yellow">80% Accuracy</span> (Skor 2000+).</li>
+          </ul>
+        </div>
+
+        <button onclick="startMission()" class="brutal-btn w-full bg-brand-pink text-slate-950 font-black py-4 px-6 rounded-xl text-lg flex items-center justify-center gap-2 animate-pulse-glow">
+          SAYA SIAP MEMULAI PERMAINAN! ⚔️
+        </button>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: CORE EXECUTION (GAMEPLAY) -->
+    <section id="screen-gameplay" class="hidden w-full my-auto space-y-4">
+      
+      <!-- Progress Bar Card -->
+      <div class="brutal-card bg-slate-900 rounded-xl p-4 border-3 border-slate-950 space-y-2">
+        <div class="flex justify-between items-center text-xs font-bold">
+          <span class="text-brand-yellow uppercase tracking-wider" id="game-level-title">LEVEL 1: PROFILE & HISTORY</span>
+          <span class="text-slate-300" id="game-question-count">Soal 1 / 25</span>
+        </div>
+        
+        <!-- Gamification Progress Bar -->
+        <div class="w-full bg-slate-950 rounded-full h-4 p-0.5 border border-slate-800 overflow-hidden">
+          <div id="game-progress-bar" class="bg-gradient-to-r from-brand-yellow via-brand-pink to-brand-cyan h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Main Question Box -->
+      <div class="brutal-card bg-slate-900 rounded-2xl p-5 sm:p-7 border-4 border-slate-950 space-y-5 relative">
+        
+        <!-- Storyline / Scenario Badge -->
+        <div class="inline-flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs text-brand-cyan font-medium">
+          <span>📜 SITUASI SKENARIO:</span>
+          <span id="question-story" class="text-slate-200 italic font-normal">Skenario Soal...</span>
+        </div>
+
+        <!-- Question Prompt -->
+        <div>
+          <h3 id="question-text" class="font-display font-extrabold text-base sm:text-xl text-slate-100 leading-snug">
+            Pertanyaan game akan ditampilkan di sini?
+          </h3>
+        </div>
+
+        <!-- Hint Section -->
+        <div>
+          <button onclick="toggleHint()" class="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 underline underline-offset-4">
+            <span>💡 Minta Hint / Petunjuk Pengerjaan</span>
+          </button>
+          <div id="hint-box" class="hidden mt-2 bg-amber-950/40 border border-amber-600/50 p-3 rounded-lg text-xs text-amber-200">
+            Hint: <span id="hint-text">Isi hint...</span>
+          </div>
+        </div>
+
+        <!-- Options Container -->
+        <div id="options-container" class="grid grid-cols-1 gap-3 pt-2">
+          <!-- Dynamic Buttons injected via JS -->
+        </div>
+      </div>
+
+      <!-- Feedback Modal / Card -->
+      <div id="feedback-card" class="hidden brutal-card rounded-xl p-5 border-4 border-slate-950 transition-all duration-200">
+        <div class="flex items-start gap-3">
+          <div id="feedback-icon" class="text-3xl"></div>
+          <div class="space-y-1 flex-1">
+            <h4 id="feedback-title" class="font-display font-black text-lg">Judul Feedback</h4>
+            <p id="feedback-desc" class="text-xs sm:text-sm text-slate-300 leading-relaxed">Penjelasan detail alasan benar/salah...</p>
+          </div>
+        </div>
+        <button id="btn-next-question" onclick="nextQuestion()" class="brutal-btn w-full mt-4 bg-brand-cyan text-slate-950 font-black py-3 rounded-xl text-sm uppercase tracking-wider">
+          LANJUTKAN MISI ➔
+        </button>
+      </div>
+
+    </section>
+
+    <!-- SCREEN 4: POST-ACTION DEBRIEF (GAME RESULT) -->
+    <section id="screen-debrief" class="hidden w-full my-auto space-y-6 my-6">
+      <div class="brutal-card bg-slate-900 rounded-2xl p-6 sm:p-8 border-4 border-slate-950 space-y-6">
+        
+        <!-- Header Result -->
+        <div class="text-center space-y-2">
+          <div class="inline-block bg-slate-950 border border-slate-800 text-brand-cyan font-mono text-xs px-3 py-1 rounded-full uppercase tracking-widest">
+            POST-ACTION DEBRIEF REPORT
+          </div>
+          <h2 class="font-display font-black text-2xl sm:text-4xl text-slate-100">
+            GAME <span class="text-brand-yellow">RESULT</span>
+          </h2>
+          <p class="text-xs text-slate-400">Washoku Sato Education & Training Dept. Evaluation</p>
+        </div>
+
+        <!-- Positive Reinforcement Banner -->
+        <div id="reinforcement-box" class="p-4 sm:p-5 rounded-xl border-2 text-center space-y-2 brutal-card">
+          <div id="reinforcement-icon" class="text-4xl">🏆</div>
+          <h3 id="reinforcement-status" class="font-display font-black text-xl text-brand-yellow">STATUS REINFORCEMENT</h3>
+          <p id="reinforcement-message" class="text-xs sm:text-sm text-slate-200 leading-relaxed">Pesan penyemangat...</p>
+        </div>
+
+        <!-- Performance Stats Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">TOTAL SKOR</span>
+            <span id="final-score" class="text-xl sm:text-2xl font-black text-brand-yellow font-display">0</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">AKURASI</span>
+            <span id="final-accuracy" class="text-xl sm:text-2xl font-black text-brand-cyan font-display">0%</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">BENAR</span>
+            <span id="final-correct" class="text-xl sm:text-2xl font-black text-emerald-400 font-display">0 / 25</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">BADGE DIRAIH</span>
+            <span id="final-badges-count" class="text-xl sm:text-2xl font-black text-brand-pink font-display">0 / 5</span>
+          </div>
+        </div>
+
+        <!-- Badges Collection Showcase -->
+        <div class="space-y-3">
+          <h4 class="font-display font-black text-sm text-slate-200 uppercase tracking-wider">
+            🏅 LENCANA / BADGE KEALIHAN DIRAIH:
+          </h4>
+          <div id="badges-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <!-- Badges dynamic -->
+          </div>
+        </div>
+
+        <!-- Detailed Review Accordion / List -->
+        <div class="space-y-3">
+          <h4 class="font-display font-black text-sm text-slate-200 uppercase tracking-wider">
+            📋 EVALUASI FEEDBACK SETIAP SOAL:
+          </h4>
+          <div id="review-list" class="space-y-2 max-h-80 overflow-y-auto pr-1">
+            <!-- Review items dynamic -->
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button onclick="restartGame()" class="brutal-btn flex-1 bg-brand-yellow text-slate-950 font-black py-3.5 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+            🔄 MAIN LAGI (RESTART)
+          </button>
+          <button onclick="exportResult()" class="brutal-btn flex-1 bg-brand-purple text-slate-100 font-black py-3.5 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+            📄 SIMPAN / REKAP HASIL
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER MANDATORY -->
+  <footer class="bg-slate-950 border-t-2 border-slate-900 py-4 px-4 text-center">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-slate-500 text-xs font-semibold">
+      <div>Washoku Sato Interactive Training Module</div>
+      <div class="text-slate-400 font-bold">Education & Training Dept. © 2026</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================================================================
+       WEB AUDIO API SOUND SYNTHESIZER (Ultra Lightweight & Native)
+       ========================================================================== */
+    let audioCtx = null;
+    let isMuted = false;
+    let bgmInterval = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleAudio() {
+      initAudio();
+      isMuted = !isMuted;
+      const btn = document.getElementById('btn-audio-toggle');
+      if (isMuted) {
+        btn.innerHTML = '🔇';
+        btn.classList.add('opacity-50');
+        stopBGM();
+      } else {
+        btn.innerHTML = '🔊';
+        btn.classList.remove('opacity-50');
+        startBGM();
+      }
+    }
+
+    function playTone(freq, type, duration, gainVal = 0.1) {
+      if (isMuted || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // SFX Effects
+    function playSFX(name) {
+      initAudio();
+      if (isMuted) return;
+
+      if (name === 'correct') {
+        // High upbeat melody
+        playTone(523.25, 'sine', 0.1, 0.15); // C5
+        setTimeout(() => playTone(659.25, 'sine', 0.1, 0.15), 80); // E5
+        setTimeout(() => playTone(783.99, 'sine', 0.2, 0.15), 160); // G5
+      } else if (name === 'wrong') {
+        // Buzz tone
+        playTone(180, 'sawtooth', 0.2, 0.2);
+        setTimeout(() => playTone(140, 'sawtooth', 0.3, 0.2), 100);
+      } else if (name === 'click') {
+        playTone(400, 'triangle', 0.05, 0.05);
+      } else if (name === 'badge') {
+        // Arpeggio fanfare
+        const notes = [440, 554.37, 659.25, 880];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => playTone(freq, 'sine', 0.15, 0.12), idx * 80);
+        });
+      }
+    }
+
+    // BGM Arcade Loop Synth
+    function startBGM() {
+      if (bgmInterval || isMuted) return;
+      initAudio();
+      const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
+      let step = 0;
+      bgmInterval = setInterval(() => {
+        if (!isMuted && audioCtx) {
+          playTone(notes[step % notes.length], 'sine', 0.12, 0.02);
+          step++;
+        }
+      }, 350);
+    }
+
+    function stopBGM() {
+      if (bgmInterval) {
+        clearInterval(bgmInterval);
+        bgmInterval = null;
+      }
+    }
+
+    /* ==========================================================================
+       GAME DATA: 5 LEVELS x 5 QUESTIONS (SOURCE FROM PDF CONTENT)
+       ========================================================================== */
+    const GAME_DATA = [
+      // LEVEL 1: PROFILE & HISTORY WASHOKU SATO (PDF 5)
+      {
+        level: 1,
+        levelName: "LEVEL 1: SEJARAH & PROFIL SATO",
+        badge: { name: "Sato Rookie 🍣", icon: "🍣", desc: "Paham Sejarah & Filosofi Washoku Sato" },
+        questions: [
+          {
+            story: "Pusat Operasional Osaka - 1958",
+            q: "Tahun berapakah Washoku Sato pertama kali berdiri di daerah Hosenji, Osaka untuk melayani kalangan pekerja?",
+            options: ["1958", "1979", "1984", "2010"],
+            answer: 0,
+            hint: "Berdiri awal di Osaka melayani pekerja sebelum menjadi entitas besar.",
+            feedback: "Benar! Washoku Sato pertama kali berdiri tahun 1958 di Hosenji, Osaka untuk melayani para pekerja."
+          },
+          {
+            story: "Restrukturisasi & Ekosistem Hospitality",
+            q: "Apa nama entitas/induk perusahaan publik yang menaungi Washoku Sato di Bursa Saham Tokyo?",
+            options: ["President Sato Co.", "SRS Holdings Co. Ltd.", "PT Indosato Jaya", "San Ten Group"],
+            answer: 1,
+            hint: "Melakukan transformasi nama pada tahun 2017 untuk fokus ekosistem hospitality.",
+            feedback: "Tepat! Washoku Sato merupakan bagian dari SRS Holdings Co. Ltd. (sebelumnya terdaftar di Bursa Saham Tokyo 1984)."
+          },
+          {
+            story: "Ekspansi Perdana di Indonesia",
+            q: "Kapan Washoku Sato pertama kali membuka restoran pertamanya di Indonesia (Central Park)?",
+            options: ["Desember 2019", "September 2013", "Mei 2015", "November 2020"],
+            answer: 1,
+            hint: "Gerai pertama hadir di mall Central Park Jakarta sebelum MOI.",
+            feedback: "Sip! Restoran pertama Washoku Sato di Indonesia dibuka pada September 2013 di Central Park."
+          },
+          {
+            story: "Inovasi Konsep Bisnis 2026",
+            q: "Konsep operasional baru Washoku Sato pada tahun 2026 yang beroperasi hibrida (online/offline) di Indomaret Fresh adalah?",
+            options: ["Eat & Go", "Cloud Kitchen", "Sato Buffet", "Drive-Thru Boutique"],
+            answer: 1,
+            hint: "Model bisnis efisien berlokasi di Indomaret Jalan Sutra & Ampera.",
+            feedback: "Mantap! Pada 2026 Washoku Sato meluncurkan konsep Cloud Kitchen di Indomaret Fresh."
+          },
+          {
+            story: "Filosofi Utama Perusahaan",
+            q: "Apa komitmen utama Washoku Sato dalam filosofi 'Through Food / Contributing To Society'?",
+            options: [
+              "Menyajikan makanan mewah harga sangat mahal",
+              "Makanan berkualitas & terjangkau untuk semua kalangan",
+              "Hanya melayani pesanan khusus korporat",
+              "Menghilangkan masakan tradisional Jepang"
+            ],
+            answer: 1,
+            hint: "Mewujudkan kehidupan lebih baik melalui makanan bermutu dengan harga terjangkau.",
+            feedback: "Excellence! Filosofinya adalah menyajikan masakan bermutu dengan harga yang terjangkau oleh semua kalangan."
+          }
+        ]
+      },
+      // LEVEL 2: CLOUD KITCHEN & SAFETY (PDF 6)
+      {
+        level: 2,
+        levelName: "LEVEL 2: CLOUD KITCHEN & K3",
+        badge: { name: "Master Chef Ops 🥢", icon: "🥢", desc: "Ahli Standar Operasional & K3 Cloud Kitchen" },
+        questions: [
+          {
+            story: "Area Kerja Terbatas",
+            q: "Berapa ukuran dimensi standar tata letak area kerja efisien Cloud Kitchen Washoku Sato?",
+            options: ["2m x 2m (4 m²)", "4m x 4m (16 m²)", "6m x 6m (36 m²)", "10m x 10m (100 m²)"],
+            answer: 1,
+            hint: "Denah dirancang memaksimalkan ruang terbatas 16 meter persegi.",
+            feedback: "Benar! Area kerja Cloud Kitchen berukuran 4m x 4m (16 m²) untuk efisiensi produksi."
+          },
+          {
+            story: "Bahaya Minyak Panas (Torisho Deep Fryer)",
+            q: "Berapa standar suhu minyak panas pada mesin Deep Fryer untuk menggoreng Torisho?",
+            options: ["100°C - 120°C", "130°C - 150°C", "170°C - 180°C", "220°C - 250°C"],
+            answer: 2,
+            hint: "Suhu penggorengan tinggi yang memerlukan kewaspadaan dari cipratan.",
+            feedback: "Tepat! Suhu minyak penggorengan Torisho berkisar 170°C - 180°C. Jangan masukkan bahan basah tiba-tiba!"
+          },
+          {
+            story: "Persiapan Bahan (Food Prep Safety)",
+            q: "Sarung tangan jenis apa yang WAJIB digunakan saat memotong bahan makanan untuk mencegah luka iris?",
+            options: ["Sarung Tangan Plastik", "Cut-Resistant Gloves (Rajutan Kawat)", "Sarung Tangan Kain Biasa", "Sarung Tangan Karet Tebal"],
+            answer: 1,
+            hint: "Terbuat dari serat/rajutan kawat khusus pada tangan pemegang bahan.",
+            feedback: "Keren! Wajib menggunakan Cut-Resistant Gloves dari rajutan kawat/serat khusus."
+          },
+          {
+            story: "Teknik Memotong Aman",
+            q: "Apa nama teknik memotong dengan menekuk ujung jari ke dalam untuk menghindari kontak pisau dengan kuku?",
+            options: ["Tiger Paw", "Bear Claw (Cakar Kucing)", "Eagle Grip", "Flat Hand"],
+            answer: 1,
+            hint: "Posisi menekuk jari menyerupai cakar beruang/kucing.",
+            feedback: "Setuju! Teknik 'Bear Claw' atau Cakar Kucing melindungi kuku dan jari dari irisan pisau."
+          },
+          {
+            story: "SOP Pemasangan LPG 12kg",
+            q: "Setelah regulator ditekan tegak lurus pada tabung LPG, bagaimana langkah penguncian yang benar?",
+            options: [
+              "Putar tuas pengunci 180° searah jarum jam",
+              "Ketok regulator dengan batu agar rapat",
+              "Gunakan isolasi pada leher tabung",
+              "Longgarkan karet pengaman merah"
+            ],
+            answer: 0,
+            hint: "Posisi kenop OFF, tekan tegak lurus lalu putar tuas pengunci 180°.",
+            feedback: "Benar sekali! Putar tuas pengunci 180° searah jarum jam. Dilarang keras mengetok tabung!"
+          }
+        ]
+      },
+      // LEVEL 3: BAHAN BAKU & KITCHEN DIVISION (PDF 7 & 8)
+      {
+        level: 3,
+        levelName: "LEVEL 3: BAHAN BAKU & KITCHEN",
+        badge: { name: "Kitchen Wizard ⚡", icon: "⚡", desc: "Menguasai Bahan Baku & Divisi Dapur" },
+        questions: [
+          {
+            story: "Spesifikasi Olahan Ikan Cakalang",
+            q: "Apa fungsi utama dari bahan baku 'Katsuobushi' (Katsuo) dalam masakan Washoku Sato?",
+            options: [
+              "Hiasan kue manis",
+              "Olahan ikan cakalang kering untuk kaldu dashi",
+              "Saus penyedap manis pedas",
+              "Tepung khusus adonan tempura"
+            ],
+            answer: 1,
+            hint: "Katsuobushi merupakan serutan cakalang kering penyusun rasa umami dashi.",
+            feedback: "Tepat! Katsuo/Katsuobushi adalah olahan ikan cakalang kering yang digunakan untuk membuat kaldu dashi."
+          },
+          {
+            story: "Prinsip Penanganan Bahan Baku F-K-I-B",
+            q: "Dalam prinsip FKIB saat pengambilan bahan baku, apakah kepanjangan dari huruf 'F'?",
+            options: ["First In First Out (FIFO)", "Fast In Fast Out", "Fresh In Fresh Out", "Final Inventory Order"],
+            answer: 0,
+            hint: "Bahan yang masuk pertama kali harus digunakan lebih dahulu.",
+            feedback: "Sip! F = FIFO (First In First Out), K = Kesegaran, I = Inisiatif, B = Bertanya."
+          },
+          {
+            story: "Tulang Punggung Sub-Divisi Kitchen",
+            q: "Sub-divisi dapur manakah yang bertugas membuat bahan prepare (Chawanmushi, Miso, Kaldu) bagi sub-divisi lainnya?",
+            options: ["Sub Divisi Stove", "Sub Divisi Back Kitchen", "Sub Divisi Tempura", "Sub Divisi Steward"],
+            answer: 1,
+            hint: "Diibaratkan sebagai tulang punggung (backbone) bagi seluruh dapur.",
+            feedback: "Benar! Back Kitchen bertanggung jawab mempersiapkan bahan dasar penting bagi seluruh divisi."
+          },
+          {
+            story: "Mengenal Varian Kaldu Sato",
+            q: "Jenis kaldu berwarna hitam seperti kecap yang terbuat dari campuran shoyu, gula, dan dashi adalah?",
+            options: ["Konbu", "Chanko", "Sukiyaki", "Soymilk"],
+            answer: 2,
+            hint: "Biasanya disajikan untuk hidangan rebusan daging sapi.",
+            feedback: "Mantap! Kaldu Sukiyaki berwarna hitam seperti kecap campuran shoyu, gula, dan dashi."
+          },
+          {
+            story: "Peralatan Tradisional Sushi",
+            q: "Alat tradisional kayu yang dipergunakan khusus untuk mengaduk nasi dengan campuran bahan lain di Back Kitchen dinamakan?",
+            options: ["Makisu", "Hangiri", "Gas Griddle", "Miso Steamer"],
+            answer: 1,
+            hint: "Wadah kayu bulat datar untuk mengaduk nasi sushi.",
+            feedback: "Tepat! Hangiri adalah wadah kayu untuk mengaduk nasi sushi secara merata."
+          }
+        ]
+      },
+      // LEVEL 4: ONLINE DELIVERY OPERATIONS (PDF 9)
+      {
+        level: 4,
+        levelName: "LEVEL 4: ONLINE DELIVERY OPS",
+        badge: { name: "Delivery Ninja 🛵", icon: "🛵", desc: "Pakar Pemrosesan Order & Packing Delivery" },
+        questions: [
+          {
+            story: "SOP Penerimaan Pesanan Online",
+            q: "Mengapa Tim Floor HARUS memastikan Driver Ojol sudah tiba di restoran sebelum mengonfirmasi tim cook memasak?",
+            options: [
+              "Agar pesanan dingin",
+              "Meminimalisir orderan fiktif & pembatalan",
+              "Mengulur waktu penyajian",
+              "Mengurangi stok bahan baku"
+            ],
+            answer: 1,
+            hint: "Langkah konfirmasi kedatangan driver untuk mencegah kerugian makanan terbuang.",
+            feedback: "Benar! Driver wajib datang dulu sebelum memasak untuk menghindari orderan fiktif."
+          },
+          {
+            story: "Kecepatan Respon Merchant Aplikasi",
+            q: "Berapa standar batas waktu maksimal untuk menekan tombol 'Terima Order' saat pesanan Klik Food masuk?",
+            options: ["10 Menit", "5 Menit", "1 Menit (60 Detik)", "15 Menit"],
+            answer: 2,
+            hint: "Penanganan cepat agar pesanan tidak kedaluwarsa atau dibatalkan otomatis.",
+            feedback: "Cepat! Waktu konfirmasi pesan masuk di aplikasi maksimal 1 menit (60 detik)."
+          },
+          {
+            story: "Hospitality Kepada Mitra Driver",
+            q: "Berdasarkan SOP Washoku Sato, apa yang disarankan diberikan kepada driver yang sedang menunggu pesanan?",
+            options: [
+              "Uang kembalian ekstra",
+              "Minuman hangat/dingin (Air Minum / Lemon Tea / Ocha)",
+              "Makanan berat gratis",
+              "Voucher belanja"
+            ],
+            answer: 1,
+            hint: "Bentuk keramahan (hospitality) menyegarkan driver.",
+            feedback: "Friendly! Berikan air minum/lemon tea/ocha kepada driver yang sedang menunggu."
+          },
+          {
+            story: "Standar Keamanan Packing Tote Bag",
+            q: "Peralatan apakah yang digunakan untuk mengunci tote bag pesanan pelanggan sebelum diserahkan ke driver?",
+            options: ["Isolasi Kertas", "Kabel Ties", "Klip Kertas", "Tali Kasur"],
+            answer: 1,
+            hint: "Pengikat plastik sekali pakai yang menjamin higienitas pesanan.",
+            feedback: "Tepat! Gunakan Kabel Ties untuk menutup totebag secara rapi dan aman."
+          },
+          {
+            story: "Pencetakan Struk Pembayaran POS",
+            q: "Saat orderan online diinput pada komputer POS Kasir, berapa jumlah struk yang dicetak?",
+            options: ["1 Struk", "2 Struk", "3 Struk (Kitchen, Checker/Floor, Pelanggan)", "5 Struk"],
+            answer: 2,
+            hint: "Masing-masing diberikan kepada Kitchen, Checker/Floor, dan Pelanggan.",
+            feedback: "Mantap! Dicetak 3 struk: 1 untuk Kitchen, 1 untuk Checker (Floor), dan 1 untuk Pelanggan."
+          }
+        ]
+      },
+      // LEVEL 5: KOMUNIKASI EFEKTIF & TEAMWORK (PDF 10 & 11)
+      {
+        level: 5,
+        levelName: "LEVEL 5: KOMUNIKASI & TEAMWORK",
+        badge: { name: "Ultimate Sato Legend 👑", icon: "👑", desc: "Pemimpin Komunikasi Efektif & Teamwork Solid" },
+        questions: [
+          {
+            story: "Riset Kesalahan di Dunia Kerja",
+            q: "Berdasarkan data training, berapa persentase kesalahan di dunia kerja yang disebabkan oleh komunikasi yang buruk?",
+            options: ["30%", "50%", "70%", "90%"],
+            answer: 2,
+            hint: "Sebagian besar kegagalan operasional bersumber dari penyampaian pesan yang tidak jelas.",
+            feedback: "Tepat! 70% kesalahan di dunia kerja terjadi akibat komunikasi yang buruk."
+          },
+          {
+            story: "Tiga Kata Ajaib (3 Magic Words)",
+            q: "Manakah kombinasi yang merupakan '3 Magic Words' dalam komunikasi verbal sehari-hari?",
+            options: [
+              "Halo, Cepat, Kerjakan",
+              "Tolong, Terima Kasih, Maaf",
+              "Siap, Bisa, Boleh",
+              "Permisi, Stop, Jangan"
+            ],
+            answer: 1,
+            hint: "Kata pembangun hubungan baik yang menghargai sesama rekan dan tamu.",
+            feedback: "Sempurna! 3 Magic Words adalah TOLONG, TERIMA KASIH, dan MAAF."
+          },
+          {
+            story: "Gestur Non-Verbal Jepang",
+            q: "Apa nama gestur tubuh membungkuk khas Jepang yang dilakukan saat menyapa konsumen di service area?",
+            options: ["Ojigi", "Katsu", "Aisatsu", "Shorin"],
+            answer: 0,
+            hint: "Gestur penghormatan saat menyambut atau mengucapkan terima kasih.",
+            feedback: "Benar! Gestur 'Ojigi' digunakan saat memberi salam dan menyambut tamu."
+          },
+          {
+            story: "Membangun Team Work Solid",
+            q: "Manakah di bawah ini yang MERUPAKAN pilar utama dalam menciptakan Team Work Solid?",
+            options: [
+              "Bekerja sendiri-sendiri tanpa peduli rekan",
+              "Satu Visi/Tujuan, Saling Percaya & Peduli",
+              "Mencari kesalahan teman saat sibuk",
+              "Menghindari perbedaan pendapat"
+            ],
+            answer: 1,
+            hint: "Fokus pada tujuan bersama, mengakui perbedaan, dan saling menolong.",
+            feedback: "Luar biasa! Team Work Solid dibangun dari Satu Visi, Saling Percaya, Mengakui Perbedaan, dan Peduli."
+          },
+          {
+            story: "Dampak Postur Tubuh Buruk",
+            q: "Apa akibat bagi pandangan konsumen jika crew berdiri membungkuk atau bersandar di dinding saat standby?",
+            options: [
+              "Terlihat sangat santai dan ramah",
+              "Menimbulkan kesan tidak profesional, malas, dan lesu",
+              "Membuat restoran terlihat modern",
+              "Tidak berpengaruh apa-apa"
+            ],
+            answer: 1,
+            hint: "Postur tubuh non-verbal mencerminkan kesiapan pelayanan.",
+            feedback: "Tepat! Postur membungkuk/bersandar memberi kesan malas dan tidak profesional kepada konsumen."
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       GAME STATE MANAGEMENT
+       ========================================================================== */
+    let userState = {
+      nama: '',
+      nik: '',
+      currentLevelIdx: 0,
+      currentQuestionIdx: 0,
+      totalQuestionCounter: 0,
+      score: 0,
+      correctCount: 0,
+      userAnswers: [], // store user selections for post-action debrief
+      badgesEarned: []
+    };
+
+    /* ==========================================================================
+       SCREEN NAVIGATION & FLOW
+       ========================================================================== */
+    function showScreen(screenId) {
+      document.getElementById('screen-gateway').classList.add('hidden');
+      document.getElementById('screen-briefing').classList.add('hidden');
+      document.getElementById('screen-gameplay').classList.add('hidden');
+      document.getElementById('screen-debrief').classList.add('hidden');
+
+      document.getElementById(screenId).classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      playSFX('click');
+      initAudio();
+      startBGM();
+
+      userState.nama = document.getElementById('input-nama').value.trim();
+      userState.nik = document.getElementById('input-nik').value.trim();
+
+      document.getElementById('briefing-agent-name').innerText = userState.nama;
+      document.getElementById('briefing-agent-nik').innerText = `NIK: ${userState.nik}`;
+
+      showScreen('screen-briefing');
+    }
+
+    function startMission() {
+      playSFX('click');
+      document.getElementById('hud-stats').classList.remove('hidden');
+      updateHUD();
+      loadQuestion();
+      showScreen('screen-gameplay');
+    }
+
+    /* ==========================================================================
+       CORE GAMEPLAY ENGINE
+       ========================================================================== */
+    function updateHUD() {
+      document.getElementById('hud-score').innerText = userState.score;
+      const progressPct = Math.round((userState.totalQuestionCounter / 25) * 100);
+      document.getElementById('hud-progress-text').innerText = `${progressPct}%`;
+      document.getElementById('game-progress-bar').style.width = `${progressPct}%`;
+    }
+
+    function loadQuestion() {
+      const levelData = GAME_DATA[userState.currentLevelIdx];
+      const qData = levelData.questions[userState.currentQuestionIdx];
+
+      // Hide feedback box
+      document.getElementById('feedback-card').classList.add('hidden');
+
+      // Set titles
+      document.getElementById('game-level-title').innerText = levelData.levelName;
+      document.getElementById('game-question-count').innerText = `Soal ${userState.totalQuestionCounter + 1} / 25`;
+
+      document.getElementById('question-story').innerText = qData.story;
+      document.getElementById('question-text').innerText = qData.q;
+      document.getElementById('hint-text').innerText = qData.hint;
+
+      // Reset Hint Box
+      document.getElementById('hint-box').classList.add('hidden');
+
+      // Render Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      qData.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'brutal-btn w-full text-left bg-slate-950 hover:bg-slate-800 p-4 rounded-xl border-2 border-slate-700 text-slate-100 font-semibold text-xs sm:text-sm flex items-center gap-3 transition';
+        btn.innerHTML = `
+          <span class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-brand-yellow shrink-0">
+            ${String.fromCharCode(65 + idx)}
+          </span>
+          <span class="flex-1">${opt}</span>
+        `;
+        btn.onclick = () => selectAnswer(idx);
+        optionsContainer.appendChild(btn);
+      });
+
+      updateHUD();
+    }
+
+    function toggleHint() {
+      playSFX('click');
+      const box = document.getElementById('hint-box');
+      box.classList.toggle('hidden');
+    }
+
+    function selectAnswer(selectedIdx) {
+      const levelData = GAME_DATA[userState.currentLevelIdx];
+      const qData = levelData.questions[userState.currentQuestionIdx];
+      const isCorrect = (selectedIdx === qData.answer);
+
+      // Disable options buttons
+      const buttons = document.querySelectorAll('#options-container button');
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === qData.answer) {
+          btn.classList.remove('bg-slate-950');
+          btn.classList.add('bg-emerald-950/80', 'border-emerald-500', 'text-emerald-200');
+        } else if (idx === selectedIdx && !isCorrect) {
+          btn.classList.remove('bg-slate-950');
+          btn.classList.add('bg-rose-950/80', 'border-rose-500', 'text-rose-200');
+        }
+      });
+
+      // Score calculation
+      if (isCorrect) {
+        playSFX('correct');
+        userState.score += 100;
+        userState.correctCount++;
+      } else {
+        playSFX('wrong');
+        userState.score = Math.max(0, userState.score - 20);
+      }
+
+      // Record answer history for debrief
+      userState.userAnswers.push({
+        levelName: levelData.levelName,
+        question: qData.q,
+        userSelection: qData.options[selectedIdx],
+        correctSelection: qData.options[qData.answer],
+        isCorrect: isCorrect,
+        feedback: qData.feedback
+      });
+
+      // Show Feedback Card
+      const feedbackCard = document.getElementById('feedback-card');
+      const feedbackIcon = document.getElementById('feedback-icon');
+      const feedbackTitle = document.getElementById('feedback-title');
+      const feedbackDesc = document.getElementById('feedback-desc');
+
+      feedbackCard.classList.remove('hidden');
+      if (isCorrect) {
+        feedbackCard.className = 'brutal-card rounded-xl p-5 border-4 border-emerald-500 bg-emerald-950/30 transition-all duration-200';
+        feedbackIcon.innerText = '✅';
+        feedbackTitle.innerText = 'JAWABAN BENAR (+100 PTS)';
+        feedbackTitle.className = 'font-display font-black text-lg text-emerald-400';
+      } else {
+        feedbackCard.className = 'brutal-card rounded-xl p-5 border-4 border-rose-500 bg-rose-950/30 transition-all duration-200';
+        feedbackIcon.innerText = '❌';
+        feedbackTitle.innerText = 'JAWABAN KURANG TEPAT (-20 PTS)';
+        feedbackTitle.className = 'font-display font-black text-lg text-rose-400';
+      }
+
+      feedbackDesc.innerText = qData.feedback;
+      updateHUD();
+    }
+
+    function nextQuestion() {
+      playSFX('click');
+      userState.totalQuestionCounter++;
+      userState.currentQuestionIdx++;
+
+      // Check level completion (5 questions per level)
+      if (userState.currentQuestionIdx >= 5) {
+        // Unlock Badge for completed level
+        const currentLevel = GAME_DATA[userState.currentLevelIdx];
+        userState.badgesEarned.push(currentLevel.badge);
+        playSFX('badge');
+
+        userState.currentLevelIdx++;
+        userState.currentQuestionIdx = 0;
+      }
+
+      // Check total completion (25 questions)
+      if (userState.totalQuestionCounter >= 25 || userState.currentLevelIdx >= GAME_DATA.length) {
+        finishGame();
+      } else {
+        loadQuestion();
+      }
+    }
+
+    /* ==========================================================================
+       POST-ACTION DEBRIEF (RESULTS)
+       ========================================================================== */
+    function finishGame() {
+      showScreen('screen-debrief');
+
+      const totalQuestions = 25;
+      const accuracyPct = Math.round((userState.correctCount / totalQuestions) * 100);
+
+      // Populate Stats
+      document.getElementById('final-score').innerText = userState.score;
+      document.getElementById('final-accuracy').innerText = `${accuracyPct}%`;
+      document.getElementById('final-correct').innerText = `${userState.correctCount} / ${totalQuestions}`;
+      document.getElementById('final-badges-count').innerText = `${userState.badgesEarned.length} / 5`;
+
+      // Positive Reinforcement Logic
+      const reinBox = document.getElementById('reinforcement-box');
+      const reinIcon = document.getElementById('reinforcement-icon');
+      const reinStatus = document.getElementById('reinforcement-status');
+      const reinMsg = document.getElementById('reinforcement-message');
+
+      if (accuracyPct >= 80) {
+        reinBox.className = 'p-5 rounded-xl border-4 border-emerald-500 bg-emerald-950/40 text-center space-y-2 brutal-card';
+        reinIcon.innerText = '🌟🚀';
+        reinStatus.innerText = 'TARGET KELULUSAN TERCAPAI!';
+        reinStatus.className = 'font-display font-black text-xl sm:text-2xl text-emerald-400';
+        reinMsg.innerText = `Luar biasa, ${userState.nama}! Kamu berhasil membuktikan pemahaman operasional Washoku Sato yang sangat kuat. Pengetahuan K3, standar penyajian, dan semangat pelayananmu berada di tingkat TOP TIER! Siap mengabdi sebagai Master Crew 2026.`;
+      } else {
+        reinBox.className = 'p-5 rounded-xl border-4 border-amber-500 bg-amber-950/40 text-center space-y-2 brutal-card';
+        reinIcon.innerText = '💪🔥';
+        reinStatus.innerText = 'PERLU EVALUASI & ULANGI TRAINING';
+        reinStatus.className = 'font-display font-black text-xl sm:text-2xl text-amber-400';
+        reinMsg.innerText = `Tetap semangat, ${userState.nama}! Kamu memiliki potensi besar. Target minimun lulus adalah 80% Akurasi. Pelajari kembali materi modul Washoku Sato (K3 Cloud Kitchen, Standar Delivery, & Komunikasi) lalu coba kembali permainan ini!`;
+      }
+
+      // Render Badges
+      const badgesGrid = document.getElementById('badges-grid');
+      badgesGrid.innerHTML = '';
+      userState.badgesEarned.forEach(badge => {
+        const div = document.createElement('div');
+        div.className = 'bg-slate-950 p-3 rounded-xl border border-slate-800 text-center space-y-1';
+        div.innerHTML = `
+          <div class="text-2xl">${badge.icon}</div>
+          <div class="text-[11px] font-extrabold text-brand-yellow leading-tight">${badge.name}</div>
+          <div class="text-[9px] text-slate-400 leading-tight">${badge.desc}</div>
+        `;
+        badgesGrid.appendChild(div);
+      });
+
+      // Render Review List
+      const reviewList = document.getElementById('review-list');
+      reviewList.innerHTML = '';
+      userState.userAnswers.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-xl border ${item.isCorrect ? 'border-emerald-800 bg-emerald-950/20' : 'border-rose-800 bg-rose-950/20'} text-xs space-y-1`;
+        div.innerHTML = `
+          <div class="flex justify-between items-center font-bold">
+            <span class="${item.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">Soal ${idx + 1}: ${item.isCorrect ? 'BENAR ✅' : 'SALAH ❌'}</span>
+            <span class="text-[10px] text-slate-400">${item.levelName}</span>
+          </div>
+          <p class="text-slate-200 font-semibold">${item.question}</p>
+          <div class="text-[11px] text-slate-300">Jawaban Kamu: <span class="${item.isCorrect ? 'text-emerald-300 font-bold' : 'text-rose-300 font-bold'}">${item.userSelection}</span></div>
+          ${!item.isCorrect ? `<div class="text-[11px] text-emerald-400">Jawaban Seharusnya: <b>${item.correctSelection}</b></div>` : ''}
+          <p class="text-[10px] text-slate-400 pt-1 border-t border-slate-800/50">💡 ${item.feedback}</p>
+        `;
+        reviewList.appendChild(div);
+      });
+    }
+
+    function restartGame() {
+      playSFX('click');
+      userState.currentLevelIdx = 0;
+      userState.currentQuestionIdx = 0;
+      userState.totalQuestionCounter = 0;
+      userState.score = 0;
+      userState.correctCount = 0;
+      userState.userAnswers = [];
+      userState.badgesEarned = [];
+
+      showScreen('screen-briefing');
+    }
+
+    function exportResult() {
+      playSFX('click');
+      const text = `
+===== WASHOKU SATO - GAME RESULT EVALUATION =====
+Nama Peserta : ${userState.nama}
+NIK          : ${userState.nik}
+Tanggal      : ${new Date().toLocaleDateString('id-ID')}
+Skor Akhir   : ${userState.score}
+Akurasi      : ${Math.round((userState.correctCount / 25) * 100)}% (${userState.correctCount}/25 Soal)
+Jumlah Badge : ${userState.badgesEarned.length} / 5
+=================================================
+Education & Training Dept. © 2026
+      `.trim();
+
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      alert('Rekap hasil evaluasi berhasil disalin ke clipboard! Kamu bisa menempelkannya (paste) di laporan.');
+    }
+  </script>
+</body>
+</html>
