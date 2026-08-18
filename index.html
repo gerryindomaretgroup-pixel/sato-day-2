@@ -3,243 +3,256 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Sato Master Chef: Operational Review Challenge</title>
+  <title>washoku SATO · Shift Pertama</title>
+  <link rel="icon" href="assets/logo/favicon-32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/logo/apple-touch.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --washi: #f3eee3; --cream: #fffaf2; --ink: #241f18;
-      --indigo: #243a5e; --indigo-2: #3d5a80; --vermilion: #c23b2a;
-      --matcha: #4f6b45; --gold: #b08d3e; --line: rgba(36,58,94,.14);
-      --shadow: 0 12px 32px rgba(26,26,26,.1);
+      --sato: #d70a19; --sato-deep: #a00814; --sun: #fffdf8;
+      --washi: #f7f1ea; --cream: #fffaf2; --ink: #2a1616;
+      --indigo: #a00814; --indigo-2: #8a3a3a; --vermilion: #d70a19;
+      --matcha: #4f6b45; --gold: #c4a574; --line: rgba(215,10,25,.14);
+      --shadow: 0 12px 32px rgba(80,8,12,.12);
       --display: "Shippori Mincho", serif; --body: "Zen Kaku Gothic New", sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0; font-family: var(--body); color: var(--ink);
-      background: radial-gradient(circle at 8% 0%, rgba(194,59,42,.07), transparent 26%),
-        radial-gradient(circle at 92% 8%, rgba(36,58,94,.08), transparent 28%),
-        linear-gradient(180deg, #f8f3ea, var(--washi) 55%, #e9e0d1);
+      background: radial-gradient(circle at 12% 0%, rgba(215,10,25,.1), transparent 28%),
+        radial-gradient(circle at 90% 8%, rgba(215,10,25,.06), transparent 26%),
+        linear-gradient(180deg, #fff8f2, var(--washi) 55%, #efe4d8);
       min-height: 100vh;
     }
-    .app { max-width: 920px; margin: 0 auto; padding: 10px 14px calc(28px + var(--safe-b)); min-height: 100vh; display: flex; flex-direction: column; }
+    .app { max-width: 430px; margin: 0 auto; padding: 8px 14px calc(22px + var(--safe-b)); min-height: 100vh; display: flex; flex-direction: column; }
     header.top {
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      position: sticky; top: 0; z-index: 50; padding: 8px 0 10px;
-      background: rgba(243,238,227,.92); backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 50; padding: 6px 0 8px;
+      background: rgba(243,238,227,.94); backdrop-filter: blur(10px);
     }
-    .brand { display: flex; gap: 10px; align-items: center; min-width: 0; }
+    .brand { display: flex; gap: 8px; align-items: center; min-width: 0; }
     .mon {
-      width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--indigo);
+      width: 48px; height: 48px; border-radius: 12px; border: none;
       display: grid; place-items: center; font-family: var(--display); font-weight: 800;
-      color: var(--vermilion); background: var(--cream); flex-shrink: 0;
+      color: #fff; background: var(--sato); flex-shrink: 0; font-size: .9rem;
+      overflow: hidden; box-shadow: 0 4px 10px rgba(215,10,25,.25);
     }
-    .brand h1 { margin: 0; font-family: var(--display); font-size: clamp(.9rem, 3.4vw, 1.15rem); color: var(--indigo); line-height: 1.15; }
-    .brand p { margin: 2px 0 0; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo-2); font-weight: 700; }
-    .hud { display: none; gap: 5px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
-    .chip { background: var(--cream); border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; font-size: .7rem; font-weight: 700; color: var(--indigo); }
-    .chip.warn { background: #fff1ee; color: var(--vermilion); }
+    .mon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mon.has-img { padding: 0; }
+    .brand h1 { margin: 0; font-family: var(--display); font-size: 1.05rem; color: var(--sato-deep); line-height: 1.15; }
+    .brand p { margin: 1px 0 0; font-size: .62rem; letter-spacing: .08em; color: var(--indigo-2); font-weight: 700; }
+    .hud { display: none; align-items: center; gap: 6px; }
+    .chip { background: var(--cream); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: .72rem; font-weight: 700; color: var(--indigo); white-space: nowrap; }
     .icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--cream); font-size: 1rem; cursor: pointer; flex-shrink: 0; }
     main { flex: 1; }
-    .screen { display: none; animation: up .4s ease both; }
+    .screen { display: none; animation: up .35s ease both; }
     .screen.on { display: block; }
-    @keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    @keyframes up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     @keyframes pop { 0%{transform:scale(.97)} 100%{transform:scale(1)} }
-    @keyframes flash { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 3px rgba(79,107,69,.35)} }
 
     .hero {
-      border-radius: 22px; min-height: min(70vh, 600px); color: #f8f4ec; padding: clamp(20px, 5vw, 40px);
+      border-radius: 22px; min-height: min(78vh, 640px); color: #fffdf8; padding: 58px 18px 20px;
       display: grid; align-items: end; position: relative; overflow: hidden; box-shadow: var(--shadow);
-      background: linear-gradient(155deg, rgba(20,24,36,.55), rgba(36,58,94,.3)),
-        linear-gradient(135deg, #1f2f4a, #3a567c 48%, #8f3d2f);
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255,255,255,.18), transparent 26%),
+        linear-gradient(165deg, #e01222 0%, var(--sato) 42%, var(--sato-deep) 100%);
     }
-    .noren { position: absolute; top: 0; left: 0; right: 0; height: 58px; display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; padding: 0 12px; pointer-events: none; }
-    .noren i { background: linear-gradient(180deg,#9e2b1f,#c23b2a); border-radius: 0 0 14px 14px; display: block; }
-    .noren i:nth-child(even) { background: linear-gradient(180deg,#1f3354,#2f4d78); }
-    .eyebrow { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: #f0d9a8; margin-bottom: 8px; }
-    .hero h2 { margin: 0 0 10px; font-family: var(--display); font-size: clamp(1.75rem, 7vw, 3.1rem); line-height: 1.02; max-width: 13ch; }
+    .hero-sun {
+      position: absolute; top: 64px; right: -36px; width: 168px; height: 168px; border-radius: 50%;
+      background: rgba(255,255,255,.16); pointer-events: none;
+    }
+    .hero-logo {
+      width: 92px; height: 92px; border-radius: 18px; object-fit: cover; display: block;
+      box-shadow: 0 10px 24px rgba(80,0,8,.28); margin-bottom: 14px; background: var(--sato);
+    }
+    .noren { position: absolute; top: 0; left: 0; right: 0; height: 48px; display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; padding: 0 12px; pointer-events: none; }
+    .noren i { background: linear-gradient(180deg,#8e0710,#6f050c); border-radius: 0 0 16px 16px; display: block; box-shadow: inset -8px 0 12px rgba(0,0,0,.12); }
+    .noren i:nth-child(even) { background: linear-gradient(180deg,#a00814,#7a0610); }
+    .eyebrow { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,.85); margin-bottom: 8px; }
+    .hero h2 { margin: 0 0 10px; font-family: var(--display); font-size: clamp(1.7rem, 8vw, 2.4rem); line-height: 1.08; }
     .hook {
-      background: rgba(255,250,241,.12); border: 1px solid rgba(255,255,255,.22); border-radius: 14px;
-      padding: 12px; margin-bottom: 14px; font-size: .86rem; line-height: 1.55;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28); border-radius: 14px;
+      padding: 12px; margin-bottom: 12px; font-size: .88rem; line-height: 1.5;
     }
-    .hook b { color: #ffe08a; }
-    .lead { margin: 0 0 18px; line-height: 1.6; opacity: .93; font-size: .95rem; max-width: 34rem; }
+    .hook b { color: #fff; }
+    .lead { margin: 0 0 16px; line-height: 1.55; opacity: .93; font-size: .92rem; }
+    .btn-sun { background: #fff; color: var(--sato); box-shadow: 0 8px 20px rgba(80,0,8,.2); }
 
     .btn {
       appearance: none; border: none; cursor: pointer; font-family: var(--body); font-weight: 700;
-      border-radius: 999px; padding: 14px 18px; font-size: .92rem; min-height: 48px;
-      transition: transform .12s ease, background .12s ease;
+      border-radius: 999px; padding: 14px 18px; font-size: .95rem; min-height: 48px; width: 100%;
+      transition: transform .12s ease;
     }
     .btn:active { transform: scale(.98); }
-    .btn:disabled { opacity: .45; }
-    .btn-primary { background: var(--vermilion); color: #fff; box-shadow: 0 8px 20px rgba(194,59,42,.25); }
-    .btn-ink { background: var(--indigo); color: #f7f2e8; }
+    .btn-primary { background: var(--sato); color: #fff; box-shadow: 0 8px 20px rgba(215,10,25,.28); }
+    .btn-ink { background: var(--sato-deep); color: #fffdf8; }
     .btn-ghost { background: #fffdf8; color: var(--indigo); border: 1px solid var(--line); }
-    .btn-soft { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.28); }
-    .row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .row { display: grid; gap: 8px; }
 
     .panel {
-      background: rgba(255,250,241,.94); border: 1px solid var(--line); border-radius: 18px;
-      box-shadow: var(--shadow); padding: clamp(16px, 3.5vw, 26px); margin-top: 6px;
+      background: rgba(255,250,241,.96); border: 1px solid var(--line); border-radius: 18px;
+      box-shadow: var(--shadow); padding: 18px 16px; margin-top: 4px;
     }
     .panel h2, .panel h3 { font-family: var(--display); color: var(--indigo); margin: 0 0 8px; }
-    .muted { color: #6b6256; line-height: 1.55; margin: 0; }
+    .muted { color: #6b6256; line-height: 1.5; margin: 0; font-size: .88rem; }
     .form { display: grid; gap: 12px; margin-top: 14px; }
     label { display: grid; gap: 6px; font-size: .78rem; font-weight: 700; color: var(--indigo); }
     input {
-      width: 100%; min-height: 48px; border: 1.5px solid rgba(36,58,94,.18); border-radius: 14px;
+      width: 100%; min-height: 48px; border: 1.5px solid rgba(215,10,25,.2); border-radius: 14px;
       padding: 12px 14px; font: inherit; background: #fffdf8;
     }
-    .rules { background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin: 12px 0; }
-    .rules li { margin: 6px 0; font-size: .86rem; color: #534b40; line-height: 1.45; }
-    .obj { display: grid; grid-template-columns: 32px 1fr; gap: 10px; padding: 10px; background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; }
-    .obj .n { width: 32px; height: 32px; border-radius: 50%; background: var(--indigo); color: #fff; display: grid; place-items: center; font-size: .75rem; font-weight: 800; }
-    .obj strong { display: block; color: var(--indigo); font-size: .88rem; }
-    .obj span { font-size: .76rem; color: #6b6256; }
 
-    .bar-wrap { margin-bottom: 12px; }
-    .bar-meta { display: flex; justify-content: space-between; font-size: .72rem; font-weight: 700; color: var(--indigo-2); margin-bottom: 5px; }
-    .bar { height: 10px; border-radius: 999px; background: rgba(36,58,94,.1); overflow: hidden; }
-    .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--indigo), var(--vermilion)); transition: width .3s ease; }
+    .obj { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 10px; background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; align-items: center; }
+    .obj .n { width: 44px; height: 44px; border-radius: 12px; background: var(--sato); color: #fff; display: grid; place-items: center; font-size: 1.2rem; }
+    .obj strong { display: block; color: var(--indigo); font-size: .9rem; }
+    .obj span { font-size: .76rem; color: #6b6256; line-height: 1.35; }
+    .rules { background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin: 12px 0 0; font-size: .84rem; color: #534b40; line-height: 1.5; }
 
-    .banner {
-      border-radius: 14px; padding: 12px 14px; color: #fff; margin-bottom: 12px;
-      background: linear-gradient(120deg, var(--indigo), #5a3d4a);
+    .bar-wrap { margin-bottom: 10px; }
+    .bar-meta { display: flex; justify-content: space-between; font-size: .7rem; font-weight: 700; color: var(--indigo-2); margin-bottom: 5px; }
+    .bar { height: 8px; border-radius: 999px; background: rgba(215,10,25,.12); overflow: hidden; }
+    .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ff5a63, var(--sato)); transition: width .3s ease; }
+
+    .senpai {
+      display: grid; grid-template-columns: 48px 1fr; gap: 10px; align-items: start; margin-bottom: 12px;
     }
-    .banner[data-t="1"] { background: linear-gradient(120deg,#243a5e,#3f6b4f); }
-    .banner[data-t="2"] { background: linear-gradient(120deg,#5a3a1f,#b08d3e); }
-    .banner[data-t="3"] { background: linear-gradient(120deg,#7a2a20,#c23b2a); }
-    .banner[data-t="4"] { background: linear-gradient(120deg,#1f3b5c,#3d7ea6); }
-    .banner[data-t="5"] { background: linear-gradient(120deg,#3a2f55,#8b4d6b); }
-    .banner .meta { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; opacity: .85; font-weight: 700; }
-    .banner h3 { margin: 4px 0; font-family: var(--display); font-size: clamp(1.1rem, 4vw, 1.4rem); color: #fff; }
-    .banner p { margin: 0; font-size: .84rem; line-height: 1.45; opacity: .93; }
-    .mech-pill {
-      display: inline-block; margin-top: 8px; background: rgba(255,255,255,.16);
-      border-radius: 999px; padding: 5px 10px; font-size: .7rem; font-weight: 700; letter-spacing: .04em;
+    .ava {
+      width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(160deg,#fff,#f7d0d3);
+      border: 2px solid var(--sato); display: grid; place-items: center; font-size: 1.35rem;
+      overflow: hidden;
     }
+    .ava img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bubble {
+      background: #fffdf8; border: 1px solid var(--line); border-radius: 4px 16px 16px 16px;
+      padding: 10px 12px; font-size: .86rem; line-height: 1.45; color: #3f382f;
+    }
+    .bubble b { color: var(--indigo); }
 
-    .hint-btn { background: none; border: none; color: var(--gold); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; padding: 8px 0; font-size: .85rem; cursor: pointer; }
-    .hint { display: none; background: #fff8e8; border: 1px solid rgba(176,141,62,.35); color: #6a5524; border-radius: 12px; padding: 11px; font-size: .84rem; line-height: 1.5; margin-bottom: 10px; }
-    .hint.on { display: block; }
+    .q-card { text-align: center; margin: 4px 0 10px; }
+    .q-card .art {
+      width: 100%; height: 150px; object-fit: cover; border-radius: 16px; display: block;
+      margin: 0 auto 8px; background: #fff; box-shadow: 0 6px 16px rgba(80,8,12,.1);
+    }
+    .q-card .pic { font-size: 3.2rem; line-height: 1; margin-bottom: 6px; }
+    .q-card h3 { font-family: var(--display); color: var(--indigo); margin: 0; font-size: 1.15rem; }
+    .q-card .sub { margin: 4px 0 0; font-size: .82rem; color: #6b6256; }
+    .prompt { font-size: .98rem; font-weight: 700; color: var(--indigo); margin: 0 0 10px; line-height: 1.35; text-align: left; }
+    .counter { font-size: .72rem; font-weight: 700; color: var(--indigo-2); margin-bottom: 8px; letter-spacing: .04em; }
 
-    /* shared interactive */
+    .opt4 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .opt4 .tap { margin: 0; min-height: 58px; font-size: .8rem; padding: 10px; line-height: 1.3; }
+
+    .pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pick {
+      border: 1.5px solid rgba(215,10,25,.16); background: #fff; border-radius: 14px;
+      padding: 6px; cursor: pointer; text-align: center;
+    }
+    .pick img { width: 100%; height: 92px; object-fit: cover; border-radius: 10px; display: block; }
+    .pick span { display: block; font-size: .72rem; font-weight: 800; padding: 6px 2px; color: var(--sato-deep); }
+    .pick.correct { border-color: var(--matcha); background: #eef5ea; }
+    .pick.wrong { border-color: var(--sato); background: #fff1ee; }
+    .pick:disabled { cursor: default; }
+
+    .seq-list { display: grid; gap: 8px; }
+    .seq-card {
+      display: grid; grid-template-columns: 52px 1fr auto; gap: 8px; align-items: center;
+      border: 1.5px solid rgba(215,10,25,.16); background: #fff; border-radius: 14px;
+      padding: 8px; cursor: pointer; text-align: left; width: 100%; font: inherit;
+    }
+    .seq-card img { width: 52px; height: 52px; object-fit: cover; border-radius: 10px; }
+    .seq-card b { display: block; font-size: .84rem; color: var(--ink); }
+    .seq-num {
+      width: 28px; height: 28px; border-radius: 50%; background: #f0e4e4; color: var(--sato-deep);
+      display: grid; place-items: center; font-weight: 800; font-size: .75rem;
+    }
+    .seq-card.done { border-color: var(--matcha); background: #eef5ea; }
+    .seq-card.bad { animation: shake .28s ease; }
+    @keyframes shake { 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+    .match { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .match .col { display: grid; gap: 8px; }
+    .m-card {
+      min-height: 72px; border-radius: 14px; border: 1.5px solid rgba(215,10,25,.16);
+      background: #fff; padding: 8px; cursor: pointer; font-weight: 700; font-size: .78rem;
+      color: var(--ink); text-align: left; width: 100%; font-family: inherit;
+    }
+    .m-card img { width: 100%; height: 58px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 4px; }
+    .m-card.on { border-color: var(--sato); box-shadow: 0 0 0 2px rgba(215,10,25,.22); }
+    .m-card.done { opacity: .5; pointer-events: none; background: #eef5ea; border-color: var(--matcha); }
+    .m-card.wrong { border-color: var(--sato); background: #fff1ee; }
+
+    .chat-art { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; margin-bottom: 8px; display: block; }
+
+    .chat {
+      background: #fffdf8; border: 1px solid var(--line); border-radius: 16px; padding: 12px; margin-bottom: 12px; text-align: left;
+    }
+    .chat .who { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sato); }
+    .chat p { margin: 6px 0 0; font-size: .92rem; line-height: 1.45; }
+
     .tap {
-      min-height: 48px; width: 100%; text-align: left; border-radius: 14px; border: 1.5px solid rgba(36,58,94,.16);
-      background: #fffdf8; padding: 12px 14px; font: inherit; font-weight: 650; color: var(--ink); cursor: pointer;
+      min-height: 52px; width: 100%; text-align: left; border-radius: 14px; border: 1.5px solid rgba(215,10,25,.16);
+      background: #fffdf8; padding: 12px 14px; font: inherit; font-weight: 650; color: var(--ink); cursor: pointer; margin-bottom: 8px;
     }
     .tap:active { transform: scale(.99); }
-    .tap.selected { border-color: var(--indigo); background: #eef2f8; box-shadow: inset 0 0 0 1px rgba(36,58,94,.2); }
     .tap.correct { border-color: var(--matcha); background: #eef5ea; }
     .tap.wrong { border-color: var(--vermilion); background: #fff1ee; }
     .tap:disabled { cursor: default; }
-    .grid2 { display: grid; gap: 8px; }
-    @media (min-width: 640px) { .grid2.cols2 { grid-template-columns: 1fr 1fr; } }
 
-    .prompt { font-family: var(--display); color: var(--indigo); font-size: clamp(1.05rem, 3.5vw, 1.35rem); margin: 0 0 8px; line-height: 1.3; }
-    .story { color: #6b6256; font-size: .88rem; line-height: 1.5; margin: 0 0 12px; }
-    .counter { font-size: .75rem; font-weight: 700; color: var(--indigo-2); margin-bottom: 8px; }
+    .coach {
+      display: none; border-radius: 14px; padding: 12px; margin-top: 4px; animation: pop .25s ease;
+    }
+    .coach.on { display: block; }
+    .coach.ok { background: #f3f7ef; border: 1px solid rgba(79,107,69,.35); }
+    .coach.bad { background: #fff1ee; border: 1px solid rgba(194,59,42,.3); }
+    .coach h4 { margin: 0 0 4px; font-family: var(--display); font-size: 1rem; }
+    .coach p { margin: 0 0 10px; font-size: .85rem; color: #534b40; line-height: 1.45; }
 
-    /* L1 assign */
-    .pick-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-    .pill {
-      border: 1.5px solid rgba(36,58,94,.16); background: #fffdf8; border-radius: 999px;
-      padding: 10px 14px; min-height: 44px; font-weight: 700; font-size: .82rem; cursor: pointer; color: var(--ink);
-    }
-    .pill.on { background: var(--indigo); color: #fff; border-color: var(--indigo); }
-    .pill.done { opacity: .45; pointer-events: none; }
-    .station {
-      border: 1.5px dashed rgba(36,58,94,.25); border-radius: 14px; padding: 12px; min-height: 64px;
-      background: #fffdf8; cursor: pointer; margin-bottom: 8px;
-    }
-    .station.active { border-style: solid; border-color: var(--vermilion); background: #fff4f1; animation: flash .8s ease; }
-    .station h4 { margin: 0 0 4px; font-family: var(--display); color: var(--indigo); font-size: .95rem; }
-    .station .filled { font-size: .8rem; color: var(--matcha); font-weight: 700; }
-
-    /* L2 memory */
-    .mem { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .mem-card {
-      min-height: 84px; border-radius: 14px; border: 1.5px solid rgba(36,58,94,.16);
-      background: linear-gradient(160deg, #2a4064, #1f2f4a); color: #f0d9a8; font-weight: 800;
-      display: grid; place-items: center; cursor: pointer; font-size: .95rem; padding: 10px; text-align: center;
-    }
-    .mem-card.face {
-      background: #fffdf8; color: var(--ink); font-size: .82rem; font-weight: 700; border-color: var(--indigo-2);
-    }
-    .mem-card.matched { opacity: .55; background: #eef5ea; border-color: var(--matcha); color: var(--matcha); }
-
-    /* L3 sequence */
-    .seq-item {
-      display: grid; grid-template-columns: 40px 1fr auto; gap: 8px; align-items: center;
-      background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 10px; margin-bottom: 8px;
-    }
-    .seq-num { width: 36px; height: 36px; border-radius: 50%; background: var(--indigo); color: #fff; display: grid; place-items: center; font-weight: 800; }
-    .seq-btns { display: flex; flex-direction: column; gap: 4px; }
-    .seq-btns button {
-      width: 44px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
-      background: var(--washi); font-weight: 800; color: var(--indigo); cursor: pointer;
-    }
-
-    /* L4 flow builder */
-    .flow-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-    .flow-slot {
-      border: 2px dashed rgba(36,58,94,.22); border-radius: 14px; min-height: 56px; padding: 10px;
-      margin-bottom: 8px; background: #fffdf8; display: flex; align-items: center; gap: 10px;
-    }
-    .flow-slot.filled { border-style: solid; border-color: rgba(79,107,69,.4); background: #f3f7ef; }
-    .flow-slot .n { width: 28px; height: 28px; border-radius: 50%; background: var(--indigo); color: #fff; display: grid; place-items: center; font-size: .75rem; font-weight: 800; flex-shrink: 0; }
-
-    .toast { display: none; margin-top: 12px; border-radius: 14px; padding: 12px; border: 1px solid var(--line); animation: pop .25s ease; }
-    .toast.on { display: block; }
-    .toast.ok { background: #f3f7ef; border-color: rgba(79,107,69,.35); }
-    .toast.bad { background: #fff1ee; border-color: rgba(194,59,42,.3); }
-    .toast h4 { margin: 0 0 4px; font-family: var(--display); }
-    .toast p { margin: 0; font-size: .85rem; color: #534b40; line-height: 1.45; }
-
-    .clear { text-align: center; padding: 24px 8px; }
-    .clear .big { font-size: 2.5rem; }
+    .clear { text-align: center; padding: 18px 6px; }
+    .clear .big { font-size: 2.6rem; }
     .badge-pill { display: inline-flex; gap: 8px; align-items: center; background: #fffdf8; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; margin: 12px 0; font-weight: 700; color: var(--indigo); font-size: .85rem; }
 
     .result-hero {
-      text-align: center; border-radius: 20px; padding: 24px 14px; color: #f8f4ec; margin-bottom: 10px;
-      background: linear-gradient(155deg, rgba(36,58,94,.95), rgba(154,42,28,.85));
+      text-align: center; border-radius: 20px; padding: 22px 14px; color: #fffdf8; margin-bottom: 10px;
+      background: linear-gradient(165deg, #e01222, var(--sato-deep));
     }
-    .result-hero h2 { font-family: var(--display); color: #fff; margin: 8px 0; font-size: clamp(1.5rem, 5vw, 2.2rem); }
+    .result-hero img { width: 72px; height: 72px; border-radius: 16px; object-fit: cover; margin-bottom: 8px; }
+    .result-hero h2 { font-family: var(--display); color: #fff; margin: 8px 0; font-size: clamp(1.4rem, 6vw, 2rem); }
     .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
-    @media (min-width: 640px) { .stats { grid-template-columns: repeat(4,1fr); } }
     .stat { background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
     .stat span { display: block; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: #6b6256; font-weight: 700; }
     .stat strong { display: block; margin-top: 4px; font-family: var(--display); font-size: 1.3rem; color: var(--indigo); }
     .badges { display: grid; gap: 8px; }
-    @media (min-width: 700px) { .badges { grid-template-columns: repeat(3,1fr); } }
     .badge { background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 14px; text-align: center; }
     .badge.lock { opacity: .4; filter: grayscale(1); }
-    .review { max-height: 260px; overflow: auto; display: grid; gap: 8px; -webkit-overflow-scrolling: touch; }
+    .review { max-height: 220px; overflow: auto; display: grid; gap: 8px; -webkit-overflow-scrolling: touch; }
     .rev { border-radius: 12px; padding: 10px 12px; border: 1px solid var(--line); background: #fffdf8; font-size: .82rem; }
     .rev.ok { background: #f3f7ef; } .rev.bad { background: #fff1ee; }
-    footer { margin-top: 20px; text-align: center; color: #7a7164; font-size: .76rem; }
+    footer { margin-top: 16px; text-align: center; color: #7a7164; font-size: .74rem; }
   </style>
 </head>
 <body>
   <div class="app">
     <header class="top">
       <div class="brand">
-        <div class="mon">佐藤</div>
+        <div class="mon has-img" id="logo-slot">
+          <img id="logo-img" src="assets/logo/sato-logo.png" alt="washoku SATO" />
+          <span id="logo-fallback" hidden>佐藤</span>
+        </div>
         <div>
-          <h1>Sato Master Chef</h1>
-          <p>Operational Review · Mobile</p>
+          <h1>Shift Pertama</h1>
+          <p>WASHOKU SATO · DAY 2</p>
         </div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;">
         <div class="hud" id="hud">
-          <div class="chip">✦ <span id="hud-score">0</span>/100</div>
+          <div class="chip">✦ <span id="hud-score">0</span></div>
           <div class="chip" id="hud-lv">1/5</div>
-          <div class="chip" id="hud-timer">01:15</div>
         </div>
-        <button class="icon-btn" id="btn-audio" type="button" aria-label="Audio">🔊</button>
+        <button class="icon-btn" id="btn-audio" type="button" aria-label="Audio">🔇</button>
       </div>
     </header>
 
@@ -247,70 +260,65 @@
       <section class="screen on" id="sc-hero">
         <div class="hero">
           <div class="noren" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="hero-sun" aria-hidden="true"></div>
           <div>
-            <div class="eyebrow">New Crew · Washoku Sato</div>
-            <h2>Latihan shift di genggamanmu.</h2>
-            <div class="hook"><b>Kenapa?</b> Satu stasiun salah atau order fiktif bisa menahan puluhan pesanan. Challenge ini dirancang untuk HP: ketuk saja—tanpa drag yang sulit.</div>
-            <p class="lead">5 mini-game berbeda. Materi operasional yang sama, cara main yang beda tiap level.</p>
-            <div class="row">
-              <button class="btn btn-primary" type="button" onclick="goId()">Mulai Challenge</button>
-              <button class="btn btn-soft" type="button" onclick="goId()">Mission Brief</button>
-            </div>
+            <img class="hero-logo" src="assets/logo/sato-logo.png" alt="washoku SATO" />
+            <div class="eyebrow">和食 · Japanese Restaurant</div>
+            <h2>Hari pertama di dapur, senpai nemenin.</h2>
+            <div class="hook"><b>Tenang dulu.</b> Ini bukan ujian susah. Senpai Hana kasih arti tiap istilah Jepang, kamu tinggal ketuk jawaban di HP.</div>
+            <p class="lead">5 stasiun, 5 cara main: pilih 4 jawaban, tebak gambar kaldu, susun urutan, pasangkan, lalu dialog. Bukan kuis monoton.</p>
+            <button class="btn btn-sun" type="button" onclick="goId()">Yuk, mulai bareng senpai</button>
           </div>
         </div>
       </section>
 
       <section class="screen" id="sc-id">
         <div class="panel">
-          <div class="eyebrow" style="color:var(--gold);">Gateway</div>
-          <h2>Identitas peserta</h2>
-          <p class="muted">Nama &amp; NIK untuk rekap LMS / sertifikat.</p>
+          <div class="senpai">
+            <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
+            <div class="bubble">Halo! Aku <b>Senpai Hana</b>. Isi nama &amp; NIK kamu ya, biar rekap LMS-nya ketemu orangnya.</div>
+          </div>
+          <h2>Nama kamu</h2>
           <form class="form" onsubmit="submitId(event)">
-            <label>Nama Lengkap<input id="in-nama" required placeholder="Contoh: Dina Aulia" autocomplete="name" /></label>
-            <label>NIK / Nomor Induk<input id="in-nik" required placeholder="Contoh: NIK-2026-042" /></label>
-            <button class="btn btn-ink" type="submit">Lanjut Mission Briefing →</button>
+            <label>Nama lengkap<input id="in-nama" required placeholder="Contoh: Dina Aulia" autocomplete="name" /></label>
+            <label>NIK / nomor induk<input id="in-nik" required placeholder="Contoh: NIK-2026-042" /></label>
+            <button class="btn btn-ink" type="submit">Lanjut lihat stasiun →</button>
           </form>
         </div>
       </section>
 
       <section class="screen" id="sc-brief">
         <div class="panel">
-          <div class="eyebrow" style="color:var(--gold);">Mission Briefing</div>
-          <h2>Halo, <span id="brief-name">Crew</span></h2>
+          <div class="senpai">
+            <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
+            <div class="bubble">Siap, <b id="brief-name">Crew</b>. Kita keliling 5 stasiun. Aku kasih bekal dulu, baru tanya. Santai aja.</div>
+          </div>
           <p class="muted" id="brief-nik">NIK: -</p>
-          <h3 style="margin-top:14px;">5 mini-game (bukan drag &amp; drop terus-menerus)</h3>
+          <h3 style="margin-top:12px;">Hari ini kita cek</h3>
           <div id="obj-list"></div>
           <div class="rules">
-            <strong style="color:var(--indigo);">Cocok untuk HP &amp; karyawan baru</strong>
-            <ul>
-              <li>Kontrol utama: <b>ketuk / tap</b> tombol besar (aman di layar kecil).</li>
-              <li>Tiap level mekaniknya beda supaya tidak monoton.</li>
-              <li>Skor max <b>100</b> (20/level). Timer <b>75 detik</b>/level (lebih longgar untuk trainee).</li>
-              <li>Lulus ≥ <b>70</b>. Hint −2 poin sekali per level.</li>
-            </ul>
+            Skor max <b>100</b>. Lulus mulai <b>70</b>. Tiap stasiun cara mainnya beda. Salah? Senpai jelasin, lalu lanjut.
           </div>
-          <button class="btn btn-primary" type="button" onclick="startGame()">Saya siap memulai permainan</button>
+          <button class="btn btn-primary" type="button" onclick="startGame()" style="margin-top:14px;">Siap, buka noren</button>
         </div>
       </section>
 
       <section class="screen" id="sc-play">
         <div class="panel">
           <div class="bar-wrap">
-            <div class="bar-meta"><span>Progress</span><span id="pct">0%</span></div>
+            <div class="bar-meta"><span id="bar-label">Stasiun 1</span><span id="pct">0%</span></div>
             <div class="bar"><i id="bar"></i></div>
           </div>
-          <div class="banner" id="banner" data-t="1">
-            <div class="meta" id="b-meta">Level 1/5</div>
-            <h3 id="b-title">Title</h3>
-            <p id="b-story"></p>
-            <div class="mech-pill" id="b-mech">Mekanik</div>
+          <div class="senpai">
+            <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
+            <div class="bubble" id="senpai-line">Yuk.</div>
           </div>
-          <button class="hint-btn" type="button" onclick="toggleHint()">💡 Hint pengerjaan</button>
-          <div class="hint" id="hint"></div>
+          <div class="counter" id="q-count">Soal 1/5</div>
           <div id="stage"></div>
-          <div class="toast" id="toast"><h4 id="tt"></h4><p id="tp"></p></div>
-          <div class="row" style="margin-top:12px;" id="play-actions">
-            <button class="btn btn-ink" type="button" id="btn-lock" onclick="lockLevel()">Kunci level ini</button>
+          <div class="coach" id="coach">
+            <h4 id="ct"></h4>
+            <p id="cp"></p>
+            <button class="btn btn-ink" type="button" id="btn-nextq" onclick="nextQuestion()">Lanjut</button>
           </div>
         </div>
       </section>
@@ -318,55 +326,65 @@
       <section class="screen" id="sc-clear">
         <div class="panel clear">
           <div class="big" id="c-ico">🍣</div>
-          <div class="eyebrow" style="color:var(--gold);">Level clear</div>
+          <div class="eyebrow" style="color:var(--gold);">Stasiun selesai</div>
           <h2 id="c-title">Clear</h2>
           <p class="muted" id="c-msg" style="max-width:34rem;margin:0 auto;"></p>
           <div class="badge-pill" id="c-badge" style="display:none;"></div>
-          <div class="row" style="justify-content:center;margin-top:10px;">
-            <button class="btn btn-primary" type="button" id="btn-next" onclick="nextLevel()">Lanjut</button>
-          </div>
+          <button class="btn btn-primary" type="button" id="btn-next" onclick="nextLevel()" style="margin-top:12px;">Stasiun berikutnya</button>
         </div>
       </section>
 
       <section class="screen" id="sc-result">
         <div class="result-hero">
-          <div class="eyebrow">Post-Action Debrief</div>
+          <img src="assets/logo/sato-logo.png" alt="washoku SATO" />
+          <div class="eyebrow">Kata senpai</div>
           <h2 id="r-status">Hasil</h2>
           <p id="r-msg" style="margin:0 auto;max-width:34rem;line-height:1.55;opacity:.93;"></p>
         </div>
         <div class="panel">
           <div class="stats">
             <div class="stat"><span>Skor</span><strong id="r-score">0</strong></div>
-            <div class="stat"><span>Akurasi</span><strong id="r-acc">0%</strong></div>
-            <div class="stat"><span>Level OK</span><strong id="r-ok">0/5</strong></div>
+            <div class="stat"><span>Benar</span><strong id="r-acc">0</strong></div>
+            <div class="stat"><span>Stasiun OK</span><strong id="r-ok">0/5</strong></div>
             <div class="stat"><span>LMS</span><strong id="r-lms">-</strong></div>
           </div>
-          <h3>Badge</h3>
+          <h3>Stempel stasiun</h3>
           <div class="badges" id="badge-row"></div>
-          <h3 style="margin-top:14px;">Feedback per level</h3>
+          <h3 style="margin-top:14px;">Rekap singkat</h3>
           <div class="review" id="review"></div>
           <div class="row" style="margin-top:14px;">
-            <button class="btn btn-primary" type="button" onclick="show('sc-brief')">Main lagi</button>
+            <button class="btn btn-primary" type="button" onclick="show('sc-brief')">Main lagi bareng senpai</button>
             <button class="btn btn-ghost" type="button" onclick="copyReport()">Salin rekap</button>
           </div>
         </div>
       </section>
     </main>
-    <footer>Education &amp; Training Dept. © 2026</footer>
+    <footer>Education &amp; Training Dept. © 2026 · 和食 washoku SATO</footer>
   </div>
 
   <script>
-    /* Audio */
-    let actx=null, muted=false, bgm=null, step=0;
+    (function loadLogo(){
+      const slot=document.getElementById("logo-slot");
+      const img=document.getElementById("logo-img");
+      const fb=document.getElementById("logo-fallback");
+      img.onerror=()=>{
+        img.removeAttribute("src"); img.hidden=true; fb.hidden=false; slot.classList.remove("has-img");
+      };
+    })();
+
+    let actx=null, muted=true, bgm=null, step=0;
     const notes=[262,330,392,440,392,349,330,294];
     function initA(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended") actx.resume(); }
     function tone(f,t,d,g=.07){ if(muted||!actx) return; const o=actx.createOscillator(),x=actx.createGain(); o.type=t; o.frequency.value=f; x.gain.setValueAtTime(g,actx.currentTime); x.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+d); o.connect(x); x.connect(actx.destination); o.start(); o.stop(actx.currentTime+d); }
     function sfx(n){ initA(); if(muted) return; if(n==="ok"){tone(523,"sine",.08,.1);setTimeout(()=>tone(784,"sine",.15,.1),70);} else if(n==="bad") tone(160,"sawtooth",.2,.1); else if(n==="click") tone(400,"triangle",.04,.04); else if(n==="win") [523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,"sine",.12,.08),i*70)); }
     function startBgm(){ if(bgm||muted) return; initA(); bgm=setInterval(()=>{ if(!muted) tone(notes[step++%notes.length],"sine",.12,.016); },400); }
     function stopBgm(){ clearInterval(bgm); bgm=null; }
-    document.getElementById("btn-audio").onclick=()=>{ initA(); muted=!muted; document.getElementById("btn-audio").textContent=muted?"🔇":"🔊"; muted?stopBgm():startBgm(); };
+    document.getElementById("btn-audio").onclick=()=>{
+      initA(); muted=!muted;
+      document.getElementById("btn-audio").textContent=muted?"🔇":"🔊";
+      muted?stopBgm():startBgm();
+    };
 
-    /* LMS */
     function lmsSet(score, passed){
       const status=passed?"passed":"failed";
       try{
@@ -379,478 +397,450 @@
       window.SatoLMS={score,passed,status};
     }
 
+    const ART="assets/art/";
+    function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
+
     const LEVELS=[
       {
-        id:1, icon:"🍱", title:"Kitchen Station Match",
-        mech:"Tap Assign · Pilih alat, lalu ketuk stasiun",
-        story:"Shift pagi. Tugaskan peralatan ke sub-divisi yang tepat—cukup ketuk, tanpa drag.",
-        hint:"Hangiri→Back Kitchen · Dashimaki→Salad & Nabe · Tempura→Tempura · Makisu/Torch→Sushi · Panci Chanko→Stove · Grease Trap→Steward",
-        type:"assign", badge:"masterKitchen",
-        items:[
-          {id:"hangiri",label:"Hangiri",to:"back"},
-          {id:"dashi",label:"Dashimaki Tamago",to:"salad"},
-          {id:"temp",label:"Deep Fried / Tempura",to:"tempura"},
-          {id:"makisu",label:"Makisu / Torch",to:"sushi"},
-          {id:"chanko",label:"Panci Chanko",to:"stove"},
-          {id:"grease",label:"Grease Trap / Wiper",to:"steward"}
-        ],
-        zones:[
-          {id:"back",label:"Back Kitchen"},
-          {id:"salad",label:"Salad & Nabe"},
-          {id:"stove",label:"Stove"},
-          {id:"tempura",label:"Tempura"},
-          {id:"sushi",label:"Sushi & Sashimi"},
-          {id:"steward",label:"Steward"}
+        id:1, icon:"🍱", title:"Stasiun Dapur",
+        brief:"Kuis 4 pilihan · taruh alat di stasiun yang benar.",
+        badge:"masterKitchen",
+        qs:[
+          {
+            type:"choice", teach:"Hangiri itu bak kayu buat aduk nasi sushi. Kerjanya di belakang, bukan di meja tamu.",
+            img:"hangiri.jpg", name:"Hangiri", sub:"bak kayu aduk nasi sushi",
+            q:"Alat ini ditaruh di stasiun mana?",
+            options:["Back Kitchen (dapur belakang)","Tempura","Steward (cuci alat)","Sushi & Sashimi"], answer:0,
+            why:"Hangiri dipakai aduk nasi sushi di Back Kitchen."
+          },
+          {
+            type:"choice", teach:"Dashimaki tamago = telur gulung Jepang, biasanya di area salad & nabe.",
+            img:"dashimaki.jpg", name:"Dashimaki Tamago", sub:"telur gulung Jepang",
+            q:"Telur gulung ini stasiunnya di mana?",
+            options:["Sushi & Sashimi","Salad & Nabe","Stove","Steward"], answer:1,
+            why:"Dashimaki tamago dikerjakan di Salad & Nabe."
+          },
+          {
+            type:"choice", teach:"Yang digoreng tepung (tempura) hanya di stasiun tempura — minyaknya ~180°C.",
+            img:"tempura.jpg", name:"Tempura", sub:"gorengan tepung Jepang",
+            q:"Deep fry / tempura dikerjakan di?",
+            options:["Stove","Tempura","Back Kitchen","Salad & Nabe"], answer:1,
+            why:"Minyak panas khusus, jadi tetap di stasiun Tempura."
+          },
+          {
+            type:"choice", teach:"Makisu = tikar bambu gulung sushi. Torch = obor bakar permukaan.",
+            img:"makisu.jpg", name:"Makisu & Torch", sub:"tikar gulung + obor sushi",
+            q:"Dua alat ini ke stasiun mana?",
+            options:["Sushi & Sashimi","Salad & Nabe","Steward","Stove"], answer:0,
+            why:"Makisu dan torch milik Sushi & Sashimi."
+          },
+          {
+            type:"choice", teach:"Steward urus kebersihan: grease trap (perangkap minyak) dan wiper.",
+            img:"grease.jpg", name:"Grease Trap / Wiper", sub:"perangkap minyak & alat lap",
+            q:"Alat kebersihan ini stasiunnya?",
+            options:["Stove","Back Kitchen","Steward","Tempura"], answer:2,
+            why:"Grease trap dan wiper = tugas Steward."
+          }
         ]
       },
       {
-        id:2, icon:"🍜", title:"Umami Memory Pair",
-        mech:"Memory Match · Buka 2 kartu pasangan",
-        story:"Atelier kaldu. Ingat pasangan kaldu↔ciri dan FKIB↔aksi.",
-        hint:"Sukiyaki=hitam · Chanko=kecoklatan · Konbu=bening · Soymilk=putih susu · F=FIFO · K=Kesegaran · I=Inisiatif · B=Bertanya",
-        type:"memory", badge:null,
-        pairs:[
-          {k:1,a:"Sukiyaki",b:"Hitam seperti kecap"},
-          {k:2,a:"Chanko",b:"Kecoklatan"},
-          {k:3,a:"Konbu",b:"Bening"},
-          {k:4,a:"Soymilk",b:"Putih susu"},
-          {k:5,a:"FIFO",b:"First In First Out"},
-          {k:6,a:"Kesegaran",b:"Cek warna & aroma"},
-          {k:7,a:"Inisiatif",b:"Siap sebelum diminta"},
-          {k:8,a:"Bertanya",b:"Konfirmasi jika ragu"}
+        id:2, icon:"🍜", title:"Warna Kaldu",
+        brief:"Tebak gambar · ketuk mangkok yang warnanya tepat.",
+        badge:null,
+        qs:[
+          {
+            type:"pick", teach:"Sukiyaki kuahnya gelap, mirip kecap. Ketuk mangkok yang hitam pekat.",
+            q:"Mana kuah Sukiyaki?",
+            options:[
+              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
+              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
+              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
+              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+            ], answer:"sukiyaki",
+            why:"Sukiyaki = hitam seperti kecap."
+          },
+          {
+            type:"pick", teach:"Chanko warnanya kecoklatan — lebih terang dari sukiyaki, tidak bening.",
+            q:"Mana kuah Chanko?",
+            options:[
+              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
+              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
+              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
+              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+            ], answer:"chanko",
+            why:"Chanko = kecoklatan."
+          },
+          {
+            type:"pick", teach:"Konbu dari rumput laut. Kuahnya jernih, kelihatan dasar mangkok.",
+            q:"Mana kuah Konbu?",
+            options:[
+              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
+              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
+              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
+              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+            ], answer:"konbu",
+            why:"Konbu = bening."
+          },
+          {
+            type:"pick", teach:"Soymilk = kaldu susu kedelai. Warnanya putih susu.",
+            q:"Mana kuah Soymilk?",
+            options:[
+              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
+              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
+              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
+              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+            ], answer:"soymilk",
+            why:"Soymilk = putih susu."
+          },
+          {
+            type:"choice", teach:"FKIB: F FIFO, K Kesegaran, I Inisiatif, B Bertanya kalau ragu.",
+            img:"cek-stok.jpg", name:"FIFO", sub:"barang lama dipakai dulu",
+            q:"Barang yang masuk duluan harus dipakai duluan. Artinya?",
+            options:["First In First Out","Masak yang terbaru dulu","Simpan di belakang saja","Buang yang lama"], answer:0,
+            why:"FIFO = yang datang duluan, keluar duluan — biar bahan tetap segar."
+          }
         ]
       },
       {
-        id:3, icon:"🛡️", title:"Safety Dual Challenge",
-        mech:"Quiz APD + Susun SOP (tombol ↑↓)",
-        story:"Hot line 16m². Pilih APD yang benar, lalu susun langkah LPG dengan panah—aman di HP.",
-        hint:"Pisau→Cut gloves · Grill→Apron tahan panas · Fryer→Penjepit panjang · LPG: OFF → tekan tegak → putar 180° → cek bocor",
-        type:"safety", badge:"safety",
-        quiz:[
-          {q:"Food Prep memakai pisau tajam. APD wajib?", options:["Cut-Resistant Gloves","Sarung plastik biasa","Tanpa sarung"], answer:0},
-          {q:"Beef Teriyaki di grill panas. Proteksi tepat?", options:["Apron tahan panas","Kaos oblong","Handuk basah saja"], answer:0},
-          {q:"Deep Fryer ~180°C. Alat bantu aman?", options:["Penjepit panjang","Tangan kosong","Sendok pendek"], answer:0}
-        ],
-        lpg:["Kenop OFF","Tekan regulator tegak lurus","Putar tuas pengunci 180°","Cek kebocoran sebelum api"]
-      },
-      {
-        id:4, icon:"🛵", title:"Delivery Flow Builder",
-        mech:"Tap urutan alur + cocokkan merchant",
-        story:"Order masuk. Bangun alur step-by-step, lalu cocokkan app merchant.",
-        hint:"Order→Cek stok→Driver datang→Konfirmasi kitchen→Packing & kabel ties→Serahkan. Driver datang sebelum masak!",
-        type:"flow", badge:null,
-        steps:["Order Masuk","Cek Stok","Driver Datang","Konfirmasi Kitchen","Packing & Kabel Ties","Serahkan ke Driver"],
-        merchants:[
-          {q:"Konfirmasi order ≤ 60 detik di ekosistem Klik", answer:"Klik Food", options:["GoFood","GrabFood","Klik Food"]},
-          {q:"Pantau status driver di GrabMerchant", answer:"GrabFood", options:["GoFood","GrabFood","Klik Food"]},
-          {q:"Terima cepat lewat merchant app GoBiz", answer:"GoFood", options:["GoFood","GrabFood","Klik Food"]}
+        id:3, icon:"🛡️", title:"Aman di Line",
+        brief:"4 pilihan APD, lalu susun urutan tabung gas.",
+        badge:"safety",
+        qs:[
+          {
+            type:"choice", teach:"Food prep pakai pisau tajam. Sarung plastik biasa bisa sobek.",
+            img:"apd-gloves.jpg", name:"Food Prep", sub:"pisau tajam di tangan",
+            q:"APD yang wajib?",
+            options:["Sarung tahan potong","Sarung plastik biasa","Tanpa sarung","Handuk dapur"], answer:0,
+            why:"Cut-resistant gloves melindungi tangan saat iris."
+          },
+          {
+            type:"choice", teach:"Grill teriyaki panas. Kaos biasa tidak cukup.",
+            img:"apd-apron.jpg", name:"Grill Teriyaki", sub:"api dan percikan panas",
+            q:"Pelindung yang tepat?",
+            options:["Handuk basah saja","Apron tahan panas","Kaos oblong","Celemek plastik tipis"], answer:1,
+            why:"Apron tahan panas = pelindung badan di depan grill."
+          },
+          {
+            type:"choice", teach:"Minyak fryer sekitar 180°C. Jangan dekatkan tangan.",
+            img:"apd-tongs.jpg", name:"Deep Fryer", sub:"minyak sekitar 180°C",
+            q:"Alat bantu yang aman?",
+            options:["Tangan kosong","Sendok pendek","Penjepit panjang","Sumpit kayu pendek"], answer:2,
+            why:"Penjepit panjang menjaga jarak dari minyak panas."
+          },
+          {
+            type:"sequence",
+            teach:"Tabung LPG 12kg. Ketuk langkah sesuai urutan aman — dari atas sampai cek bocor.",
+            q:"Susun 4 langkah gas. Ketuk dari yang pertama.",
+            why:"Urutan aman: OFF → tekan regulator tegak → putar 180° → cek bocor sebelum api.",
+            steps:[
+              {id:0, label:"Kenop OFF", img:"lpg-tank.jpg"},
+              {id:1, label:"Tekan regulator tegak lurus", img:"lpg-tank.jpg"},
+              {id:2, label:"Putar tuas pengunci 180°", img:"lpg-tank.jpg"},
+              {id:3, label:"Cek kebocoran sebelum api", img:"lpg-tank.jpg"}
+            ]
+          }
         ]
       },
       {
-        id:5, icon:"💮", title:"Omotenashi Choices",
-        mech:"Visual Novel · Pilih respons skenario",
-        story:"Meja service. Jawab dialog seperti di shift nyata.",
-        hint:"Magic Words: Tolong, Terima Kasih, Maaf. Ojigi saat sambut tamu. Postur tegak = profesional. 70% error kerja terkait komunikasi buruk.",
-        type:"dialogue", badge:"leader",
-        scenes:[
-          {npc:"Rekan Prep", line:"Tray-ku hampir jatuh, tanganmu kosong. Apa yang kamu ucapkan sambil membantu?", options:["Tolong—biar kubantu","Cepat kerjakan sendiri","Diam saja lewat"], answer:0, tip:"Magic word + aksi."},
-          {npc:"Senpai", line:"Dia baru membantumu prep. Respons terbaik?", options:["Terima kasih","Ya sudah","Nanti saja"], answer:0, tip:"Apresiasi verbal."},
-          {npc:"Dirimu", line:"Tidak sengaja menyenggol rekan. Ucapkan…", options:["Maaf, aku kurang hati-hati","Bukan salahku","Heh"], answer:0, tip:"Akui & perbaiki."},
-          {npc:"Tamu", line:"Tamu baru masuk ke service area. Gestur khas?", options:["Ojigi","Bersandar di dinding","Main HP"], answer:0, tip:"Penghormatan Jepang."},
-          {npc:"Modul", line:"Berapa % kesalahan kerja terkait komunikasi buruk (modul Day 2)?", options:["70%","30%","10%"], answer:0, tip:"Angka modul: 70%."},
-          {npc:"Team Lead", line:"Pilar teamwork solid yang paling tepat?", options:["Satu visi, saling percaya & peduli","Bekerja sendiri saja","Cari kesalahan teman"], answer:0, tip:"Visi bersama."}
+        id:4, icon:"🛵", title:"Order Delivery",
+        brief:"Pasangkan · ketuk tulisan, lalu ketuk gambar pasangannya.",
+        badge:null,
+        qs:[
+          {
+            type:"match",
+            teach:"Jangan masak dulu sebelum driver datang. Pasangkan 4 langkah dengan gambarnya.",
+            q:"Ketuk kartu kiri, lalu kartu kanan yang cocok.",
+            why:"Alur Sato: order → cek stok → driver datang → packing. Driver dulu, baru kitchen jalan.",
+            pairs:[
+              {id:"order", left:"1. Order masuk", right:"Notifikasi HP merchant", img:"order-phone.jpg"},
+              {id:"stok", left:"2. Cek stok", right:"Lihat isi chiller", img:"cek-stok.jpg"},
+              {id:"driver", left:"3. Driver datang", right:"Motor di depan resto", img:"driver.jpg"},
+              {id:"pack", left:"4. Packing", right:"Tas + kabel ties", img:"packing.jpg"}
+            ]
+          }
+        ]
+      },
+      {
+        id:5, icon:"💮", title:"Sikap Sato",
+        brief:"Dialog · pilih 1 dari 4 ucapan / gestur.",
+        badge:"leader",
+        qs:[
+          {
+            type:"choice", teach:"Kalau rekan kesusahan dan tanganmu kosong, bantu sambil ucap 'tolong'.",
+            visual:"chat", who:"Rekan Prep", line:"Tray-ku hampir jatuh, tanganmu kosong…", img:"senpai.jpg",
+            q:"Apa yang kamu ucapkan sambil bantu?",
+            options:["Tolong — biar kubantu","Cepat kerjakan sendiri","Diam saja lewat","Nanti saja, aku sibuk"], answer:0,
+            why:"Tolong + aksi. Itu teamwork, bukan basa-basi."
+          },
+          {
+            type:"choice", teach:"Seseorang baru bantu kamu. Jangan anggap wajar. Ucap terima kasih.",
+            visual:"chat", who:"Senpai", line:"Tadi aku bantu prep-mu selesai.", img:"senpai.jpg",
+            q:"Respons terbaik?",
+            options:["Ya sudah","Terima kasih","Nanti saja","Biasa aja"], answer:1,
+            why:"Terima kasih = magic word kedua."
+          },
+          {
+            type:"choice", teach:"Senggol orang = tanggung jawabmu. Ucap maaf, jangan defensif.",
+            visual:"chat", who:"Dirimu", line:"Tidak sengaja menyenggol rekan di line sempit.", img:"senpai.jpg",
+            q:"Ucapkan…",
+            options:["Maaf, aku kurang hati-hati","Bukan salahku","Heh","Kamu yang jalan salah"], answer:0,
+            why:"Maaf = magic word ketiga. Akui, lalu perbaiki."
+          },
+          {
+            type:"choice", teach:"Ojigi = membungkuk hormat ala Jepang. Gestur sambut tamu di service area.",
+            visual:"chat", who:"Tamu", line:"Tamu baru masuk ke area service.", img:"ojigi.jpg",
+            q:"Gestur khas Sato?",
+            options:["Main HP dulu","Ojigi (membungkuk hormat)","Bersandar di dinding","Panggil dari jauh"], answer:1,
+            why:"Ojigi = hormat. Tamu merasa disambut."
+          },
+          {
+            type:"choice", teach:"Modul Day 2: sekitar 70% kesalahan kerja terkait komunikasi yang buruk.",
+            visual:"chat", who:"Team Lead", line:"Kenapa line sering kacau padahal resepnya sudah hafal?", img:"senpai.jpg",
+            q:"Porsi kesalahan terkait komunikasi buruk?",
+            options:["70%","10%","30%","50%"], answer:0,
+            why:"70% error terkait komunikasi. Kata ajaib dan konfirmasi itu kerja."
+          }
         ]
       }
     ];
 
     const BADGES={
-      masterKitchen:{name:"Master Kitchen",icon:"🍱",desc:"Peta stasiun dapur terkunci"},
-      safety:{name:"Safety Champion",icon:"🛡️",desc:"APD & LPG dikuasai"},
-      leader:{name:"Sato Certified Leader",icon:"👑",desc:"Komunikasi & teamwork siap"}
+      masterKitchen:{name:"Stempel Dapur",icon:"🍱",desc:"Stasiun alat sudah ketemu"},
+      safety:{name:"Stempel Aman",icon:"🛡️",desc:"APD & gas sudah diingat"},
+      leader:{name:"Stempel Sato",icon:"👑",desc:"Sikap & ucapan siap di line"}
     };
 
     const S={
-      nama:"",nik:"",idx:0,score:0,levelScores:[0,0,0,0,0],
-      correct:0,attempts:0,reviews:[],badges:new Set(),
-      timer:null,timeLeft:75,hintUsed:false,hintPenalty:0,
-      // per-level scratch
-      selected:null, assign:{}, mem:[], memFirst:null, memSolved:0,
-      quizIdx:0, quizOk:0, lpgOrder:[], flowPicked:[], flowNext:0, merchIdx:0, merchOk:0, dlgIdx:0, dlgOk:0
+      nama:"", nik:"", idx:0, qIdx:0, score:0, levelScores:[0,0,0,0,0],
+      correct:0, attempts:0, reviews:[], badges:new Set(), locked:false,
+      seqNext:0, matchSel:null, matchOk:0
     };
 
-    function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); document.getElementById(id).classList.add("on"); window.scrollTo({top:0,behavior:"smooth"}); }
-    function goId(){ sfx("click"); initA(); startBgm(); show("sc-id"); }
+    function show(id){
+      document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
+      document.getElementById(id).classList.add("on");
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    function goId(){ sfx("click"); initA(); show("sc-id"); }
     function submitId(e){
       e.preventDefault(); sfx("click");
       S.nama=document.getElementById("in-nama").value.trim();
       S.nik=document.getElementById("in-nik").value.trim();
-      document.getElementById("brief-name").textContent=S.nama;
+      document.getElementById("brief-name").textContent=S.nama.split(" ")[0];
       document.getElementById("brief-nik").textContent="NIK: "+S.nik;
-      document.getElementById("obj-list").innerHTML=LEVELS.map((l,i)=>`<div class="obj"><div class="n">${i+1}</div><div><strong>${l.title}</strong><span>${l.mech}</span></div></div>`).join("");
+      document.getElementById("obj-list").innerHTML=LEVELS.map(l=>`<div class="obj"><div class="n">${l.icon}</div><div><strong>${l.title}</strong><span>${l.brief}</span></div></div>`).join("");
       show("sc-brief");
     }
     function startGame(){
       sfx("click");
-      Object.assign(S,{idx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],badges:new Set(),hintPenalty:0});
+      Object.assign(S,{idx:0,qIdx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],badges:new Set(),locked:false,seqNext:0,matchSel:null,matchOk:0});
       document.getElementById("hud").style.display="flex";
-      updateHud(); loadLevel(); show("sc-play");
+      updateHud(); loadQuestion(); show("sc-play");
     }
+    function tally(){ S.score=S.levelScores.reduce((a,b)=>a+b,0); }
     function updateHud(){
       document.getElementById("hud-score").textContent=S.score;
       document.getElementById("hud-lv").textContent=`${Math.min(S.idx+1,5)}/5`;
-      const p=Math.round((S.idx/5)*100);
+      const total=LEVELS.reduce((a,l)=>a+l.qs.length,0);
+      const done=LEVELS.slice(0,S.idx).reduce((a,l)=>a+l.qs.length,0)+S.qIdx+(S.locked?1:0);
+      const p=Math.round((done/total)*100);
       document.getElementById("pct").textContent=p+"%";
       document.getElementById("bar").style.width=p+"%";
+      document.getElementById("bar-label").textContent=LEVELS[Math.min(S.idx,4)].title;
     }
-    function tick(){
-      const m=String(Math.floor(S.timeLeft/60)).padStart(2,"0");
-      const s=String(S.timeLeft%60).padStart(2,"0");
-      const el=document.getElementById("hud-timer");
-      el.textContent=`${m}:${s}`; el.classList.toggle("warn", S.timeLeft<=15);
-    }
-    function startTimer(){
-      clearInterval(S.timer); S.timeLeft=75; tick();
-      S.timer=setInterval(()=>{ S.timeLeft--; tick(); if(S.timeLeft<=0){ clearInterval(S.timer); lockLevel(true); } },1000);
-    }
-    function toggleHint(){
-      sfx("click");
-      const h=document.getElementById("hint");
-      if(!h.classList.contains("on") && !S.hintUsed){ S.hintUsed=true; S.hintPenalty+=2; updateHud(); }
-      h.classList.toggle("on");
-    }
-    function toast(ok,t,p){ const b=document.getElementById("toast"); b.className="toast on "+(ok?"ok":"bad"); document.getElementById("tt").textContent=t; document.getElementById("tp").textContent=p; }
-    function hideToast(){ document.getElementById("toast").className="toast"; }
 
-    function loadLevel(){
-      clearInterval(S.timer); hideToast(); S.hintUsed=false;
-      const lv=LEVELS[S.idx];
-      document.getElementById("banner").dataset.t=String(lv.id);
-      document.getElementById("b-meta").textContent=`Level ${lv.id}/5`;
-      document.getElementById("b-title").textContent=lv.title;
-      document.getElementById("b-story").textContent=lv.story;
-      document.getElementById("b-mech").textContent=lv.mech;
-      document.getElementById("hint").classList.remove("on");
-      document.getElementById("hint").textContent=lv.hint;
-      document.getElementById("btn-lock").style.display = (lv.type==="memory"||lv.type==="dialogue") ? "none" : "inline-flex";
+    function loadQuestion(){
+      S.locked=false; S.seqNext=0; S.matchSel=null; S.matchOk=0;
+      const lv=LEVELS[S.idx], q=lv.qs[S.qIdx];
+      document.getElementById("senpai-line").innerHTML=q.teach;
+      document.getElementById("q-count").textContent=`Soal ${S.qIdx+1}/${lv.qs.length} · ${lv.title}`;
+      document.getElementById("coach").className="coach";
+      if(q.type==="pick") renderPick(q);
+      else if(q.type==="sequence") renderSeq(q);
+      else if(q.type==="match") renderMatch(q);
+      else renderChoice(q);
       updateHud();
-      if(lv.type==="assign") renderAssign(lv);
-      if(lv.type==="memory") renderMemory(lv);
-      if(lv.type==="safety") renderSafety(lv);
-      if(lv.type==="flow") renderFlow(lv);
-      if(lv.type==="dialogue") renderDialogue(lv);
-      startTimer();
     }
 
-    /* ===== L1 TAP ASSIGN ===== */
-    function renderAssign(lv){
-      S.selected=null; S.assign={};
+    function renderChoice(q){
       const stage=document.getElementById("stage");
-      stage.innerHTML=`
-        <p class="prompt">Ketuk alat, lalu ketuk stasiun tujuan</p>
-        <p class="story">Tombol besar—mudah di HP. Salah? Bisa ganti sebelum mengunci.</p>
-        <div class="counter" id="as-count">0 / ${lv.items.length} dipasang</div>
-        <div class="pick-row" id="pills"></div>
-        <div id="stations"></div>`;
-      const pills=document.getElementById("pills");
-      lv.items.forEach(it=>{
+      let vis="";
+      if(q.visual==="chat"){
+        vis=`<div class="chat">${q.img?`<img class="chat-art" src="${ART+q.img}" alt="">`:""}<div class="who">${q.who}</div><p>“${q.line}”</p></div>`;
+      } else {
+        vis=`<div class="q-card">${q.img?`<img class="art" src="${ART+q.img}" alt="${q.name||""}">`:""}<h3>${q.name||""}</h3><p class="sub">${q.sub||""}</p></div>`;
+      }
+      stage.innerHTML=`${vis}<p class="prompt">${q.q}</p><div class="opt4" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      q.options.forEach((opt,i)=>{
         const b=document.createElement("button");
-        b.type="button"; b.className="pill"; b.textContent=it.label; b.dataset.id=it.id;
-        b.onclick=()=>{
-          sfx("click");
-          if(S.assign[it.id]) return;
-          S.selected=it.id;
-          [...pills.children].forEach(x=>x.classList.toggle("on", x.dataset.id===it.id));
-          document.querySelectorAll(".station").forEach(s=>s.classList.add("active"));
-        };
-        pills.appendChild(b);
-      });
-      const st=document.getElementById("stations");
-      lv.zones.forEach(z=>{
-        const d=document.createElement("div");
-        d.className="station"; d.dataset.zone=z.id;
-        d.innerHTML=`<h4>${z.label}</h4><div class="filled" data-f="${z.id}">— kosong —</div>`;
-        d.onclick=()=>{
-          if(!S.selected) return;
-          const item=lv.items.find(i=>i.id===S.selected);
-          // remove if zone taken
-          Object.keys(S.assign).forEach(k=>{ if(S.assign[k]===z.id) delete S.assign[k]; });
-          S.assign[S.selected]=z.id;
-          sfx(item.to===z.id?"ok":"click");
-          refreshAssign(lv);
-          S.selected=null;
-          [...pills.children].forEach(x=>x.classList.remove("on"));
-          document.querySelectorAll(".station").forEach(s=>s.classList.remove("active"));
-        };
-        st.appendChild(d);
-      });
-    }
-    function refreshAssign(lv){
-      const n=Object.keys(S.assign).length;
-      document.getElementById("as-count").textContent=`${n} / ${lv.items.length} dipasang`;
-      lv.items.forEach(it=>{
-        const pill=[...document.getElementById("pills").children].find(x=>x.dataset.id===it.id);
-        if(pill) pill.classList.toggle("done", !!S.assign[it.id]);
-      });
-      lv.zones.forEach(z=>{
-        const f=document.querySelector(`[data-f="${z.id}"]`);
-        const who=Object.entries(S.assign).find(([,v])=>v===z.id);
-        if(!who){ f.textContent="— kosong —"; f.style.color="#7a7164"; return; }
-        const item=lv.items.find(i=>i.id===who[0]);
-        f.textContent="✓ "+item.label; f.style.color="var(--matcha)";
+        b.type="button"; b.className="tap"; b.textContent=opt;
+        b.onclick=()=>gradeChoice(i, q);
+        box.appendChild(b);
       });
     }
 
-    /* ===== L2 MEMORY ===== */
-    function renderMemory(lv){
-      S.memSolved=0; S.memFirst=null;
-      const cards=[];
-      lv.pairs.forEach(p=>{ cards.push({k:p.k,t:p.a}); cards.push({k:p.k,t:p.b}); });
-      S.mem=cards.sort(()=>Math.random()-0.5).map(c=>({...c,open:false,matched:false}));
-      document.getElementById("stage").innerHTML=`
-        <p class="prompt">Temukan pasangan umami</p>
-        <p class="story">Ketuk dua kartu. Cocok = terbuka permanen. ${lv.pairs.length} pasangan.</p>
-        <div class="counter" id="mem-count">0 / ${lv.pairs.length}</div>
-        <div class="mem" id="mem"></div>`;
-      paintMem(lv);
-    }
-    function paintMem(lv){
-      const root=document.getElementById("mem"); root.innerHTML="";
-      S.mem.forEach((c,idx)=>{
-        const b=document.createElement("button");
-        b.type="button";
-        b.className="mem-card"+(c.open||c.matched?" face":"")+(c.matched?" matched":"");
-        b.textContent=c.open||c.matched?c.t:"和";
-        b.disabled=c.matched;
-        b.onclick=()=>onMem(idx,lv);
-        root.appendChild(b);
+    function gradeChoice(i,q){
+      if(S.locked) return;
+      S.locked=true; S.attempts++;
+      const ok=i===q.answer;
+      if(ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); } else sfx("bad");
+      tally();
+      [...document.getElementById("opts").children].forEach((el,j)=>{
+        el.disabled=true;
+        if(j===q.answer) el.classList.add("correct");
+        if(j===i && !ok) el.classList.add("wrong");
       });
-      document.getElementById("mem-count").textContent=`${S.memSolved} / ${lv.pairs.length}`;
+      showCoach(ok, q.why);
     }
-    function onMem(idx,lv){
-      const c=S.mem[idx]; if(c.matched||c.open) return; sfx("click");
-      c.open=true; paintMem(lv);
-      if(S.memFirst===null){ S.memFirst=idx; return; }
-      if(S.memFirst===idx) return;
-      const a=S.mem[S.memFirst], b=c;
-      S.attempts+=1;
-      if(a.k===b.k){
-        a.matched=b.matched=true; S.memSolved++; S.correct++; S.memFirst=null; sfx("ok"); paintMem(lv);
-        if(S.memSolved>=lv.pairs.length) setTimeout(()=>lockLevel(false),400);
+
+    function renderPick(q){
+      const stage=document.getElementById("stage");
+      const opts=shuffle(q.options);
+      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="pick-grid" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      opts.forEach(opt=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="pick"; b.dataset.id=opt.id;
+        b.innerHTML=`<img src="${ART+opt.img}" alt="${opt.label}"><span>${opt.label}</span>`;
+        b.onclick=()=>gradePick(opt.id,q);
+        box.appendChild(b);
+      });
+    }
+
+    function gradePick(id,q){
+      if(S.locked) return;
+      S.locked=true; S.attempts++;
+      const ok=id===q.answer;
+      if(ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); } else sfx("bad");
+      tally();
+      [...document.getElementById("opts").children].forEach(el=>{
+        el.disabled=true;
+        if(el.dataset.id===q.answer) el.classList.add("correct");
+        if(el.dataset.id===id && !ok) el.classList.add("wrong");
+      });
+      showCoach(ok, q.why);
+    }
+
+    function renderSeq(q){
+      S.seqNext=0;
+      const stage=document.getElementById("stage");
+      const steps=shuffle(q.steps);
+      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="seq-list" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      steps.forEach(st=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="seq-card"; b.dataset.id=String(st.id);
+        b.innerHTML=`<img src="${ART+st.img}" alt=""><div><b>${st.label}</b></div><div class="seq-num">?</div>`;
+        b.onclick=()=>tapSeq(b, st.id, q);
+        box.appendChild(b);
+      });
+    }
+
+    function tapSeq(btn, id, q){
+      if(S.locked) return;
+      S.attempts++;
+      if(id!==S.seqNext){
+        sfx("bad"); btn.classList.remove("bad"); void btn.offsetWidth; btn.classList.add("bad");
+        return;
+      }
+      sfx("ok"); S.correct++; S.seqNext++;
+      S.levelScores[S.idx]+=2; tally();
+      btn.classList.add("done"); btn.disabled=true;
+      btn.querySelector(".seq-num").textContent=String(S.seqNext);
+      updateHud();
+      if(S.seqNext>=q.steps.length){ S.locked=true; showCoach(true, q.why); }
+    }
+
+    function renderMatch(q){
+      S.matchOk=0; S.matchSel=null;
+      const stage=document.getElementById("stage");
+      const left=shuffle(q.pairs);
+      const right=shuffle(q.pairs);
+      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="match"><div class="col" id="m-left"></div><div class="col" id="m-right"></div></div>`;
+      const L=document.getElementById("m-left"), R=document.getElementById("m-right");
+      left.forEach(p=>{
+        const b=document.createElement("button"); b.type="button"; b.className="m-card"; b.dataset.id=p.id; b.textContent=p.left;
+        b.onclick=()=>tapMatch("L",b,p.id,q); L.appendChild(b);
+      });
+      right.forEach(p=>{
+        const b=document.createElement("button"); b.type="button"; b.className="m-card"; b.dataset.id=p.id;
+        b.innerHTML=`<img src="${ART+p.img}" alt=""><span>${p.right}</span>`;
+        b.onclick=()=>tapMatch("R",b,p.id,q); R.appendChild(b);
+      });
+    }
+
+    function tapMatch(side, btn, id, q){
+      if(S.locked) return;
+      if(btn.classList.contains("done")) return;
+      document.querySelectorAll(`.m-card.on`).forEach(el=>{ if(el.dataset.side===side) el.classList.remove("on"); });
+      btn.dataset.side=side; btn.classList.add("on");
+      if(!S.matchSel){ S.matchSel={side,id,btn}; sfx("click"); return; }
+      if(S.matchSel.side===side){ S.matchSel={side,id,btn}; sfx("click"); return; }
+      S.attempts++;
+      const ok=S.matchSel.id===id;
+      if(ok){
+        sfx("ok"); S.correct++; S.matchOk++; S.levelScores[S.idx]+=5; tally();
+        btn.classList.add("done"); S.matchSel.btn.classList.add("done");
+        btn.classList.remove("on"); S.matchSel.btn.classList.remove("on");
+        S.matchSel=null; updateHud();
+        if(S.matchOk>=q.pairs.length){ S.locked=true; showCoach(true, q.why); }
       } else {
         sfx("bad");
-        const first=S.memFirst; S.memFirst=null;
-        setTimeout(()=>{ a.open=false; b.open=false; paintMem(lv); },550);
+        const a=S.matchSel.btn;
+        btn.classList.add("wrong"); a.classList.add("wrong");
+        setTimeout(()=>{ btn.classList.remove("wrong","on"); a.classList.remove("wrong","on"); }, 450);
+        S.matchSel=null;
       }
     }
 
-    /* ===== L3 SAFETY ===== */
-    function renderSafety(lv){
-      S.quizIdx=0; S.quizOk=0;
-      S.lpgOrder=lv.lpg.map((t,i)=>({t,i})).sort(()=>Math.random()-0.5);
-      document.getElementById("stage").innerHTML=`
-        <div id="safety-quiz"></div>
-        <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;" />
-        <p class="prompt">Susun SOP LPG 12kg</p>
-        <p class="story">Pakai tombol panah ↑ ↓ — tidak perlu drag.</p>
-        <div id="lpg-list"></div>`;
-      paintSafetyQuiz(lv); paintLpg();
-    }
-    function paintSafetyQuiz(lv){
-      const box=document.getElementById("safety-quiz");
-      if(S.quizIdx>=lv.quiz.length){
-        box.innerHTML=`<p class="story" style="color:var(--matcha);font-weight:700;">Bagian APD selesai: ${S.quizOk}/${lv.quiz.length}. Lanjut rapikan urutan LPG di bawah, lalu kunci level.</p>`;
-        return;
-      }
-      const q=lv.quiz[S.quizIdx];
-      box.innerHTML=`
-        <p class="prompt">${q.q}</p>
-        <div class="counter">APD ${S.quizIdx+1}/${lv.quiz.length}</div>
-        <div class="grid2" id="qopts"></div>`;
-      const g=document.getElementById("qopts");
-      q.options.forEach((opt,i)=>{
-        const b=document.createElement("button"); b.type="button"; b.className="tap"; b.textContent=opt;
-        b.onclick=()=>{
-          S.attempts++; const ok=i===q.answer; if(ok){S.correct++; S.quizOk++; sfx("ok");} else sfx("bad");
-          [...g.children].forEach((el,j)=>{ el.disabled=true; if(j===q.answer) el.classList.add("correct"); if(j===i&&!ok) el.classList.add("wrong"); });
-          setTimeout(()=>{ S.quizIdx++; paintSafetyQuiz(lv); },500);
-        };
-        g.appendChild(b);
-      });
-    }
-    function paintLpg(){
-      const list=document.getElementById("lpg-list"); list.innerHTML="";
-      S.lpgOrder.forEach((row,idx)=>{
-        const d=document.createElement("div"); d.className="seq-item";
-        d.innerHTML=`<div class="seq-num">${idx+1}</div><div>${row.t}</div>
-          <div class="seq-btns">
-            <button type="button" aria-label="Naik" ${idx===0?"disabled":""}>↑</button>
-            <button type="button" aria-label="Turun" ${idx===S.lpgOrder.length-1?"disabled":""}>↓</button>
-          </div>`;
-        const [up,down]=d.querySelectorAll("button");
-        up.onclick=()=>{ sfx("click"); if(idx===0) return; const t=S.lpgOrder[idx]; S.lpgOrder[idx]=S.lpgOrder[idx-1]; S.lpgOrder[idx-1]=t; paintLpg(); };
-        down.onclick=()=>{ sfx("click"); if(idx>=S.lpgOrder.length-1) return; const t=S.lpgOrder[idx]; S.lpgOrder[idx]=S.lpgOrder[idx+1]; S.lpgOrder[idx+1]=t; paintLpg(); };
-        list.appendChild(d);
-      });
-    }
-
-    /* ===== L4 FLOW ===== */
-    function renderFlow(lv){
-      S.flowPicked=[]; S.flowNext=0; S.merchIdx=0; S.merchOk=0;
-      document.getElementById("stage").innerHTML=`
-        <p class="prompt">Bangun alur order: ketuk langkah berurutan</p>
-        <p class="story">Ketuk kartu di bank sesuai urutan yang benar. Salah? Kartu tidak masuk.</p>
-        <div class="flow-bank" id="bank"></div>
-        <div id="slots"></div>
-        <div id="merch" style="display:none;margin-top:14px;"></div>`;
-      const bank=document.getElementById("bank");
-      const shuffled=[...lv.steps].sort(()=>Math.random()-0.5);
-      shuffled.forEach(label=>{
-        const b=document.createElement("button"); b.type="button"; b.className="pill"; b.textContent=label; b.dataset.label=label;
-        b.onclick=()=>{
-          const need=lv.steps[S.flowNext];
-          S.attempts++;
-          if(label!==need){ sfx("bad"); toast(false,"Urutan belum tepat",`Sekarang yang dibutuhkan: “${need}”.`); return; }
-          S.correct++; S.flowPicked.push(label); S.flowNext++; b.classList.add("done"); sfx("ok"); hideToast(); paintSlots(lv);
-          if(S.flowNext>=lv.steps.length) startMerch(lv);
-        };
-        bank.appendChild(b);
-      });
-      paintSlots(lv);
-    }
-    function paintSlots(lv){
-      const slots=document.getElementById("slots"); slots.innerHTML="";
-      lv.steps.forEach((label,i)=>{
-        const filled=S.flowPicked[i];
-        const d=document.createElement("div"); d.className="flow-slot"+(filled?" filled":"");
-        d.innerHTML=`<div class="n">${i+1}</div><div>${filled||"… ketuk langkah yang benar"}</div>`;
-        slots.appendChild(d);
-      });
-    }
-    function startMerch(lv){
-      document.getElementById("merch").style.display="block";
-      paintMerch(lv);
-    }
-    function paintMerch(lv){
-      const box=document.getElementById("merch");
-      if(S.merchIdx>=lv.merchants.length){
-        box.innerHTML=`<p class="story" style="color:var(--matcha);font-weight:700;">Merchant match selesai (${S.merchOk}/${lv.merchants.length}). Kunci level.</p>`;
-        document.getElementById("btn-lock").style.display="inline-flex";
-        return;
-      }
-      document.getElementById("btn-lock").style.display="none";
-      const m=lv.merchants[S.merchIdx];
-      box.innerHTML=`<p class="prompt">${m.q}</p><div class="grid2 cols2" id="mopts"></div>`;
-      const g=document.getElementById("mopts");
-      m.options.forEach(opt=>{
-        const b=document.createElement("button"); b.type="button"; b.className="tap"; b.textContent=opt;
-        b.onclick=()=>{
-          S.attempts++; const ok=opt===m.answer; if(ok){S.correct++; S.merchOk++; sfx("ok");} else sfx("bad");
-          [...g.children].forEach(el=>{ el.disabled=true; if(el.textContent===m.answer) el.classList.add("correct"); if(el.textContent===opt&&!ok) el.classList.add("wrong"); });
-          setTimeout(()=>{ S.merchIdx++; paintMerch(lv); },450);
-        };
-        g.appendChild(b);
-      });
-    }
-
-    /* ===== L5 DIALOGUE ===== */
-    function renderDialogue(lv){
-      S.dlgIdx=0; S.dlgOk=0;
-      document.getElementById("stage").innerHTML=`<div id="dlg"></div>`;
-      paintDlg(lv);
-    }
-    function paintDlg(lv){
-      if(S.dlgIdx>=lv.scenes.length){ lockLevel(false); return; }
-      const sc=lv.scenes[S.dlgIdx];
-      document.getElementById("dlg").innerHTML=`
-        <div class="counter">Skenario ${S.dlgIdx+1}/${lv.scenes.length}</div>
-        <p class="prompt">${sc.npc}</p>
-        <p class="story" style="background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:12px;">“${sc.line}”</p>
-        <div class="grid2" id="dopts"></div>`;
-      const g=document.getElementById("dopts");
-      sc.options.forEach((opt,i)=>{
-        const b=document.createElement("button"); b.type="button"; b.className="tap"; b.textContent=opt;
-        b.onclick=()=>{
-          S.attempts++; const ok=i===sc.answer; if(ok){S.correct++; S.dlgOk++; sfx("ok");} else sfx("bad");
-          [...g.children].forEach((el,j)=>{ el.disabled=true; if(j===sc.answer) el.classList.add("correct"); if(j===i&&!ok) el.classList.add("wrong"); });
-          toast(ok, ok?"Respons tepat":"Belum tepat", sc.tip);
-          setTimeout(()=>{ S.dlgIdx++; hideToast(); paintDlg(lv); },650);
-        };
-        g.appendChild(b);
-      });
-    }
-
-    /* ===== SCORING ===== */
-    function evalLevel(){
+    function showCoach(ok, why){
+      tally(); updateHud();
       const lv=LEVELS[S.idx];
-      let ratio=0, detail="";
-      if(lv.type==="assign"){
-        const ids=lv.items.map(i=>i.id);
-        let ok=0; ids.forEach(id=>{ S.attempts++; if(S.assign[id]===lv.items.find(x=>x.id===id).to){ ok++; S.correct++; }});
-        ratio=ok/ids.length; detail=`Assign ${ok}/${ids.length}`;
-      } else if(lv.type==="memory"){
-        ratio=S.memSolved/lv.pairs.length; detail=`Memory ${S.memSolved}/${lv.pairs.length}`;
-      } else if(lv.type==="safety"){
-        const lpgOk=S.lpgOrder.every((row,idx)=>row.i===idx);
-        const quizPart=S.quizOk/lv.quiz.length;
-        const lpgPart=lpgOk?1: Math.max(0, 1 - (S.lpgOrder.reduce((a,r,i)=>a+(r.i===i?0:1),0)/lv.lpg.length));
-        // count lpg attempts conceptually
-        S.attempts+=lv.lpg.length; if(lpgOk) S.correct+=lv.lpg.length; else S.correct+=S.lpgOrder.filter((r,i)=>r.i===i).length;
-        ratio=(quizPart+lpgPart)/2; detail=`APD ${S.quizOk}/${lv.quiz.length} · LPG ${Math.round(lpgPart*100)}%`;
-      } else if(lv.type==="flow"){
-        const flowR=S.flowNext/lv.steps.length;
-        const merR=lv.merchants.length? S.merchOk/lv.merchants.length : 0;
-        ratio=S.flowNext>=lv.steps.length ? (flowR*0.65 + merR*0.35) : flowR*0.65;
-        detail=`Alur ${S.flowNext}/${lv.steps.length} · Merchant ${S.merchOk}/${lv.merchants.length}`;
-      } else if(lv.type==="dialogue"){
-        ratio=S.dlgOk/lv.scenes.length; detail=`Dialog ${S.dlgOk}/${lv.scenes.length}`;
-      }
-      const points=Math.round(20*ratio);
-      return {ratio, points, detail};
+      const c=document.getElementById("coach");
+      c.className="coach on "+(ok?"ok":"bad");
+      document.getElementById("ct").textContent=ok?"Pas. Senpai angguk.":"Hampir. Ini yang benar.";
+      document.getElementById("cp").textContent=why;
+      document.getElementById("btn-nextq").textContent = S.qIdx>=lv.qs.length-1 ? "Tutup stasiun ini" : "Lanjut";
     }
 
-    function lockLevel(fromTimer=false){
-      clearInterval(S.timer);
-      document.getElementById("btn-lock").disabled=true;
+    function nextQuestion(){
+      sfx("click");
       const lv=LEVELS[S.idx];
-      const {ratio, points, detail}=evalLevel();
-      S.levelScores[S.idx]=points;
-      S.score=Math.max(0, S.levelScores.reduce((a,b)=>a+b,0) - S.hintPenalty);
-      updateHud();
-      const ok=ratio>=0.7;
-      if(ok) sfx("ok"); else sfx("bad");
-      S.reviews.push({level:lv.title, ok, detail:`${detail} · +${points}/20`+(fromTimer?" · timeout":"")});
-      if(lv.badge && ratio>=0.7) S.badges.add(lv.badge);
-      toast(ok, fromTimer?"Waktu habis":"Level dikunci", `${detail}. Poin: +${points}/20.`);
-      setTimeout(()=>showClear(lv, points, ratio), 700);
+      if(S.qIdx>=lv.qs.length-1){ finishLevel(); return; }
+      S.qIdx++; loadQuestion();
     }
 
-    function showClear(lv, points, ratio){
+    function finishLevel(){
+      const lv=LEVELS[S.idx];
+      const pts=S.levelScores[S.idx];
+      const ok=pts>=16;
+      S.reviews.push({level:lv.title, ok, detail:`+${pts}/20 · ${lv.brief.split("·")[0].trim()}`});
+      if(lv.badge && ok) S.badges.add(lv.badge);
       document.getElementById("c-ico").textContent=lv.icon;
-      document.getElementById("c-title").textContent=lv.title+" · Clear";
-      document.getElementById("c-msg").textContent=`+${points}/20 poin (akurasi ${Math.round(ratio*100)}%). ${(ratio>=0.7)?"Siap lanjut stasiun berikutnya.":"Boleh lanjut—ulang nanti untuk perkuat."}`;
+      document.getElementById("c-title").textContent=lv.title;
+      document.getElementById("c-msg").textContent=ok
+        ? `Mantap, +${pts}/20. Stasiun ini sudah kamu pegang.`
+        : `Dapat +${pts}/20. Tidak apa — senpai sudah kasih kuncinya. Lanjut dulu, bisa diulang nanti.`;
       const b=document.getElementById("c-badge");
       if(lv.badge && S.badges.has(lv.badge)){ const bd=BADGES[lv.badge]; b.style.display="inline-flex"; b.textContent=`${bd.icon} ${bd.name}`; sfx("win"); }
       else b.style.display="none";
       const btn=document.getElementById("btn-next");
-      if(S.idx>=LEVELS.length-1){ btn.textContent="Lihat hasil akhir"; btn.onclick=finish; }
-      else { btn.textContent="Level berikutnya"; btn.onclick=nextLevel; }
-      document.getElementById("btn-lock").disabled=false;
+      if(S.idx>=LEVELS.length-1){ btn.textContent="Lihat kata senpai"; btn.onclick=finish; }
+      else { btn.textContent="Stasiun berikutnya"; btn.onclick=nextLevel; }
       show("sc-clear");
     }
-    function nextLevel(){ sfx("click"); S.idx++; if(S.idx>=LEVELS.length) finish(); else { loadLevel(); show("sc-play"); } }
+    function nextLevel(){ sfx("click"); S.idx++; S.qIdx=0; if(S.idx>=LEVELS.length) finish(); else { loadQuestion(); show("sc-play"); } }
 
     function finish(){
-      clearInterval(S.timer);
-      S.score=Math.max(0, S.levelScores.reduce((a,b)=>a+b,0) - S.hintPenalty);
       const passed=S.score>=70;
-      const acc=S.attempts?Math.round((S.correct/S.attempts)*100):0;
       lmsSet(S.score, passed);
-      document.getElementById("r-status").textContent=passed?"LULUS · Certified Trail":"BELUM LULUS · Ulangi shift";
+      document.getElementById("r-status").textContent=passed?"Noren terbuka. Kamu lulus.":"Belum lulus — ulang yang lemah.";
       document.getElementById("r-msg").textContent=passed
-        ? `${S.nama}, lima mini-game operasional tuntas. Kamu siap belajar di line nyata bersama senpai.`
-        : `${S.nama}, skor ${S.score}/100 (butuh 70). Wajar untuk karyawan baru—main lagi fokus level yang lemah.`;
-      document.getElementById("r-score").textContent=S.score;
-      document.getElementById("r-acc").textContent=acc+"%";
+        ? `${S.nama.split(" ")[0]}, lima stasiun Day 2 sudah kamu jalani. Besok di line nyata, senpai masih di sampingmu.`
+        : `${S.nama.split(" ")[0]}, skor ${S.score}/100 (butuh 70). Wajar di hari pertama. Main lagi, fokus stasiun yang masih merah.`;
+      document.getElementById("r-score").textContent=S.score+"/100";
+      document.getElementById("r-acc").textContent=`${S.correct}/${S.attempts}`;
       document.getElementById("r-ok").textContent=S.reviews.filter(r=>r.ok).length+"/5";
       document.getElementById("r-lms").textContent=passed?"Passed":"Failed";
       document.getElementById("badge-row").innerHTML=Object.entries(BADGES).map(([k,b])=>`
@@ -861,7 +851,7 @@
     }
     function copyReport(){
       sfx("click");
-      const t=`SATO MASTER CHEF\nNama: ${S.nama}\nNIK: ${S.nik}\nSkor: ${S.score}/100\nStatus: ${S.score>=70?"Passed":"Failed"}\n${new Date().toLocaleString("id-ID")}\nEducation & Training Dept. © 2026`;
+      const t=`SATO SHIFT PERTAMA\nNama: ${S.nama}\nNIK: ${S.nik}\nSkor: ${S.score}/100\nStatus: ${S.score>=70?"Passed":"Failed"}\n${new Date().toLocaleString("id-ID")}\nEducation & Training Dept. © 2026`;
       navigator.clipboard.writeText(t).then(()=>alert("Rekap disalin")).catch(()=>prompt("Salin",t));
     }
   </script>
