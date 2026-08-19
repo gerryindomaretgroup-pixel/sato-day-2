@@ -393,22 +393,150 @@
       };
     })();
 
-    let actx=null, muted=true, bgm=null, step=0;
-    const notes=[262,330,392,440,392,349,330,294];
-    function initA(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended") actx.resume(); }
-    function tone(f,t,d,g=.07){ if(muted||!actx) return; const o=actx.createOscillator(),x=actx.createGain(); o.type=t; o.frequency.value=f; x.gain.setValueAtTime(g,actx.currentTime); x.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+d); o.connect(x); x.connect(actx.destination); o.start(); o.stop(actx.currentTime+d); }
-    function sfx(n){ initA(); if(muted) return; if(n==="ok"){tone(523,"sine",.08,.1);setTimeout(()=>tone(784,"sine",.15,.1),70);} else if(n==="bad") tone(160,"sawtooth",.2,.1); else if(n==="click") tone(400,"triangle",.04,.04); else if(n==="win") [523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,"sine",.12,.08),i*70)); }
-    function startBgm(){ if(bgm||muted) return; initA(); bgm=setInterval(()=>{ if(!muted) tone(notes[step++%notes.length],"sine",.12,.016); },400); }
-    function stopBgm(){ clearInterval(bgm); bgm=null; }
-    document.getElementById("btn-audio").onclick=()=>{
-      initA(); muted=!muted;
+    let actx=null, master=null, music=null, sfxBus=null, verb=null, noiseBuf=null;
+    let muted=true, bgmOn=false, bgmTimer=0, padNodes=[];
+    const N={
+      D3:146.83,E3:164.81,G3:196.00,A3:220.00,B3:246.94,
+      D4:293.66,E4:329.63,G4:392.00,A4:440.00,B4:493.88,
+      D5:587.33,E5:659.25,G5:783.99,A5:880.00,D6:1174.66
+    };
+    function initA(){
+      if(!actx){
+        actx=new (window.AudioContext||window.webkitAudioContext)();
+        master=actx.createGain(); master.gain.value=1; master.connect(actx.destination);
+        music=actx.createGain(); music.gain.value=.42; music.connect(master);
+        sfxBus=actx.createGain(); sfxBus.gain.value=1; sfxBus.connect(master);
+        const delay=actx.createDelay(); delay.delayTime.value=.32;
+        const fb=actx.createGain(); fb.gain.value=.24;
+        const wet=actx.createGain(); wet.gain.value=.14;
+        delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(music);
+        verb=delay;
+        noiseBuf=actx.createBuffer(1, Math.floor(actx.sampleRate*.05), actx.sampleRate);
+        const ch=noiseBuf.getChannelData(0);
+        for(let i=0;i<ch.length;i++) ch[i]=(Math.random()*2-1)*Math.pow(1-i/ch.length,6);
+      }
+      if(actx.state==="suspended") actx.resume();
+    }
+    function duckMusic(to=.06, hold=.38){
+      if(!music) return;
+      const t=actx.currentTime, cur=Math.max(.06, music.gain.value);
+      music.gain.cancelScheduledValues(t);
+      music.gain.setValueAtTime(cur,t);
+      music.gain.linearRampToValueAtTime(to,t+.02);
+      music.gain.setValueAtTime(to,t+hold);
+      music.gain.linearRampToValueAtTime(.42,t+hold+.22);
+    }
+    function pluck(f, when, dur=.9, g=.07, bus){
+      if(muted||!actx) return;
+      const t=when!=null?when:actx.currentTime;
+      const dest=bus||music;
+      const o1=actx.createOscillator(); o1.type="triangle"; o1.frequency.setValueAtTime(f,t);
+      const o2=actx.createOscillator(); o2.type="sine"; o2.frequency.setValueAtTime(f*2.005,t);
+      const lp=actx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.setValueAtTime(2200,t); lp.frequency.exponentialRampToValueAtTime(650,t+dur);
+      const x=actx.createGain();
+      x.gain.setValueAtTime(.0001,t); x.gain.exponentialRampToValueAtTime(g,t+.014); x.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o1.connect(x); o2.connect(x); x.connect(lp); lp.connect(dest); if(dest===music&&verb) lp.connect(verb);
+      o1.start(t); o2.start(t); o1.stop(t+dur+.02); o2.stop(t+dur+.02);
+    }
+    function wood(when, g=.07, freq=880, bus){
+      if(muted||!actx||!noiseBuf) return;
+      const t=when!=null?when:actx.currentTime;
+      const src=actx.createBufferSource(); src.buffer=noiseBuf;
+      const bp=actx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=freq; bp.Q.value=7;
+      const x=actx.createGain(); x.gain.setValueAtTime(g,t); x.gain.exponentialRampToValueAtTime(.0001,t+.08);
+      src.connect(bp); bp.connect(x); x.connect(bus||music);
+      src.start(t);
+    }
+    function buzz(f, when, dur, g){
+      if(muted||!actx) return;
+      const t=when, o=actx.createOscillator(); o.type="square"; o.frequency.setValueAtTime(f,t);
+      const lp=actx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=2600;
+      const x=actx.createGain();
+      x.gain.setValueAtTime(.0001,t); x.gain.exponentialRampToValueAtTime(g,t+.006); x.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o.connect(lp); lp.connect(x); x.connect(sfxBus);
+      o.start(t); o.stop(t+dur+.02);
+    }
+    function padPhrase(t0, len){
+      padNodes.forEach(n=>{ try{n.stop();}catch(e){} });
+      padNodes=[];
+      [[N.D3,.02],[N.A3,.014],[N.D4,.01]].forEach(([f,g])=>{
+        const o=actx.createOscillator(); o.type="sine"; o.frequency.value=f;
+        const x=actx.createGain();
+        x.gain.setValueAtTime(.0001,t0); x.gain.linearRampToValueAtTime(g,t0+.6);
+        x.gain.setValueAtTime(g,t0+len-.8); x.gain.linearRampToValueAtTime(.0001,t0+len);
+        o.connect(x); x.connect(music);
+        o.start(t0); o.stop(t0+len+.05);
+        padNodes.push(o);
+      });
+    }
+    function sfx(kind){
+      initA(); if(muted) return;
+      const t=actx.currentTime;
+      if(kind==="ok"){
+        duckMusic(.18,.22);
+        wood(t,.12,2100,sfxBus);
+        pluck(N.A5,t,.28,.16,sfxBus);
+        pluck(N.D6,t+.08,.55,.2,sfxBus);
+        pluck(N.A5,t+.16,.35,.08,sfxBus);
+      } else if(kind==="bad"){
+        duckMusic(.05,.42);
+        wood(t,.28,2200,sfxBus);
+        wood(t+.12,.22,1650,sfxBus);
+        buzz(622,t,.14,.2);
+        buzz(466,t+.13,.22,.24);
+        pluck(N.D5,t,.12,.08,sfxBus);
+      } else if(kind==="click"){
+        wood(t,.06,1600,sfxBus);
+      } else if(kind==="win"){
+        duckMusic(.12,.5);
+        [N.D5,N.E5,N.G5,N.A5,N.D6].forEach((f,i)=>pluck(f,t+i*.09,.5,.14,sfxBus));
+      }
+    }
+    const BGM=[
+      [0,"D4",1.2,.055],[1.2,"G4",.8,.05],[2,"A4",1,.052],[3,"D5",1.6,.06],
+      [5,"A4",.6,.045],[5.6,"G4",1,.048],[6.6,"E4",1,.045],[7.6,"D4",1.6,.05],
+      [9.4,"G4",.8,.048],[10.2,"A4",.8,.05],[11,"B4",1,.048],[12,"A4",1,.045],
+      [13.2,"G4",.8,.042],[14,"E4",.8,.04],[14.8,"D4",2.4,.05],
+      [0,"D3",4.6,.04],[4.6,"A3",4.6,.032],[9.4,"G3",4.2,.036],[13.6,"D3",3.6,.038]
+    ];
+    function startBgm(){
+      if(muted||bgmOn) return;
+      initA(); bgmOn=true; scheduleBgm(actx.currentTime+.04);
+    }
+    function scheduleBgm(t0){
+      if(!bgmOn||muted||!actx) return;
+      const beat=.62, bars=17.2, span=beat*bars;
+      padPhrase(t0, span);
+      BGM.forEach(([b,name,dur,g])=>pluck(N[name], t0+b*beat, dur*beat, g));
+      [0,4,8,12,16].forEach(b=>wood(t0+b*beat,.02, 720+((b%8)?80:0)));
+      const wait=(t0+span-actx.currentTime)*1000-40;
+      bgmTimer=setTimeout(()=>scheduleBgm(t0+span), Math.max(20,wait));
+    }
+    function stopBgm(){
+      bgmOn=false; clearTimeout(bgmTimer);
+      padNodes.forEach(n=>{ try{n.stop();}catch(e){} }); padNodes=[];
+    }
+    function setMuted(on){
+      muted=!!on;
       const btn=document.getElementById("btn-audio");
       btn.textContent=muted?"🔇":"🔊";
       btn.setAttribute("aria-pressed", muted?"false":"true");
       btn.setAttribute("aria-label", muted?"Hidupkan suara":"Matikan suara");
       btn.setAttribute("title", muted?"Hidupkan suara":"Matikan suara");
-      muted?stopBgm():startBgm();
-    };
+      if(muted){
+        stopBgm();
+        if(actx&&actx.state==="running") actx.suspend();
+      } else {
+        initA();
+        startBgm();
+      }
+    }
+    document.getElementById("btn-audio").onclick=()=>{ initA(); setMuted(!muted); };
+    document.addEventListener("visibilitychange",()=>{
+      if(!actx) return;
+      if(document.hidden){ if(actx.state==="running") actx.suspend(); }
+      else if(!muted) actx.resume();
+    });
 
     function lmsSet(score, passed){
       const status=passed?"passed":"failed";
@@ -670,7 +798,7 @@
       document.getElementById(id).classList.add("on");
       window.scrollTo({top:0,behavior:"smooth"});
     }
-    function goId(){ sfx("click"); initA(); show("sc-id"); }
+    function goId(){ initA(); setMuted(false); sfx("click"); show("sc-id"); }
     function submitId(e){
       e.preventDefault(); sfx("click");
       const namaEl=document.getElementById("in-nama");
