@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>washoku SATO · Shift Pertama</title>
+  <meta name="description" content="Pelatihan hari kedua washoku SATO: lima stasiun kerja, sikap pelayanan, dan keselamatan di line dapur." />
+  <title>washoku SATO, Shift Pertama</title>
   <link rel="icon" href="assets/logo/favicon-32.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/logo/apple-touch.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,7 +15,7 @@
       --sato: #d70a19; --sato-deep: #a00814; --sun: #fffdf8;
       --washi: #f7f1ea; --cream: #fffaf2; --ink: #2a1616;
       --indigo: #a00814; --indigo-2: #8a3a3a; --vermilion: #d70a19;
-      --matcha: #4f6b45; --gold: #c4a574; --line: rgba(215,10,25,.14);
+      --matcha: #4f6b45; --gold: #8a6a3a; --line: rgba(215,10,25,.14);
       --shadow: 0 12px 32px rgba(80,8,12,.12);
       --display: "Shippori Mincho", serif; --body: "Zen Kaku Gothic New", sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
@@ -105,6 +106,10 @@
       width: 100%; min-height: 48px; border: 1.5px solid rgba(215,10,25,.2); border-radius: 14px;
       padding: 12px 14px; font: inherit; background: #fffdf8;
     }
+    input:invalid:not(:placeholder-shown), input.invalid {
+      border-color: var(--sato);
+    }
+    .field-error { color: var(--sato); font-size: .72rem; font-weight: 700; min-height: 1em; }
 
     .obj { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 10px; background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; align-items: center; }
     .obj .n { width: 44px; height: 44px; border-radius: 12px; background: var(--sato); color: #fff; display: grid; place-items: center; font-size: 1.2rem; }
@@ -224,14 +229,23 @@
     .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
     .stat { background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
     .stat span { display: block; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: #6b6256; font-weight: 700; }
-    .stat strong { display: block; margin-top: 4px; font-family: var(--display); font-size: 1.3rem; color: var(--indigo); }
+    .stat strong { display: block; margin-top: 4px; font-family: var(--display); font-size: 1.3rem; color: var(--indigo); white-space: nowrap; }
     .badges { display: grid; gap: 8px; }
     .badge { background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 14px; text-align: center; }
     .badge.lock { opacity: .4; filter: grayscale(1); }
-    .review { max-height: 220px; overflow: auto; display: grid; gap: 8px; -webkit-overflow-scrolling: touch; }
+    .review { display: grid; gap: 8px; }
     .rev { border-radius: 12px; padding: 10px 12px; border: 1px solid var(--line); background: #fffdf8; font-size: .82rem; }
     .rev.ok { background: #f3f7ef; } .rev.bad { background: #fff1ee; }
     footer { margin-top: 16px; text-align: center; color: #7a7164; font-size: .74rem; }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(22px + var(--safe-b)); z-index: 80;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--sato-deep); color: #fffdf8; border-radius: 999px;
+      padding: 10px 18px; font-size: .82rem; font-weight: 700; letter-spacing: .01em;
+      opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease;
+      box-shadow: var(--shadow); max-width: calc(100% - 32px);
+    }
+    .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -244,7 +258,7 @@
         </div>
         <div>
           <h1>Shift Pertama</h1>
-          <p>WASHOKU SATO · DAY 2</p>
+          <p>WASHOKU SATO, HARI KEDUA</p>
         </div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;">
@@ -252,7 +266,7 @@
           <div class="chip">✦ <span id="hud-score">0</span></div>
           <div class="chip" id="hud-lv">1/5</div>
         </div>
-        <button class="icon-btn" id="btn-audio" type="button" aria-label="Audio">🔇</button>
+        <button class="icon-btn" id="btn-audio" type="button" aria-pressed="false" aria-label="Hidupkan suara" title="Hidupkan suara">🔇</button>
       </div>
     </header>
 
@@ -263,11 +277,11 @@
           <div class="hero-sun" aria-hidden="true"></div>
           <div>
             <img class="hero-logo" src="assets/logo/sato-logo.png" alt="washoku SATO" />
-            <div class="eyebrow">和食 · Japanese Restaurant</div>
-            <h2>Hari pertama di dapur, senpai nemenin.</h2>
-            <div class="hook"><b>Tenang dulu.</b> Ini bukan ujian susah. Senpai Hana kasih arti tiap istilah Jepang, kamu tinggal ketuk jawaban di HP.</div>
-            <p class="lead">5 stasiun, 5 cara main: pilih 4 jawaban, tebak gambar kaldu, susun urutan, pasangkan, lalu dialog. Bukan kuis monoton.</p>
-            <button class="btn btn-sun" type="button" onclick="goId()">Yuk, mulai bareng senpai</button>
+            <div class="eyebrow">和食, Restoran Jepang</div>
+            <h2>Pelatihan hari kedua di dapur. Senpai akan mendampingi Anda.</h2>
+            <div class="hook"><b>Tenang saja.</b> Ini bukan ujian yang sulit. Senpai Hana akan menjelaskan setiap istilah Jepang. Anda cukup memilih jawaban di ponsel.</div>
+            <p class="lead">Lima stasiun dengan lima jenis latihan: pilihan ganda, menebak gambar kaldu, menyusun urutan, memasangkan, dan dialog. Materi disusun agar tidak monoton.</p>
+            <button class="btn btn-sun" type="button" onclick="goId()">Mulai bersama senpai</button>
           </div>
         </div>
       </section>
@@ -276,13 +290,19 @@
         <div class="panel">
           <div class="senpai">
             <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
-            <div class="bubble">Halo! Aku <b>Senpai Hana</b>. Isi nama &amp; NIK kamu ya, biar rekap LMS-nya ketemu orangnya.</div>
+            <div class="bubble">Halo. Saya <b>Senpai Hana</b>. Silakan isi nama dan NIK Anda agar rekap LMS tercatat pada orang yang tepat.</div>
           </div>
-          <h2>Nama kamu</h2>
-          <form class="form" onsubmit="submitId(event)">
-            <label>Nama lengkap<input id="in-nama" required placeholder="Contoh: Dina Aulia" autocomplete="name" /></label>
-            <label>NIK / nomor induk<input id="in-nik" required placeholder="Contoh: NIK-2026-042" /></label>
-            <button class="btn btn-ink" type="submit">Lanjut lihat stasiun →</button>
+          <h2>Data peserta</h2>
+          <form class="form" onsubmit="submitId(event)" novalidate>
+            <label>Nama lengkap
+              <input id="in-nama" required placeholder="Contoh: Dina Aulia" autocomplete="name" />
+              <span class="field-error" id="err-nama"></span>
+            </label>
+            <label>NIK atau nomor induk
+              <input id="in-nik" required placeholder="Contoh: 2026042" autocomplete="off" />
+              <span class="field-error" id="err-nik"></span>
+            </label>
+            <button class="btn btn-ink" type="submit">Lanjut ke daftar stasiun</button>
           </form>
         </div>
       </section>
@@ -291,15 +311,15 @@
         <div class="panel">
           <div class="senpai">
             <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
-            <div class="bubble">Siap, <b id="brief-name">Crew</b>. Kita keliling 5 stasiun. Aku kasih bekal dulu, baru tanya. Santai aja.</div>
+            <div class="bubble">Baik, <b id="brief-name">Peserta</b>. Kita akan menelusuri lima stasiun. Silakan jawab setiap soal terlebih dahulu. Saya akan menjelaskan setelah Anda memilih.</div>
           </div>
-          <p class="muted" id="brief-nik">NIK: -</p>
-          <h3 style="margin-top:12px;">Hari ini kita cek</h3>
+          <p class="muted" id="brief-nik">NIK</p>
+          <h3 style="margin-top:12px;">Materi hari ini</h3>
           <div id="obj-list"></div>
           <div class="rules">
-            Skor max <b>100</b>. Lulus mulai <b>70</b>. Tiap stasiun cara mainnya beda. Salah? Senpai jelasin, lalu lanjut.
+            Skor maksimum <b>100</b>. Nilai lulus mulai <b>70</b>. Setiap stasiun memiliki cara latihan yang berbeda. Senpai akan menjelaskan setelah Anda memilih jawaban, kemudian Anda dapat melanjutkan.
           </div>
-          <button class="btn btn-primary" type="button" onclick="startGame()" style="margin-top:14px;">Siap, buka noren</button>
+          <button class="btn btn-primary" type="button" onclick="startGame()" style="margin-top:14px;">Mulai stasiun pertama</button>
         </div>
       </section>
 
@@ -311,7 +331,7 @@
           </div>
           <div class="senpai">
             <div class="ava" aria-hidden="true"><img src="assets/art/senpai.jpg" alt=""></div>
-            <div class="bubble" id="senpai-line">Yuk.</div>
+            <div class="bubble" id="senpai-line">Silakan.</div>
           </div>
           <div class="counter" id="q-count">Soal 1/5</div>
           <div id="stage"></div>
@@ -327,7 +347,7 @@
         <div class="panel clear">
           <div class="big" id="c-ico">🍣</div>
           <div class="eyebrow" style="color:var(--gold);">Stasiun selesai</div>
-          <h2 id="c-title">Clear</h2>
+          <h2 id="c-title">Selesai</h2>
           <p class="muted" id="c-msg" style="max-width:34rem;margin:0 auto;"></p>
           <div class="badge-pill" id="c-badge" style="display:none;"></div>
           <button class="btn btn-primary" type="button" id="btn-next" onclick="nextLevel()" style="margin-top:12px;">Stasiun berikutnya</button>
@@ -337,7 +357,7 @@
       <section class="screen" id="sc-result">
         <div class="result-hero">
           <img src="assets/logo/sato-logo.png" alt="washoku SATO" />
-          <div class="eyebrow">Kata senpai</div>
+          <div class="eyebrow">Penilaian senpai</div>
           <h2 id="r-status">Hasil</h2>
           <p id="r-msg" style="margin:0 auto;max-width:34rem;line-height:1.55;opacity:.93;"></p>
         </div>
@@ -345,15 +365,15 @@
           <div class="stats">
             <div class="stat"><span>Skor</span><strong id="r-score">0</strong></div>
             <div class="stat"><span>Benar</span><strong id="r-acc">0</strong></div>
-            <div class="stat"><span>Stasiun OK</span><strong id="r-ok">0/5</strong></div>
-            <div class="stat"><span>LMS</span><strong id="r-lms">-</strong></div>
+            <div class="stat"><span>Stasiun tuntas</span><strong id="r-ok">0/5</strong></div>
+            <div class="stat"><span>Status LMS</span><strong id="r-lms"></strong></div>
           </div>
           <h3>Stempel stasiun</h3>
           <div class="badges" id="badge-row"></div>
           <h3 style="margin-top:14px;">Rekap singkat</h3>
           <div class="review" id="review"></div>
           <div class="row" style="margin-top:14px;">
-            <button class="btn btn-primary" type="button" onclick="show('sc-brief')">Main lagi bareng senpai</button>
+            <button class="btn btn-primary" type="button" onclick="replay()">Ulangi pelatihan</button>
             <button class="btn btn-ghost" type="button" onclick="copyReport()">Salin rekap</button>
           </div>
         </div>
@@ -361,6 +381,7 @@
     </main>
     <footer>Education &amp; Training Dept. © 2026 · 和食 washoku SATO</footer>
   </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     (function loadLogo(){
@@ -381,7 +402,11 @@
     function stopBgm(){ clearInterval(bgm); bgm=null; }
     document.getElementById("btn-audio").onclick=()=>{
       initA(); muted=!muted;
-      document.getElementById("btn-audio").textContent=muted?"🔇":"🔊";
+      const btn=document.getElementById("btn-audio");
+      btn.textContent=muted?"🔇":"🔊";
+      btn.setAttribute("aria-pressed", muted?"false":"true");
+      btn.setAttribute("aria-label", muted?"Hidupkan suara":"Matikan suara");
+      btn.setAttribute("title", muted?"Hidupkan suara":"Matikan suara");
       muted?stopBgm():startBgm();
     };
 
@@ -398,223 +423,247 @@
     }
 
     const ART="assets/art/";
-    function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
+    function shuffle(a){
+      const b=[...a];
+      for(let i=b.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [b[i],b[j]]=[b[j],b[i]];
+      }
+      return b;
+    }
 
     const LEVELS=[
       {
         id:1, icon:"🍱", title:"Stasiun Dapur",
-        brief:"Kuis 4 pilihan · taruh alat di stasiun yang benar.",
+        brief:"Pilihan ganda: letakkan alat pada stasiun yang benar.",
         badge:"masterKitchen",
         qs:[
           {
-            type:"choice", teach:"Hangiri itu bak kayu buat aduk nasi sushi. Kerjanya di belakang, bukan di meja tamu.",
-            img:"hangiri.jpg", name:"Hangiri", sub:"bak kayu aduk nasi sushi",
-            q:"Alat ini ditaruh di stasiun mana?",
-            options:["Back Kitchen (dapur belakang)","Tempura","Steward (cuci alat)","Sushi & Sashimi"], answer:0,
-            why:"Hangiri dipakai aduk nasi sushi di Back Kitchen."
+            type:"choice", teach:"Hangiri adalah bak kayu untuk mengaduk nasi sushi. Alat ini digunakan di dapur belakang, bukan di meja tamu.",
+            img:"hangiri.jpg", name:"Hangiri", sub:"bak kayu pengaduk nasi sushi",
+            q:"Alat ini diletakkan di stasiun mana?",
+            options:["Back Kitchen (dapur belakang)","Tempura","Steward (cuci alat)","Sushi dan Sashimi"], answer:0,
+            why:"Hangiri digunakan untuk mengaduk nasi sushi di Back Kitchen."
           },
           {
-            type:"choice", teach:"Dashimaki tamago = telur gulung Jepang, biasanya di area salad & nabe.",
+            type:"choice", teach:"Dashimaki tamago adalah telur gulung Jepang, biasanya dikerjakan di area salad dan nabe.",
             img:"dashimaki.jpg", name:"Dashimaki Tamago", sub:"telur gulung Jepang",
-            q:"Telur gulung ini stasiunnya di mana?",
-            options:["Sushi & Sashimi","Salad & Nabe","Stove","Steward"], answer:1,
-            why:"Dashimaki tamago dikerjakan di Salad & Nabe."
+            q:"Telur gulung ini dikerjakan di stasiun mana?",
+            options:["Sushi dan Sashimi","Salad dan Nabe","Stove","Steward"], answer:1,
+            why:"Dashimaki tamago dikerjakan di stasiun Salad dan Nabe."
           },
           {
-            type:"choice", teach:"Yang digoreng tepung (tempura) hanya di stasiun tempura — minyaknya ~180°C.",
+            type:"choice", teach:"Makanan yang digoreng tepung (tempura) hanya dikerjakan di stasiun tempura. Suhu minyak sekitar 180°C.",
             img:"tempura.jpg", name:"Tempura", sub:"gorengan tepung Jepang",
-            q:"Deep fry / tempura dikerjakan di?",
-            options:["Stove","Tempura","Back Kitchen","Salad & Nabe"], answer:1,
-            why:"Minyak panas khusus, jadi tetap di stasiun Tempura."
+            q:"Deep fry atau tempura dikerjakan di stasiun mana?",
+            options:["Stove","Tempura","Back Kitchen","Salad dan Nabe"], answer:1,
+            why:"Minyak panas bersifat khusus, sehingga pekerjaan ini tetap di stasiun Tempura."
           },
           {
-            type:"choice", teach:"Makisu = tikar bambu gulung sushi. Torch = obor bakar permukaan.",
-            img:"makisu.jpg", name:"Makisu & Torch", sub:"tikar gulung + obor sushi",
-            q:"Dua alat ini ke stasiun mana?",
-            options:["Sushi & Sashimi","Salad & Nabe","Steward","Stove"], answer:0,
-            why:"Makisu dan torch milik Sushi & Sashimi."
+            type:"choice", teach:"Makisu adalah tikar bambu untuk menggulung sushi. Torch adalah obor untuk membakar permukaan.",
+            img:"makisu.jpg", name:"Makisu dan Torch", sub:"tikar gulung dan obor sushi",
+            q:"Kedua alat ini termasuk ke stasiun mana?",
+            options:["Sushi dan Sashimi","Salad dan Nabe","Steward","Stove"], answer:0,
+            why:"Makisu dan torch termasuk peralatan stasiun Sushi dan Sashimi."
           },
           {
-            type:"choice", teach:"Steward urus kebersihan: grease trap (perangkap minyak) dan wiper.",
-            img:"grease.jpg", name:"Grease Trap / Wiper", sub:"perangkap minyak & alat lap",
-            q:"Alat kebersihan ini stasiunnya?",
+            type:"choice", teach:"Steward mengurus kebersihan, termasuk grease trap (perangkap minyak) dan wiper.",
+            img:"grease.jpg", name:"Grease Trap dan Wiper", sub:"perangkap minyak dan alat pel",
+            q:"Alat kebersihan ini termasuk ke stasiun mana?",
             options:["Stove","Back Kitchen","Steward","Tempura"], answer:2,
-            why:"Grease trap dan wiper = tugas Steward."
+            why:"Grease trap dan wiper merupakan tugas Steward."
           }
         ]
       },
       {
         id:2, icon:"🍜", title:"Warna Kaldu",
-        brief:"Tebak gambar · ketuk mangkok yang warnanya tepat.",
+        brief:"Tebak gambar: pilih mangkuk dengan warna kaldu yang tepat.",
         badge:null,
         qs:[
           {
-            type:"pick", teach:"Sukiyaki kuahnya gelap, mirip kecap. Ketuk mangkok yang hitam pekat.",
-            q:"Mana kuah Sukiyaki?",
+            type:"pick", teach:"Kuah sukiyaki berwarna gelap, menyerupai kecap. Pilih mangkuk yang berwarna hitam pekat.",
+            q:"Manakah kuah sukiyaki?",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
               {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
               {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
             ], answer:"sukiyaki",
-            why:"Sukiyaki = hitam seperti kecap."
+            why:"Kuah sukiyaki berwarna hitam seperti kecap."
           },
           {
-            type:"pick", teach:"Chanko warnanya kecoklatan — lebih terang dari sukiyaki, tidak bening.",
-            q:"Mana kuah Chanko?",
+            type:"pick", teach:"Kuah chanko berwarna kecokelatan: lebih terang daripada sukiyaki, dan tidak bening.",
+            q:"Manakah kuah chanko?",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
               {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
               {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
             ], answer:"chanko",
-            why:"Chanko = kecoklatan."
+            why:"Kuah chanko berwarna kecokelatan."
           },
           {
-            type:"pick", teach:"Konbu dari rumput laut. Kuahnya jernih, kelihatan dasar mangkok.",
-            q:"Mana kuah Konbu?",
+            type:"pick", teach:"Konbu berasal dari rumput laut. Kuahnya jernih sehingga dasar mangkuk masih kelihatan.",
+            q:"Manakah kuah konbu?",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
               {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
               {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
             ], answer:"konbu",
-            why:"Konbu = bening."
+            why:"Kuah konbu berwarna bening."
           },
           {
-            type:"pick", teach:"Soymilk = kaldu susu kedelai. Warnanya putih susu.",
-            q:"Mana kuah Soymilk?",
+            type:"pick", teach:"Soymilk adalah kaldu susu kedelai. Warnanya putih seperti susu.",
+            q:"Manakah kuah soymilk?",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
               {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
               {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
             ], answer:"soymilk",
-            why:"Soymilk = putih susu."
+            why:"Kuah soymilk berwarna putih susu."
           },
           {
-            type:"choice", teach:"FKIB: F FIFO, K Kesegaran, I Inisiatif, B Bertanya kalau ragu.",
-            img:"cek-stok.jpg", name:"FIFO", sub:"barang lama dipakai dulu",
-            q:"Barang yang masuk duluan harus dipakai duluan. Artinya?",
-            options:["First In First Out","Masak yang terbaru dulu","Simpan di belakang saja","Buang yang lama"], answer:0,
-            why:"FIFO = yang datang duluan, keluar duluan — biar bahan tetap segar."
+            type:"choice", teach:"FKIB: F FIFO, K kesegaran, I inisiatif, B bertanya apabila ragu.",
+            img:"cek-stok.jpg", name:"FIFO", sub:"barang lama dipakai lebih dahulu",
+            q:"Barang yang masuk lebih dahulu harus dipakai lebih dahulu. Artinya?",
+            options:["First In First Out","Memasak bahan yang terbaru terlebih dahulu","Hanya menyimpan di bagian belakang","Membuang bahan yang lama"], answer:0,
+            why:"FIFO berarti yang datang lebih dahulu keluar lebih dahulu agar bahan tetap segar."
           }
         ]
       },
       {
         id:3, icon:"🛡️", title:"Aman di Line",
-        brief:"4 pilihan APD, lalu susun urutan tabung gas.",
+        brief:"Pilihan ganda APD, kemudian menyusun urutan tabung gas.",
         badge:"safety",
         qs:[
           {
-            type:"choice", teach:"Food prep pakai pisau tajam. Sarung plastik biasa bisa sobek.",
+            type:"choice", teach:"Food prep menggunakan pisau tajam. Sarung tangan plastik biasa dapat sobek.",
             img:"apd-gloves.jpg", name:"Food Prep", sub:"pisau tajam di tangan",
-            q:"APD yang wajib?",
-            options:["Sarung tahan potong","Sarung plastik biasa","Tanpa sarung","Handuk dapur"], answer:0,
-            why:"Cut-resistant gloves melindungi tangan saat iris."
+            q:"APD yang wajib digunakan?",
+            options:["Sarung tangan tahan potong","Sarung tangan plastik biasa","Tanpa sarung tangan","Handuk dapur"], answer:0,
+            why:"Sarung tangan tahan potong melindungi tangan saat mengiris."
           },
           {
-            type:"choice", teach:"Grill teriyaki panas. Kaos biasa tidak cukup.",
+            type:"choice", teach:"Grill teriyaki menghasilkan panas tinggi. Kaos biasa tidak cukup sebagai pelindung.",
             img:"apd-apron.jpg", name:"Grill Teriyaki", sub:"api dan percikan panas",
-            q:"Pelindung yang tepat?",
-            options:["Handuk basah saja","Apron tahan panas","Kaos oblong","Celemek plastik tipis"], answer:1,
-            why:"Apron tahan panas = pelindung badan di depan grill."
+            q:"Pelindung yang tepat adalah?",
+            options:["Handuk basah saja","Apron tahan panas","Kaos harian","Celemek plastik tipis"], answer:1,
+            why:"Apron tahan panas melindungi tubuh di depan grill."
           },
           {
-            type:"choice", teach:"Minyak fryer sekitar 180°C. Jangan dekatkan tangan.",
+            type:"choice", teach:"Suhu minyak fryer sekitar 180°C. Jangan mendekatkan tangan ke minyak.",
             img:"apd-tongs.jpg", name:"Deep Fryer", sub:"minyak sekitar 180°C",
-            q:"Alat bantu yang aman?",
+            q:"Alat bantu yang aman adalah?",
             options:["Tangan kosong","Sendok pendek","Penjepit panjang","Sumpit kayu pendek"], answer:2,
             why:"Penjepit panjang menjaga jarak dari minyak panas."
           },
           {
             type:"sequence",
-            teach:"Tabung LPG 12kg. Ketuk langkah sesuai urutan aman — dari atas sampai cek bocor.",
-            q:"Susun 4 langkah gas. Ketuk dari yang pertama.",
-            why:"Urutan aman: OFF → tekan regulator tegak → putar 180° → cek bocor sebelum api.",
+            teach:"Tabung LPG 12 kg. Pilih langkah sesuai urutan yang aman, dari awal hingga pemeriksaan kebocoran.",
+            q:"Susun empat langkah penanganan gas. Pilih dari langkah yang pertama.",
+            why:"Urutan yang aman: kenop OFF, tekan regulator tegak lurus, putar tuas pengunci 180°, periksa kebocoran sebelum api dinyalakan.",
             steps:[
               {id:0, label:"Kenop OFF", img:"lpg-tank.jpg"},
               {id:1, label:"Tekan regulator tegak lurus", img:"lpg-tank.jpg"},
               {id:2, label:"Putar tuas pengunci 180°", img:"lpg-tank.jpg"},
-              {id:3, label:"Cek kebocoran sebelum api", img:"lpg-tank.jpg"}
+              {id:3, label:"Periksa kebocoran sebelum api dinyalakan", img:"lpg-tank.jpg"}
             ]
           }
         ]
       },
       {
-        id:4, icon:"🛵", title:"Order Delivery",
-        brief:"Pasangkan · ketuk tulisan, lalu ketuk gambar pasangannya.",
+        id:4, icon:"🛵", title:"Pesanan Pengantaran",
+        brief:"Memasangkan: pilih tulisan, kemudian pilih gambar pasangannya.",
         badge:null,
         qs:[
           {
             type:"match",
-            teach:"Jangan masak dulu sebelum driver datang. Pasangkan 4 langkah dengan gambarnya.",
-            q:"Ketuk kartu kiri, lalu kartu kanan yang cocok.",
-            why:"Alur Sato: order → cek stok → driver datang → packing. Driver dulu, baru kitchen jalan.",
+            teach:"Jangan memasak terlebih dahulu sebelum pengantar datang. Pasangkan empat langkah dengan gambarnya.",
+            q:"Pilih kartu kiri, kemudian pilih kartu kanan yang sesuai.",
+            why:"Alur Sato: pesanan masuk, cek stok, pengantar datang, kemudian pengemasan. Dapur baru bekerja setelah pengantar tiba.",
             pairs:[
-              {id:"order", left:"1. Order masuk", right:"Notifikasi HP merchant", img:"order-phone.jpg"},
+              {id:"order", left:"1. Pesanan masuk", right:"Notifikasi ponsel merchant", img:"order-phone.jpg"},
               {id:"stok", left:"2. Cek stok", right:"Lihat isi chiller", img:"cek-stok.jpg"},
-              {id:"driver", left:"3. Driver datang", right:"Motor di depan resto", img:"driver.jpg"},
-              {id:"pack", left:"4. Packing", right:"Tas + kabel ties", img:"packing.jpg"}
+              {id:"driver", left:"3. Pengantar datang", right:"Sepeda motor di depan restoran", img:"driver.jpg"},
+              {id:"pack", left:"4. Pengemasan", right:"Tas dan pengikat kabel", img:"packing.jpg"}
             ]
           }
         ]
       },
       {
         id:5, icon:"💮", title:"Sikap Sato",
-        brief:"Dialog · pilih 1 dari 4 ucapan / gestur.",
+        brief:"Dialog: pilih satu dari empat ucapan atau gestur.",
         badge:"leader",
         qs:[
           {
-            type:"choice", teach:"Kalau rekan kesusahan dan tanganmu kosong, bantu sambil ucap 'tolong'.",
-            visual:"chat", who:"Rekan Prep", line:"Tray-ku hampir jatuh, tanganmu kosong…", img:"senpai.jpg",
-            q:"Apa yang kamu ucapkan sambil bantu?",
-            options:["Tolong — biar kubantu","Cepat kerjakan sendiri","Diam saja lewat","Nanti saja, aku sibuk"], answer:0,
-            why:"Tolong + aksi. Itu teamwork, bukan basa-basi."
+            type:"choice", teach:"Apabila rekan kesulitan dan tangan Anda kosong, bantulah sambil mengucapkan “tolong”.",
+            visual:"chat", who:"Rekan Prep", line:"Nampan saya hampir jatuh. Tangan Anda sedang kosong.", img:"senpai.jpg",
+            q:"Apa yang Anda ucapkan sambil membantu?",
+            options:["Tolong, biar saya bantu.","Segera kerjakan sendiri.","Berdiam diri dan lewat saja.","Nanti saja, saya sedang sibuk."], answer:0,
+            why:"Ucapan “tolong” disertai tindakan. Itulah kerja sama, bukan basa-basi."
           },
           {
-            type:"choice", teach:"Seseorang baru bantu kamu. Jangan anggap wajar. Ucap terima kasih.",
-            visual:"chat", who:"Senpai", line:"Tadi aku bantu prep-mu selesai.", img:"senpai.jpg",
-            q:"Respons terbaik?",
-            options:["Ya sudah","Terima kasih","Nanti saja","Biasa aja"], answer:1,
-            why:"Terima kasih = magic word kedua."
+            type:"choice", teach:"Seseorang baru saja membantu Anda. Jangan anggap hal itu wajar. Ucapkan terima kasih.",
+            visual:"chat", who:"Senpai", line:"Tadi saya membantu menyelesaikan prep Anda.", img:"senpai.jpg",
+            q:"Tanggapan yang paling tepat?",
+            options:["Ya sudah.","Terima kasih.","Nanti saja.","Biasa saja."], answer:1,
+            why:"“Terima kasih” adalah kata penting yang kedua."
           },
           {
-            type:"choice", teach:"Senggol orang = tanggung jawabmu. Ucap maaf, jangan defensif.",
-            visual:"chat", who:"Dirimu", line:"Tidak sengaja menyenggol rekan di line sempit.", img:"senpai.jpg",
-            q:"Ucapkan…",
-            options:["Maaf, aku kurang hati-hati","Bukan salahku","Heh","Kamu yang jalan salah"], answer:0,
-            why:"Maaf = magic word ketiga. Akui, lalu perbaiki."
+            type:"choice", teach:"Menyenggol orang adalah tanggung jawab Anda. Ucapkan maaf, jangan bersikap defensif.",
+            visual:"chat", who:"Diri sendiri", line:"Tidak sengaja menyenggol rekan di line yang sempit.", img:"senpai.jpg",
+            q:"Ucapkanlah:",
+            options:["Maaf, saya kurang berhati-hati.","Bukan salah saya.","Tidak apa-apa, bukan urusan saya.","Anda yang jalannya salah."], answer:0,
+            why:"“Maaf” adalah kata penting yang ketiga. Akui kesalahan, kemudian perbaiki."
           },
           {
-            type:"choice", teach:"Ojigi = membungkuk hormat ala Jepang. Gestur sambut tamu di service area.",
-            visual:"chat", who:"Tamu", line:"Tamu baru masuk ke area service.", img:"ojigi.jpg",
-            q:"Gestur khas Sato?",
-            options:["Main HP dulu","Ojigi (membungkuk hormat)","Bersandar di dinding","Panggil dari jauh"], answer:1,
-            why:"Ojigi = hormat. Tamu merasa disambut."
+            type:"choice", teach:"Ojigi adalah membungkuk sebagai tanda hormat ala Jepang. Gestur ini digunakan untuk menyambut tamu di area pelayanan.",
+            visual:"chat", who:"Tamu", line:"Tamu baru masuk ke area pelayanan.", img:"ojigi.jpg",
+            q:"Gestur khas Sato adalah?",
+            options:["Menggunakan ponsel terlebih dahulu.","Ojigi (membungkuk hormat)","Bersandar di dinding.","Memanggil dari jauh."], answer:1,
+            why:"Ojigi menandai rasa hormat. Tamu merasa disambut."
           },
           {
-            type:"choice", teach:"Modul Day 2: sekitar 70% kesalahan kerja terkait komunikasi yang buruk.",
-            visual:"chat", who:"Team Lead", line:"Kenapa line sering kacau padahal resepnya sudah hafal?", img:"senpai.jpg",
-            q:"Porsi kesalahan terkait komunikasi buruk?",
+            type:"choice", teach:"Modul hari kedua: sekitar 70% kesalahan kerja berkaitan dengan komunikasi yang buruk.",
+            visual:"chat", who:"Ketua Tim", line:"Mengapa line sering kacau padahal resepnya sudah dihafal?", img:"senpai.jpg",
+            q:"Berapa porsi kesalahan yang berkaitan dengan komunikasi yang buruk?",
             options:["70%","10%","30%","50%"], answer:0,
-            why:"70% error terkait komunikasi. Kata ajaib dan konfirmasi itu kerja."
+            why:"Sebanyak 70% kesalahan berkaitan dengan komunikasi. Kata yang tepat dan konfirmasi merupakan bagian dari pekerjaan."
           }
         ]
       }
     ];
 
     const BADGES={
-      masterKitchen:{name:"Stempel Dapur",icon:"🍱",desc:"Stasiun alat sudah ketemu"},
-      safety:{name:"Stempel Aman",icon:"🛡️",desc:"APD & gas sudah diingat"},
-      leader:{name:"Stempel Sato",icon:"👑",desc:"Sikap & ucapan siap di line"}
+      masterKitchen:{name:"Stempel Dapur",icon:"🍱",desc:"Stasiun alat sudah dikuasai"},
+      safety:{name:"Stempel Aman",icon:"🛡️",desc:"APD dan prosedur gas sudah diingat"},
+      leader:{name:"Stempel Sato",icon:"👑",desc:"Sikap dan ucapan siap digunakan di line"}
     };
 
     const S={
       nama:"", nik:"", idx:0, qIdx:0, score:0, levelScores:[0,0,0,0,0],
       correct:0, attempts:0, reviews:[], badges:new Set(), locked:false,
-      seqNext:0, matchSel:null, matchOk:0
+      seqNext:0, seqWrong:0, seqMissedThis:false, matchSel:null, matchOk:0, matchMissed:new Set()
     };
+
+    function toast(msg){
+      const t=document.getElementById("toast");
+      t.textContent=msg;
+      t.classList.add("on");
+      clearTimeout(toast._tm);
+      toast._tm=setTimeout(()=>t.classList.remove("on"), 2200);
+    }
+    function firstName(n){
+      const p=String(n||"").trim().split(/\s+/).filter(Boolean)[0];
+      return p||"Peserta";
+    }
+    function setFieldError(input, errEl, msg){
+      input.classList.toggle("invalid", !!msg);
+      errEl.textContent=msg||"";
+      input.setCustomValidity(msg||"");
+    }
 
     function show(id){
       document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
@@ -624,16 +673,38 @@
     function goId(){ sfx("click"); initA(); show("sc-id"); }
     function submitId(e){
       e.preventDefault(); sfx("click");
-      S.nama=document.getElementById("in-nama").value.trim();
-      S.nik=document.getElementById("in-nik").value.trim();
-      document.getElementById("brief-name").textContent=S.nama.split(" ")[0];
-      document.getElementById("brief-nik").textContent="NIK: "+S.nik;
+      const namaEl=document.getElementById("in-nama");
+      const nikEl=document.getElementById("in-nik");
+      const nama=namaEl.value.trim();
+      const nik=nikEl.value.trim();
+      let ok=true;
+      if(!nama){ setFieldError(namaEl, document.getElementById("err-nama"), "Nama lengkap wajib diisi."); ok=false; }
+      else if(nama.length<3){ setFieldError(namaEl, document.getElementById("err-nama"), "Nama lengkap minimal tiga huruf."); ok=false; }
+      else setFieldError(namaEl, document.getElementById("err-nama"), "");
+      if(!nik){ setFieldError(nikEl, document.getElementById("err-nik"), "NIK atau nomor induk wajib diisi."); ok=false; }
+      else if(nik.length<3){ setFieldError(nikEl, document.getElementById("err-nik"), "NIK atau nomor induk minimal tiga karakter."); ok=false; }
+      else setFieldError(nikEl, document.getElementById("err-nik"), "");
+      if(!ok){ ( !nama ? namaEl : nikEl ).focus(); return; }
+      S.nama=nama; S.nik=nik;
+      document.getElementById("brief-name").textContent=firstName(S.nama);
+      document.getElementById("brief-nik").textContent="NIK "+S.nik;
       document.getElementById("obj-list").innerHTML=LEVELS.map(l=>`<div class="obj"><div class="n">${l.icon}</div><div><strong>${l.title}</strong><span>${l.brief}</span></div></div>`).join("");
+      show("sc-brief");
+    }
+    function resetHud(){
+      document.getElementById("hud").style.display="none";
+      document.getElementById("hud-score").textContent="0";
+      document.getElementById("hud-lv").textContent="1/5";
+    }
+    function replay(){
+      sfx("click");
+      resetHud();
       show("sc-brief");
     }
     function startGame(){
       sfx("click");
-      Object.assign(S,{idx:0,qIdx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],badges:new Set(),locked:false,seqNext:0,matchSel:null,matchOk:0});
+      Object.assign(S,{idx:0,qIdx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],badges:new Set(),locked:false,seqNext:0,seqWrong:0,seqMissedThis:false,matchSel:null,matchOk:0});
+      S.matchMissed=new Set();
       document.getElementById("hud").style.display="flex";
       updateHud(); loadQuestion(); show("sc-play");
     }
@@ -649,11 +720,17 @@
       document.getElementById("bar-label").textContent=LEVELS[Math.min(S.idx,4)].title;
     }
 
+    function senpaiPrompt(q){
+      if(q.type==="pick") return "Perhatikan gambar. Pilih mangkuk yang sesuai dengan pertanyaan. Saya akan menjelaskan setelah Anda memilih.";
+      if(q.type==="sequence") return "Susun langkah dari yang pertama. Saya akan menjelaskan setelah urutan selesai.";
+      if(q.type==="match") return "Pasangkan tulisan di kiri dengan gambar di kanan. Saya akan menjelaskan setelah semua pasangan selesai.";
+      return "Perhatikan soal di bawah, lalu pilih satu jawaban. Saya akan menjelaskan setelah Anda memilih.";
+    }
     function loadQuestion(){
-      S.locked=false; S.seqNext=0; S.matchSel=null; S.matchOk=0;
+      S.locked=false; S.seqNext=0; S.seqWrong=0; S.seqMissedThis=false; S.matchSel=null; S.matchOk=0; S.matchMissed=new Set();
       const lv=LEVELS[S.idx], q=lv.qs[S.qIdx];
-      document.getElementById("senpai-line").innerHTML=q.teach;
-      document.getElementById("q-count").textContent=`Soal ${S.qIdx+1}/${lv.qs.length} · ${lv.title}`;
+      document.getElementById("senpai-line").textContent=senpaiPrompt(q);
+      document.getElementById("q-count").textContent=`Soal ${S.qIdx+1} dari ${lv.qs.length}, ${lv.title}`;
       document.getElementById("coach").className="coach";
       if(q.type==="pick") renderPick(q);
       else if(q.type==="sequence") renderSeq(q);
@@ -731,7 +808,7 @@
       steps.forEach(st=>{
         const b=document.createElement("button");
         b.type="button"; b.className="seq-card"; b.dataset.id=String(st.id);
-        b.innerHTML=`<img src="${ART+st.img}" alt=""><div><b>${st.label}</b></div><div class="seq-num">?</div>`;
+        b.innerHTML=`<img src="${ART+st.img}" alt=""><div><b>${st.label}</b></div><div class="seq-num" aria-hidden="true">?</div>`;
         b.onclick=()=>tapSeq(b, st.id, q);
         box.appendChild(b);
       });
@@ -739,17 +816,21 @@
 
     function tapSeq(btn, id, q){
       if(S.locked) return;
-      S.attempts++;
       if(id!==S.seqNext){
+        S.seqWrong++;
+        S.seqMissedThis=true;
         sfx("bad"); btn.classList.remove("bad"); void btn.offsetWidth; btn.classList.add("bad");
         return;
       }
-      sfx("ok"); S.correct++; S.seqNext++;
-      S.levelScores[S.idx]+=2; tally();
+      S.attempts++;
+      if(!S.seqMissedThis){ S.correct++; S.levelScores[S.idx]+=2; sfx("ok"); }
+      else sfx("click");
+      S.seqMissedThis=false; S.seqNext++;
+      tally();
       btn.classList.add("done"); btn.disabled=true;
       btn.querySelector(".seq-num").textContent=String(S.seqNext);
       updateHud();
-      if(S.seqNext>=q.steps.length){ S.locked=true; showCoach(true, q.why); }
+      if(S.seqNext>=q.steps.length){ S.locked=true; showCoach(S.seqWrong===0, q.why); }
     }
 
     function renderMatch(q){
@@ -765,7 +846,7 @@
       });
       right.forEach(p=>{
         const b=document.createElement("button"); b.type="button"; b.className="m-card"; b.dataset.id=p.id;
-        b.innerHTML=`<img src="${ART+p.img}" alt=""><span>${p.right}</span>`;
+        b.innerHTML=`<img src="${ART+p.img}" alt="${p.right}"><span>${p.right}</span>`;
         b.onclick=()=>tapMatch("R",b,p.id,q); R.appendChild(b);
       });
     }
@@ -777,16 +858,20 @@
       btn.dataset.side=side; btn.classList.add("on");
       if(!S.matchSel){ S.matchSel={side,id,btn}; sfx("click"); return; }
       if(S.matchSel.side===side){ S.matchSel={side,id,btn}; sfx("click"); return; }
-      S.attempts++;
       const ok=S.matchSel.id===id;
       if(ok){
-        sfx("ok"); S.correct++; S.matchOk++; S.levelScores[S.idx]+=5; tally();
+        S.attempts++;
+        const missed=S.matchMissed.has(id);
+        if(!missed){ S.correct++; S.levelScores[S.idx]+=5; sfx("ok"); }
+        else sfx("click");
+        S.matchOk++; tally();
         btn.classList.add("done"); S.matchSel.btn.classList.add("done");
         btn.classList.remove("on"); S.matchSel.btn.classList.remove("on");
         S.matchSel=null; updateHud();
-        if(S.matchOk>=q.pairs.length){ S.locked=true; showCoach(true, q.why); }
+        if(S.matchOk>=q.pairs.length){ S.locked=true; showCoach(S.matchMissed.size===0, q.why); }
       } else {
         sfx("bad");
+        S.matchMissed.add(S.matchSel.id);
         const a=S.matchSel.btn;
         btn.classList.add("wrong"); a.classList.add("wrong");
         setTimeout(()=>{ btn.classList.remove("wrong","on"); a.classList.remove("wrong","on"); }, 450);
@@ -797,9 +882,11 @@
     function showCoach(ok, why){
       tally(); updateHud();
       const lv=LEVELS[S.idx];
+      const q=lv.qs[S.qIdx];
+      document.getElementById("senpai-line").textContent=q.teach;
       const c=document.getElementById("coach");
       c.className="coach on "+(ok?"ok":"bad");
-      document.getElementById("ct").textContent=ok?"Pas. Senpai angguk.":"Hampir. Ini yang benar.";
+      document.getElementById("ct").textContent=ok?"Benar. Senpai mengangguk.":"Belum tepat. Ini yang benar.";
       document.getElementById("cp").textContent=why;
       document.getElementById("btn-nextq").textContent = S.qIdx>=lv.qs.length-1 ? "Tutup stasiun ini" : "Lanjut";
     }
@@ -815,13 +902,13 @@
       const lv=LEVELS[S.idx];
       const pts=S.levelScores[S.idx];
       const ok=pts>=16;
-      S.reviews.push({level:lv.title, ok, detail:`+${pts}/20 · ${lv.brief.split("·")[0].trim()}`});
+      S.reviews.push({level:lv.title, ok, detail:`+${pts}/20. ${lv.brief}`});
       if(lv.badge && ok) S.badges.add(lv.badge);
       document.getElementById("c-ico").textContent=lv.icon;
       document.getElementById("c-title").textContent=lv.title;
       document.getElementById("c-msg").textContent=ok
-        ? `Mantap, +${pts}/20. Stasiun ini sudah kamu pegang.`
-        : `Dapat +${pts}/20. Tidak apa — senpai sudah kasih kuncinya. Lanjut dulu, bisa diulang nanti.`;
+        ? `Bagus. Nilai stasiun ini +${pts}/20. Materi stasiun ini sudah dikuasai.`
+        : `Nilai stasiun ini +${pts}/20. Senpai telah menjelaskan kuncinya. Silakan lanjut; materi ini dapat diulang kemudian.`;
       const b=document.getElementById("c-badge");
       if(lv.badge && S.badges.has(lv.badge)){ const bd=BADGES[lv.badge]; b.style.display="inline-flex"; b.textContent=`${bd.icon} ${bd.name}`; sfx("win"); }
       else b.style.display="none";
@@ -835,14 +922,14 @@
     function finish(){
       const passed=S.score>=70;
       lmsSet(S.score, passed);
-      document.getElementById("r-status").textContent=passed?"Noren terbuka. Kamu lulus.":"Belum lulus — ulang yang lemah.";
+      document.getElementById("r-status").textContent=passed?"Pelatihan selesai. Anda lulus.":"Belum lulus. Ulangi stasiun yang masih lemah.";
       document.getElementById("r-msg").textContent=passed
-        ? `${S.nama.split(" ")[0]}, lima stasiun Day 2 sudah kamu jalani. Besok di line nyata, senpai masih di sampingmu.`
-        : `${S.nama.split(" ")[0]}, skor ${S.score}/100 (butuh 70). Wajar di hari pertama. Main lagi, fokus stasiun yang masih merah.`;
+        ? `${firstName(S.nama)}, lima stasiun hari kedua sudah Anda jalani. Besok di line yang sebenarnya, senpai masih mendampingi Anda.`
+        : `${firstName(S.nama)}, skor ${S.score}/100 (nilai lulus 70). Silakan ulangi, dan fokus pada stasiun yang masih merah.`;
       document.getElementById("r-score").textContent=S.score+"/100";
       document.getElementById("r-acc").textContent=`${S.correct}/${S.attempts}`;
       document.getElementById("r-ok").textContent=S.reviews.filter(r=>r.ok).length+"/5";
-      document.getElementById("r-lms").textContent=passed?"Passed":"Failed";
+      document.getElementById("r-lms").textContent=passed?"Lulus":"Tidak lulus";
       document.getElementById("badge-row").innerHTML=Object.entries(BADGES).map(([k,b])=>`
         <div class="badge ${S.badges.has(k)?"":"lock"}"><div style="font-size:1.5rem">${b.icon}</div><div style="font-family:var(--display);color:var(--indigo);margin-top:6px;">${b.name}</div><div style="font-size:.75rem;color:#6b6256;margin-top:4px;">${S.badges.has(k)?b.desc:"Belum terbuka"}</div></div>`).join("");
       document.getElementById("review").innerHTML=S.reviews.map(r=>`<div class="rev ${r.ok?"ok":"bad"}"><strong>${r.ok?"✅":"❌"} ${r.level}</strong><div>${r.detail}</div></div>`).join("");
@@ -851,8 +938,8 @@
     }
     function copyReport(){
       sfx("click");
-      const t=`SATO SHIFT PERTAMA\nNama: ${S.nama}\nNIK: ${S.nik}\nSkor: ${S.score}/100\nStatus: ${S.score>=70?"Passed":"Failed"}\n${new Date().toLocaleString("id-ID")}\nEducation & Training Dept. © 2026`;
-      navigator.clipboard.writeText(t).then(()=>alert("Rekap disalin")).catch(()=>prompt("Salin",t));
+      const t=`SATO SHIFT PERTAMA\nNama: ${S.nama}\nNIK: ${S.nik}\nSkor: ${S.score}/100\nStatus: ${S.score>=70?"Lulus":"Tidak lulus"}\n${new Date().toLocaleString("id-ID")}\nEducation & Training Dept. © 2026`;
+      navigator.clipboard.writeText(t).then(()=>toast("Rekap berhasil disalin.")).catch(()=>toast("Tidak dapat menyalin. Salin secara manual dari layar hasil."));
     }
   </script>
 </body>
