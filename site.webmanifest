@@ -1,0 +1,22 @@
+{
+  "name": "washoku SATO, Shift Pertama",
+  "short_name": "Sato Day 2",
+  "description": "Pelatihan hari kedua washoku SATO: lima stasiun kerja, sikap pelayanan, dan keselamatan di line dapur.",
+  "start_url": "/sato-day-2/index.html",
+  "scope": "/sato-day-2/",
+  "display": "standalone",
+  "background_color": "#d70a19",
+  "theme_color": "#d70a19",
+  "icons": [
+    {
+      "src": "/sato-day-2/assets/logo/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/sato-day-2/assets/logo/apple-touch.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

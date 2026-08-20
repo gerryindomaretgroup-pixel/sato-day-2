@@ -2,11 +2,35 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function(){
+      var p=location.pathname, q=location.search+location.hash;
+      if(/\/index\.html$/i.test(p)) return;
+      if(p.slice(-1)!=="/"){
+        location.replace(p.replace(/\/?$/,"/")+"index.html"+q);
+        return;
+      }
+      if(history.replaceState) history.replaceState(null,"",p+"index.html"+q);
+    })();
+  </script>
+  <base href="./" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Pelatihan hari kedua washoku SATO: lima stasiun kerja, sikap pelayanan, dan keselamatan di line dapur." />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="theme-color" content="#d70a19" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Sato Day 2" />
   <title>washoku SATO, Shift Pertama</title>
+  <link rel="canonical" href="https://gerryindomaretgroup-pixel.github.io/sato-day-2/index.html" />
+  <meta property="og:title" content="washoku SATO, Shift Pertama" />
+  <meta property="og:description" content="Pelatihan hari kedua washoku SATO: lima stasiun kerja, sikap pelayanan, dan keselamatan di line dapur." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gerryindomaretgroup-pixel.github.io/sato-day-2/index.html" />
+  <meta property="og:image" content="https://gerryindomaretgroup-pixel.github.io/sato-day-2/assets/logo/apple-touch.png" />
   <link rel="icon" href="assets/logo/favicon-32.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/logo/apple-touch.png" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
