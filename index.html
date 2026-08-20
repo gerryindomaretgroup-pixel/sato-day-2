@@ -270,12 +270,78 @@
     .chip-pick.used { opacity: .38; pointer-events: none; }
     .chip-pick.text-only { min-height: 52px; padding: 10px 8px; font-size: .78rem; font-weight: 700; }
 
+    .claw-machine {
+      background: linear-gradient(180deg, #7a0610, var(--sato-deep));
+      border-radius: 18px; padding: 10px 10px 12px; margin-bottom: 10px;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.12), var(--shadow);
+    }
+    .claw-glass {
+      position: relative; height: 210px; border-radius: 12px; overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(180deg, #9ad7e8 0%, #d7eef5 40%, #f7f1ea 100%);
+      border: 3px solid rgba(255,255,255,.35);
+    }
+    .claw {
+      position: absolute; top: 0; width: 64px; margin-left: -32px;
+      display: flex; flex-direction: column; align-items: center;
+      transition: left .28s ease, top .35s ease;
+      z-index: 2; pointer-events: none;
+    }
+    .claw-cable { width: 4px; height: 28px; background: #6b6256; border-radius: 2px; }
+    .claw.down .claw-cable { height: 78px; }
+    .claw-head {
+      width: 48px; height: 28px; background: #d70a19; border-radius: 8px 8px 4px 4px;
+      box-shadow: 0 4px 8px rgba(80,8,12,.25); position: relative;
+    }
+    .claw-head:before, .claw-head:after {
+      content:""; position: absolute; top: 20px; width: 8px; height: 22px;
+      background: #8a6a3a; border-radius: 0 0 6px 6px;
+    }
+    .claw-head:before { left: 8px; transform: rotate(18deg); }
+    .claw-head:after { right: 8px; transform: rotate(-18deg); }
+    .claw.grab .claw-head:before { transform: rotate(-8deg); }
+    .claw.grab .claw-head:after { transform: rotate(8deg); }
+    .claw-row {
+      position: absolute; left: 8px; right: 8px; bottom: 12px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; z-index: 1;
+    }
+    .capsule {
+      min-height: 78px; border: 0; border-radius: 40px 40px 18px 18px;
+      background: #fff; box-shadow: 0 6px 12px rgba(80,8,12,.16);
+      font: inherit; font-weight: 800; font-size: .68rem; color: var(--sato-deep);
+      cursor: pointer; padding: 8px 4px; line-height: 1.2;
+    }
+    .capsule.on { outline: 3px solid var(--sato); transform: translateY(-4px); }
+    .capsule.gone { opacity: 0; transform: translateY(-18px); pointer-events: none; }
+    .claw-btns { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 8px; margin-top: 10px; }
+    .claw-btns .btn { min-height: 46px; font-size: .85rem; }
+    .taste { background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; margin: 0 0 10px; }
+    .taste span { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sato); }
+    .taste p { margin: 4px 0 0; font-size: .92rem; font-weight: 700; color: var(--indigo); line-height: 1.35; }
+
     .drop-stage { display: grid; gap: 10px; }
     .drop-zone {
       min-height: 132px; border: 2px dashed rgba(215,10,25,.35); border-radius: 16px;
       background: #fffdf8; padding: 10px; text-align: center; position: relative;
     }
     .drop-zone img.zone-art { width: 100%; height: 88px; object-fit: cover; border-radius: 12px; display: block; margin-bottom: 6px; }
+    .loc-scene {
+      height: 86px; border-radius: 12px; margin-bottom: 8px;
+      position: relative; overflow: hidden; border: 1px solid var(--line);
+    }
+    .loc-scene.prep {
+      background:
+        linear-gradient(180deg, #efe4d4 0 38%, #c4a574 38% 46%, #8a6a3a 46% 52%, #efe4d4 52% 100%);
+    }
+    .loc-scene.grill {
+      background:
+        repeating-linear-gradient(90deg, #2a1616 0 9px, #4a2a22 9px 16px),
+        linear-gradient(180deg, #5a2a1a, #1a0c0c);
+    }
+    .loc-scene.fryer {
+      background: linear-gradient(180deg, #6b6256 0 24%, #d4a017 24% 72%, #8a6a3a 72%);
+    }
     .drop-zone .zone-title { font-family: var(--display); color: var(--indigo); font-size: .95rem; }
     .drop-zone .zone-hint { font-size: .72rem; color: #6b6256; }
     .drop-zone.hot { border-color: var(--sato); background: #fff4f2; }
@@ -328,14 +394,13 @@
       display: grid; place-items: center; padding: 8px;
     }
     .flip-front {
-      background: linear-gradient(165deg, #e01222, var(--sato-deep)); color: #fff;
-      font-family: var(--display); font-weight: 800; font-size: 1.4rem;
+      background: #d70a19 url("assets/logo/logo.jfif") center/cover no-repeat;
+      color: transparent;
     }
     .flip-back {
       background: #fff; transform: rotateY(180deg); text-align: center;
     }
-    .flip-back img { width: 100%; height: 62px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 4px; }
-    .flip-back span { font-size: .72rem; font-weight: 800; color: var(--sato-deep); line-height: 1.25; }
+    .flip-back span { font-size: .82rem; font-weight: 800; color: var(--sato-deep); line-height: 1.3; padding: 4px; }
     .flip-card.matched .flip-back { background: #eef5ea; border-color: var(--matcha); }
     .flip-card.bad .flip-back { background: #fff1ee; border-color: var(--sato); }
     .flip-btn { width: 100%; height: 100%; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; }
@@ -379,7 +444,7 @@
             <div class="eyebrow">和食, Restoran Jepang</div>
             <h2>Pelatihan hari kedua di dapur. Senpai akan mendampingi Anda.</h2>
             <div class="hook"><b>Tenang saja.</b> Ini bukan ujian yang sulit. Senpai Hana akan menjelaskan setiap istilah Jepang. Setiap stasiun memakai cara bermain yang berbeda.</div>
-            <p class="lead">Lima stasiun: pilihan acak, isi mangkuk kuah, seret APD dan urutan gas, kartu balik, lalu cerita bercabang bersama senpai.</p>
+            <p class="lead">Lima stasiun: pilihan acak, mesin capit kuah, seret APD ke lokasi, kartu balik kata, lalu cerita bercabang bersama senpai.</p>
             <button class="btn btn-sun" type="button" onclick="goId()">Mulai bersama senpai</button>
           </div>
         </div>
@@ -704,61 +769,57 @@
       },
       {
         id:2, icon:"🍜", title:"Warna Kaldu",
-        brief:"Isi mangkuk: masukkan kuah yang dimaksud ke kotak kosong.",
+        brief:"Mesin capit: rasa kuah ditanya, capit nama kuahnya.",
         badge:null,
         qs:[
           {
-            type:"fill", teach:"Kuah sukiyaki berwarna gelap, menyerupai kecap. Isi mangkuk dengan kuah hitam pekat.",
-            q:"Isi mangkuk kosong dengan kuah sukiyaki.",
-            boxLabel:"Mangkuk Sukiyaki", boxHint:"Kuah gelap seperti kecap", empty:"🥣",
+            type:"claw", teach:"Kuah sukiyaki rasanya manis-asin dan gelap seperti kecap.",
+            q:"Rasanya manis-asin, gelap seperti kecap. Capit nama kuahnya.",
             options:[
-              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
-              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
-              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
-              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+              {id:"sukiyaki",label:"Sukiyaki"},
+              {id:"chanko",label:"Chanko"},
+              {id:"konbu",label:"Konbu"},
+              {id:"soymilk",label:"Soymilk"}
             ], answer:"sukiyaki",
-            why:"Kuah sukiyaki berwarna hitam seperti kecap."
+            why:"Rasa gelap seperti kecap adalah sukiyaki."
           },
           {
-            type:"fill", teach:"Kuah chanko berwarna kecokelatan: lebih terang daripada sukiyaki, dan tidak bening.",
-            q:"Isi mangkuk kosong dengan kuah chanko.",
-            boxLabel:"Mangkuk Chanko", boxHint:"Kuah cokelat, tidak bening", empty:"🥣",
+            type:"claw", teach:"Kuah chanko rasanya gurih dan berwarna cokelat, lebih terang daripada sukiyaki.",
+            q:"Rasanya gurih, kuahnya cokelat, tidak sepekat kecap. Capit nama kuahnya.",
             options:[
-              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
-              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
-              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
-              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+              {id:"sukiyaki",label:"Sukiyaki"},
+              {id:"chanko",label:"Chanko"},
+              {id:"konbu",label:"Konbu"},
+              {id:"soymilk",label:"Soymilk"}
             ], answer:"chanko",
-            why:"Kuah chanko berwarna kecokelatan."
+            why:"Rasa gurih cokelat yang tidak sepekat kecap adalah chanko."
           },
           {
-            type:"fill", teach:"Konbu berasal dari rumput laut. Kuahnya jernih sehingga dasar mangkuk masih kelihatan.",
-            q:"Isi mangkuk kosong dengan kuah konbu.",
-            boxLabel:"Mangkuk Konbu", boxHint:"Kuah jernih, dasar mangkuk terlihat", empty:"🥣",
+            type:"claw", teach:"Kuah konbu rasanya ringan dari rumput laut, dan jernih.",
+            q:"Rasanya ringan seperti laut, kuahnya jernih. Capit nama kuahnya.",
             options:[
-              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
-              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
-              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
-              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+              {id:"sukiyaki",label:"Sukiyaki"},
+              {id:"chanko",label:"Chanko"},
+              {id:"konbu",label:"Konbu"},
+              {id:"soymilk",label:"Soymilk"}
             ], answer:"konbu",
-            why:"Kuah konbu berwarna bening."
+            why:"Rasa ringan dan jernih dari rumput laut adalah konbu."
           },
           {
-            type:"fill", teach:"Soymilk adalah kaldu susu kedelai. Warnanya putih seperti susu.",
-            q:"Isi mangkuk kosong dengan kuah soymilk.",
-            boxLabel:"Mangkuk Soymilk", boxHint:"Kuah putih seperti susu", empty:"🥣",
+            type:"claw", teach:"Kuah soymilk rasanya lembut seperti susu kedelai.",
+            q:"Rasanya lembut seperti susu kedelai. Capit nama kuahnya.",
             options:[
-              {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
-              {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
-              {id:"konbu",label:"Bening",img:"bowl-konbu.jpg"},
-              {id:"soymilk",label:"Putih susu",img:"bowl-soymilk.jpg"}
+              {id:"sukiyaki",label:"Sukiyaki"},
+              {id:"chanko",label:"Chanko"},
+              {id:"konbu",label:"Konbu"},
+              {id:"soymilk",label:"Soymilk"}
             ], answer:"soymilk",
-            why:"Kuah soymilk berwarna putih susu."
+            why:"Rasa lembut seperti susu kedelai adalah soymilk."
           },
           {
             type:"fill", teach:"FKIB: F FIFO, K kesegaran, I inisiatif, B bertanya apabila ragu.",
-            q:"Lengkapi kotak arti FIFO.",
-            boxLabel:"FIFO artinya", boxHint:"Barang yang masuk lebih dahulu dipakai lebih dahulu", empty:"✏️",
+            q:"Pilih arti FIFO.",
+            boxLabel:"FIFO", boxHint:"", empty:"✏️",
             options:[
               {id:"fifo",label:"First In First Out"},
               {id:"new",label:"Memasak bahan terbaru dulu"},
@@ -771,47 +832,44 @@
       },
       {
         id:3, icon:"🛡️", title:"Aman di Line",
-        brief:"Seret APD ke stasiun, lalu susun urutan pemasangan LPG.",
+        brief:"Seret APD ke lokasi kerja, lalu susun urutan pemasangan LPG.",
         badge:"safety",
         qs:[
           {
             type:"drag", teach:"Food prep menggunakan pisau tajam. Sarung tangan plastik biasa dapat sobek.",
-            img:"apd-gloves.jpg", name:"Food Prep", sub:"pisau tajam di tangan",
-            q:"Seret APD yang wajib ke area kerja ini.",
-            zoneHint:"Lepaskan APD di sini",
+            place:"Meja Food Prep", placeClass:"prep",
+            q:"Seret APD yang wajib dipakai di lokasi ini.",
             items:[
-              {id:"cut", label:"🧤 Sarung tahan potong"},
-              {id:"plastic", label:"🧤 Sarung plastik biasa"},
-              {id:"bare", label:"✋ Tanpa sarung tangan"},
-              {id:"towel", label:"🧻 Handuk dapur"}
+              {id:"cut", label:"Sarung tahan potong"},
+              {id:"plastic", label:"Sarung plastik biasa"},
+              {id:"bare", label:"Tanpa sarung tangan"},
+              {id:"towel", label:"Handuk dapur"}
             ], answer:"cut",
-            why:"Sarung tangan tahan potong melindungi tangan saat mengiris."
+            why:"Sarung tangan tahan potong melindungi tangan saat mengiris di meja prep."
           },
           {
             type:"drag", teach:"Grill teriyaki menghasilkan panas tinggi. Kaos biasa tidak cukup sebagai pelindung.",
-            img:"apd-apron.jpg", name:"Grill Teriyaki", sub:"api dan percikan panas",
-            q:"Seret pelindung yang tepat ke area grill.",
-            zoneHint:"Lepaskan pelindung di sini",
+            place:"Line Grill Teriyaki", placeClass:"grill",
+            q:"Seret APD yang wajib dipakai di lokasi ini.",
             items:[
-              {id:"wet", label:"🧻 Handuk basah saja"},
-              {id:"apron", label:"🦺 Apron tahan panas"},
-              {id:"kaos", label:"👕 Kaos harian"},
-              {id:"thin", label:"🥼 Celemek plastik tipis"}
+              {id:"wet", label:"Handuk basah saja"},
+              {id:"apron", label:"Apron tahan panas"},
+              {id:"kaos", label:"Kaos harian"},
+              {id:"thin", label:"Celemek plastik tipis"}
             ], answer:"apron",
-            why:"Apron tahan panas melindungi tubuh di depan grill."
+            why:"Apron tahan panas melindungi tubuh di line grill."
           },
           {
             type:"drag", teach:"Suhu minyak fryer sekitar 180°C. Jangan mendekatkan tangan ke minyak.",
-            img:"apd-tongs.jpg", name:"Deep Fryer", sub:"minyak sekitar 180°C",
-            q:"Seret alat bantu yang aman ke stasiun fryer.",
-            zoneHint:"Lepaskan alat di sini",
+            place:"Sudut Deep Fryer", placeClass:"fryer",
+            q:"Seret APD yang wajib dipakai di lokasi ini.",
             items:[
-              {id:"hand", label:"✋ Tangan kosong"},
-              {id:"spoon", label:"🥄 Sendok pendek"},
-              {id:"tongs", label:"🥢 Penjepit panjang"},
-              {id:"chop", label:"🥢 Sumpit kayu pendek"}
+              {id:"hand", label:"Tangan kosong"},
+              {id:"spoon", label:"Sendok pendek"},
+              {id:"tongs", label:"Penjepit panjang"},
+              {id:"chop", label:"Sumpit kayu pendek"}
             ], answer:"tongs",
-            why:"Penjepit panjang menjaga jarak dari minyak panas."
+            why:"Penjepit panjang menjaga jarak dari minyak panas di sudut fryer."
           },
           {
             type:"dragseq",
@@ -829,19 +887,19 @@
       },
       {
         id:4, icon:"🛵", title:"Pesanan Pengantaran",
-        brief:"Kartu balik: temukan pasangan langkah dan gambar.",
+        brief:"Kartu balik: pasangkan kata dengan kata, tanpa nomor.",
         badge:null,
         qs:[
           {
             type:"flip",
-            teach:"Jangan memasak terlebih dahulu sebelum pengantar datang. Balik kartu untuk menemukan empat pasangan.",
-            q:"Balik dua kartu. Temukan langkah yang cocok dengan gambarnya.",
+            teach:"Jangan memasak terlebih dahulu sebelum pengantar datang. Pasangkan kata yang saling terkait.",
+            q:"Balik dua kartu. Pasangkan kata yang cocok.",
             why:"Alur Sato: pesanan masuk, cek stok, pengantar datang, kemudian pengemasan. Dapur baru bekerja setelah pengantar tiba.",
             pairs:[
-              {id:"order", left:"1. Pesanan masuk", right:"Notifikasi ponsel merchant", img:"order-phone.jpg"},
-              {id:"stok", left:"2. Cek stok", right:"Lihat isi chiller", img:"cek-stok.jpg"},
-              {id:"driver", left:"3. Pengantar datang", right:"Sepeda motor di depan restoran", img:"driver.jpg"},
-              {id:"pack", left:"4. Pengemasan", right:"Tas dan pengikat kabel", img:"packing.jpg"}
+              {id:"order", left:"Pesanan masuk", right:"Notifikasi merchant"},
+              {id:"stok", left:"Cek stok", right:"Lihat isi chiller"},
+              {id:"driver", left:"Pengantar datang", right:"Motor di depan restoran"},
+              {id:"pack", left:"Pengemasan", right:"Tas dan pengikat"}
             ]
           }
         ]
@@ -993,6 +1051,7 @@
         c.answer=sh.findIndex(o=>o.i===c.answer);
       }
       if(c.type==="fill" && c.options) c.options=shuffle(c.options);
+      if(c.type==="claw" && c.options) c.options=shuffle(c.options);
       if(c.type==="drag" && c.items) c.items=shuffle(c.items);
       if(c.type==="dragseq" && c.steps) c.steps=shuffle(c.steps);
       if(c.type==="branch" && c.nodes){
@@ -1085,10 +1144,11 @@
     }
 
     function senpaiPrompt(q, node){
-      if(q.type==="fill") return "Isi kotak kosong dengan kuah atau arti yang dimaksud. Ketuk pilihan, lalu kotak akan terisi.";
-      if(q.type==="drag") return "Seret APD yang benar ke area kerja. Tahan, geser, lalu lepas di kotak.";
+      if(q.type==="claw") return "Rasa kuah dituliskan di atas. Geser capit ke nama kuah, lalu tekan Capit. Nama mangkuk tidak diberi petunjuk.";
+      if(q.type==="fill") return "Pilih arti yang tepat. Ketuk pilihan, lalu kotak akan terisi.";
+      if(q.type==="drag") return "Ini lokasi kerja. Seret APD yang wajib dipakai di tempat itu. Foto APD tidak ditampilkan.";
       if(q.type==="dragseq") return "Seret setiap langkah LPG ke nomor urutan yang sesuai.";
-      if(q.type==="flip") return "Balik dua kartu. Temukan pasangan langkah dan gambarnya.";
+      if(q.type==="flip") return "Balik dua kartu. Pasangkan kata yang cocok. Tidak ada nomor urutan.";
       if(q.type==="branch"){
         if(node && node.kind==="beat") return "Alur cerita berlanjut sesuai pilihan Anda.";
         return "Ini alur shift Anda. Pilihan mengubah apa yang terjadi berikutnya.";
@@ -1112,6 +1172,7 @@
       document.getElementById("q-count").textContent=qCountLabel(lv,q);
       document.getElementById("coach").className="coach";
       if(q.type==="fill") renderFill(q);
+      else if(q.type==="claw") renderClaw(q);
       else if(q.type==="drag") renderDrag(q);
       else if(q.type==="dragseq") renderDragSeq(q);
       else if(q.type==="flip") renderFlip(q);
@@ -1150,6 +1211,67 @@
         if(j===i && !ok) el.classList.add("wrong");
       });
       showCoach(ok, q.why);
+    }
+
+    function renderClaw(q){
+      S.clawPrizes=shuffle(q.options);
+      S.clawIdx=0; S.locked=false;
+      const stage=document.getElementById("stage");
+      const caps=S.clawPrizes.map((opt,i)=>`<button type="button" class="capsule${i===0?" on":""}" data-id="${opt.id}" data-i="${i}">${opt.label}</button>`).join("");
+      stage.innerHTML=`<div class="taste"><span>Rasa kuah</span><p>${q.q.replace(" Capit nama kuahnya.","")}</p></div>
+        <div class="claw-machine">
+          <div class="claw-glass">
+            <div class="claw" id="claw"><div class="claw-cable"></div><div class="claw-head"></div></div>
+            <div class="claw-row" id="claw-prizes">${caps}</div>
+          </div>
+          <div class="claw-btns">
+            <button type="button" class="btn btn-ghost" id="claw-left">◀</button>
+            <button type="button" class="btn btn-primary" id="claw-grab">Capit</button>
+            <button type="button" class="btn btn-ghost" id="claw-right">▶</button>
+          </div>
+        </div>`;
+      placeClaw();
+      document.getElementById("claw-left").onclick=()=>moveClaw(-1);
+      document.getElementById("claw-right").onclick=()=>moveClaw(1);
+      document.getElementById("claw-grab").onclick=()=>grabClaw(q);
+      document.querySelectorAll(".capsule").forEach(el=>{
+        el.onclick=()=>{ if(S.locked) return; S.clawIdx=Number(el.dataset.i); placeClaw(); sfx("click"); };
+      });
+    }
+    function placeClaw(){
+      const claw=document.getElementById("claw");
+      const row=document.getElementById("claw-prizes");
+      if(!claw||!row) return;
+      const n=S.clawPrizes.length;
+      const pct=((S.clawIdx+0.5)/n)*100;
+      claw.style.left=pct+"%";
+      document.querySelectorAll(".capsule").forEach((el,i)=>el.classList.toggle("on", i===S.clawIdx));
+    }
+    function moveClaw(dir){
+      if(S.locked) return;
+      const n=S.clawPrizes.length;
+      S.clawIdx=(S.clawIdx+dir+n)%n;
+      placeClaw(); sfx("click");
+    }
+    function grabClaw(q){
+      if(S.locked) return;
+      S.locked=true;
+      const claw=document.getElementById("claw");
+      claw.classList.add("down");
+      setTimeout(()=>{
+        claw.classList.add("grab");
+        const picked=S.clawPrizes[S.clawIdx];
+        const cap=document.querySelectorAll(".capsule")[S.clawIdx];
+        if(cap) cap.classList.add("gone");
+        setTimeout(()=>{
+          claw.classList.remove("down");
+          S.attempts++;
+          const ok=picked.id===q.answer;
+          if(ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); }
+          else sfx("bad");
+          tally(); showCoach(ok, q.why);
+        }, 320);
+      }, 340);
     }
 
     function renderFill(q){
@@ -1255,11 +1377,11 @@
 
     function renderDrag(q){
       const stage=document.getElementById("stage");
+      const loc=q.placeClass?`<div class="loc-scene ${q.placeClass}" aria-hidden="true"></div>`:"";
       stage.innerHTML=`<p class="prompt">${q.q}</p>
         <div class="drop-zone" id="drop-zone">
-          ${q.img?`<img class="zone-art" src="${ART+q.img}" alt="${q.name||""}">`:""}
-          <div class="zone-title">${q.name||"Area kerja"}</div>
-          <div class="zone-hint">${q.zoneHint||"Lepaskan APD di sini"}</div>
+          ${loc}
+          <div class="zone-title">${q.place||q.name||"Lokasi kerja"}</div>
         </div>
         <div class="drag-tray" id="opts"></div>`;
       const box=document.getElementById("opts");
@@ -1344,7 +1466,7 @@
       const cards=[];
       q.pairs.forEach(p=>{
         cards.push({pair:p.id, kind:"L", label:p.left});
-        cards.push({pair:p.id, kind:"R", label:p.right, img:p.img});
+        cards.push({pair:p.id, kind:"R", label:p.right});
       });
       const stage=document.getElementById("stage");
       stage.innerHTML=`<p class="prompt">${q.q}</p><div class="flip-grid" id="opts"></div>`;
@@ -1354,8 +1476,8 @@
         wrap.className="flip-card"; wrap.dataset.pair=c.pair; wrap.dataset.idx=String(i);
         wrap.innerHTML=`<button type="button" class="flip-btn" aria-label="Balik kartu">
           <div class="flip-inner">
-            <div class="flip-front">和</div>
-            <div class="flip-back">${c.img?`<img src="${ART+c.img}" alt="">`:""}<span>${c.label}</span></div>
+            <div class="flip-front"></div>
+            <div class="flip-back"><span>${c.label}</span></div>
           </div>
         </button>`;
         wrap.querySelector(".flip-btn").onclick=()=>tapFlip(wrap,q);
