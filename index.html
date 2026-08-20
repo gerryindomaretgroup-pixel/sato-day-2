@@ -246,6 +246,105 @@
       box-shadow: var(--shadow); max-width: calc(100% - 32px);
     }
     .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .fill-box {
+      border: 2px dashed rgba(215,10,25,.35); background: #fffdf8; border-radius: 16px;
+      min-height: 148px; padding: 12px; text-align: center; margin-bottom: 10px;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .fill-box.on { border-color: var(--sato); background: #fff4f2; }
+    .fill-box.ok { border-style: solid; border-color: var(--matcha); background: #eef5ea; }
+    .fill-box.bad { border-color: var(--sato); background: #fff1ee; animation: shake .28s ease; }
+    .fill-box .slot-label { font-family: var(--display); color: var(--indigo); font-size: 1.05rem; margin: 0 0 4px; }
+    .fill-box .slot-hint { font-size: .78rem; color: #6b6256; margin: 0 0 8px; }
+    .fill-box img { width: 100%; height: 88px; object-fit: cover; border-radius: 12px; display: block; }
+    .fill-empty { font-size: 2.2rem; line-height: 1; opacity: .35; margin: 10px 0 6px; }
+    .chip-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .chip-pick {
+      border: 1.5px solid rgba(215,10,25,.16); background: #fff; border-radius: 14px;
+      padding: 6px; cursor: pointer; text-align: center; font: inherit;
+    }
+    .chip-pick img { width: 100%; height: 72px; object-fit: cover; border-radius: 10px; display: block; }
+    .chip-pick span { display: block; font-size: .72rem; font-weight: 800; padding: 6px 2px; color: var(--sato-deep); }
+    .chip-pick.sel { border-color: var(--sato); box-shadow: 0 0 0 2px rgba(215,10,25,.22); }
+    .chip-pick.used { opacity: .38; pointer-events: none; }
+    .chip-pick.text-only { min-height: 52px; padding: 10px 8px; font-size: .78rem; font-weight: 700; }
+
+    .drop-stage { display: grid; gap: 10px; }
+    .drop-zone {
+      min-height: 132px; border: 2px dashed rgba(215,10,25,.35); border-radius: 16px;
+      background: #fffdf8; padding: 10px; text-align: center; position: relative;
+    }
+    .drop-zone img.zone-art { width: 100%; height: 88px; object-fit: cover; border-radius: 12px; display: block; margin-bottom: 6px; }
+    .drop-zone .zone-title { font-family: var(--display); color: var(--indigo); font-size: .95rem; }
+    .drop-zone .zone-hint { font-size: .72rem; color: #6b6256; }
+    .drop-zone.hot { border-color: var(--sato); background: #fff4f2; }
+    .drop-zone.ok { border-style: solid; border-color: var(--matcha); background: #eef5ea; }
+    .drop-zone.bad { border-color: var(--sato); background: #fff1ee; animation: shake .28s ease; }
+    .drag-tray { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .drag-item {
+      touch-action: none; user-select: none; -webkit-user-select: none;
+      border: 1.5px solid rgba(215,10,25,.16); background: #fff; border-radius: 14px;
+      padding: 10px 8px; cursor: grab; font: inherit; font-weight: 700; font-size: .78rem;
+      color: var(--ink); text-align: center; min-height: 52px;
+    }
+    .drag-item:active { cursor: grabbing; }
+    .drag-item.dragging { opacity: .35; }
+    .drag-item.sel { border-color: var(--sato); box-shadow: 0 0 0 2px rgba(215,10,25,.22); }
+    .drag-item.done { opacity: .4; pointer-events: none; background: #eef5ea; border-color: var(--matcha); }
+    .drag-ghost {
+      position: fixed; z-index: 90; pointer-events: none; width: 148px;
+      border-radius: 14px; background: #fff; border: 1.5px solid var(--sato);
+      box-shadow: var(--shadow); padding: 10px 8px; font-weight: 800; font-size: .78rem;
+      text-align: center; transform: translate(-50%,-50%) scale(1.04);
+    }
+    .seq-slots { display: grid; gap: 8px; margin-bottom: 10px; }
+    .seq-slot {
+      min-height: 58px; border: 2px dashed rgba(215,10,25,.28); border-radius: 14px;
+      background: #fffdf8; display: grid; grid-template-columns: 32px 1fr; gap: 8px;
+      align-items: center; padding: 8px 10px;
+    }
+    .seq-slot .n {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--sato); color: #fff;
+      display: grid; place-items: center; font-weight: 800; font-size: .75rem;
+    }
+    .seq-slot.hot { border-color: var(--sato); background: #fff4f2; }
+    .seq-slot.ok { border-style: solid; border-color: var(--matcha); background: #eef5ea; }
+    .seq-slot.bad { border-color: var(--sato); background: #fff1ee; animation: shake .28s ease; }
+    .seq-slot b { font-size: .8rem; color: var(--ink); }
+    .seq-slot .ph { font-size: .75rem; color: #8a8174; }
+
+    .flip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .flip-card { perspective: 1000px; height: 118px; }
+    .flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform .55s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .flip-card.open .flip-inner, .flip-card.matched .flip-inner { transform: rotateY(180deg); }
+    .flip-front, .flip-back {
+      position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 14px; border: 1.5px solid rgba(215,10,25,.16);
+      display: grid; place-items: center; padding: 8px;
+    }
+    .flip-front {
+      background: linear-gradient(165deg, #e01222, var(--sato-deep)); color: #fff;
+      font-family: var(--display); font-weight: 800; font-size: 1.4rem;
+    }
+    .flip-back {
+      background: #fff; transform: rotateY(180deg); text-align: center;
+    }
+    .flip-back img { width: 100%; height: 62px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 4px; }
+    .flip-back span { font-size: .72rem; font-weight: 800; color: var(--sato-deep); line-height: 1.25; }
+    .flip-card.matched .flip-back { background: #eef5ea; border-color: var(--matcha); }
+    .flip-card.bad .flip-back { background: #fff1ee; border-color: var(--sato); }
+    .flip-btn { width: 100%; height: 100%; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; }
+
+    .story { text-align: left; }
+    .story .you { margin: 8px 0 10px; }
+    .story .you .who { color: var(--matcha); }
+    .story .you .bubble { border-radius: 16px 4px 16px 16px; background: #f3f7ef; }
+    .story-path { font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
   </style>
 </head>
 <body>
@@ -279,8 +378,8 @@
             <img class="hero-logo" src="assets/logo/sato-logo.png" alt="washoku SATO" />
             <div class="eyebrow">和食, Restoran Jepang</div>
             <h2>Pelatihan hari kedua di dapur. Senpai akan mendampingi Anda.</h2>
-            <div class="hook"><b>Tenang saja.</b> Ini bukan ujian yang sulit. Senpai Hana akan menjelaskan setiap istilah Jepang. Anda cukup memilih jawaban di ponsel.</div>
-            <p class="lead">Lima stasiun dengan lima jenis latihan: pilihan ganda, menebak gambar kaldu, menyusun urutan, memasangkan, dan dialog. Materi disusun agar tidak monoton.</p>
+            <div class="hook"><b>Tenang saja.</b> Ini bukan ujian yang sulit. Senpai Hana akan menjelaskan setiap istilah Jepang. Setiap stasiun memakai cara bermain yang berbeda.</div>
+            <p class="lead">Lima stasiun: pilihan acak, isi mangkuk kuah, seret APD dan urutan gas, kartu balik, lalu cerita bercabang bersama senpai.</p>
             <button class="btn btn-sun" type="button" onclick="goId()">Mulai bersama senpai</button>
           </div>
         </div>
@@ -563,7 +662,7 @@
     const LEVELS=[
       {
         id:1, icon:"🍱", title:"Stasiun Dapur",
-        brief:"Pilihan ganda: letakkan alat pada stasiun yang benar.",
+        brief:"Pilihan ganda acak: soal dan posisi jawaban berubah setiap kali.",
         badge:"masterKitchen",
         qs:[
           {
@@ -605,12 +704,13 @@
       },
       {
         id:2, icon:"🍜", title:"Warna Kaldu",
-        brief:"Tebak gambar: pilih mangkuk dengan warna kaldu yang tepat.",
+        brief:"Isi mangkuk: masukkan kuah yang dimaksud ke kotak kosong.",
         badge:null,
         qs:[
           {
-            type:"pick", teach:"Kuah sukiyaki berwarna gelap, menyerupai kecap. Pilih mangkuk yang berwarna hitam pekat.",
-            q:"Manakah kuah sukiyaki?",
+            type:"fill", teach:"Kuah sukiyaki berwarna gelap, menyerupai kecap. Isi mangkuk dengan kuah hitam pekat.",
+            q:"Isi mangkuk kosong dengan kuah sukiyaki.",
+            boxLabel:"Mangkuk Sukiyaki", boxHint:"Kuah gelap seperti kecap", empty:"🥣",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
@@ -620,8 +720,9 @@
             why:"Kuah sukiyaki berwarna hitam seperti kecap."
           },
           {
-            type:"pick", teach:"Kuah chanko berwarna kecokelatan: lebih terang daripada sukiyaki, dan tidak bening.",
-            q:"Manakah kuah chanko?",
+            type:"fill", teach:"Kuah chanko berwarna kecokelatan: lebih terang daripada sukiyaki, dan tidak bening.",
+            q:"Isi mangkuk kosong dengan kuah chanko.",
+            boxLabel:"Mangkuk Chanko", boxHint:"Kuah cokelat, tidak bening", empty:"🥣",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
@@ -631,8 +732,9 @@
             why:"Kuah chanko berwarna kecokelatan."
           },
           {
-            type:"pick", teach:"Konbu berasal dari rumput laut. Kuahnya jernih sehingga dasar mangkuk masih kelihatan.",
-            q:"Manakah kuah konbu?",
+            type:"fill", teach:"Konbu berasal dari rumput laut. Kuahnya jernih sehingga dasar mangkuk masih kelihatan.",
+            q:"Isi mangkuk kosong dengan kuah konbu.",
+            boxLabel:"Mangkuk Konbu", boxHint:"Kuah jernih, dasar mangkuk terlihat", empty:"🥣",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
@@ -642,8 +744,9 @@
             why:"Kuah konbu berwarna bening."
           },
           {
-            type:"pick", teach:"Soymilk adalah kaldu susu kedelai. Warnanya putih seperti susu.",
-            q:"Manakah kuah soymilk?",
+            type:"fill", teach:"Soymilk adalah kaldu susu kedelai. Warnanya putih seperti susu.",
+            q:"Isi mangkuk kosong dengan kuah soymilk.",
+            boxLabel:"Mangkuk Soymilk", boxHint:"Kuah putih seperti susu", empty:"🥣",
             options:[
               {id:"sukiyaki",label:"Hitam pekat",img:"bowl-sukiyaki.jpg"},
               {id:"chanko",label:"Cokelat",img:"bowl-chanko.jpg"},
@@ -653,63 +756,86 @@
             why:"Kuah soymilk berwarna putih susu."
           },
           {
-            type:"choice", teach:"FKIB: F FIFO, K kesegaran, I inisiatif, B bertanya apabila ragu.",
-            img:"cek-stok.jpg", name:"FIFO", sub:"barang lama dipakai lebih dahulu",
-            q:"Barang yang masuk lebih dahulu harus dipakai lebih dahulu. Artinya?",
-            options:["First In First Out","Memasak bahan yang terbaru terlebih dahulu","Hanya menyimpan di bagian belakang","Membuang bahan yang lama"], answer:0,
+            type:"fill", teach:"FKIB: F FIFO, K kesegaran, I inisiatif, B bertanya apabila ragu.",
+            q:"Lengkapi kotak arti FIFO.",
+            boxLabel:"FIFO artinya", boxHint:"Barang yang masuk lebih dahulu dipakai lebih dahulu", empty:"✏️",
+            options:[
+              {id:"fifo",label:"First In First Out"},
+              {id:"new",label:"Memasak bahan terbaru dulu"},
+              {id:"back",label:"Hanya simpan di belakang"},
+              {id:"dump",label:"Membuang bahan yang lama"}
+            ], answer:"fifo",
             why:"FIFO berarti yang datang lebih dahulu keluar lebih dahulu agar bahan tetap segar."
           }
         ]
       },
       {
         id:3, icon:"🛡️", title:"Aman di Line",
-        brief:"Pilihan ganda APD, kemudian menyusun urutan tabung gas.",
+        brief:"Seret APD ke stasiun, lalu susun urutan pemasangan LPG.",
         badge:"safety",
         qs:[
           {
-            type:"choice", teach:"Food prep menggunakan pisau tajam. Sarung tangan plastik biasa dapat sobek.",
+            type:"drag", teach:"Food prep menggunakan pisau tajam. Sarung tangan plastik biasa dapat sobek.",
             img:"apd-gloves.jpg", name:"Food Prep", sub:"pisau tajam di tangan",
-            q:"APD yang wajib digunakan?",
-            options:["Sarung tangan tahan potong","Sarung tangan plastik biasa","Tanpa sarung tangan","Handuk dapur"], answer:0,
+            q:"Seret APD yang wajib ke area kerja ini.",
+            zoneHint:"Lepaskan APD di sini",
+            items:[
+              {id:"cut", label:"🧤 Sarung tahan potong"},
+              {id:"plastic", label:"🧤 Sarung plastik biasa"},
+              {id:"bare", label:"✋ Tanpa sarung tangan"},
+              {id:"towel", label:"🧻 Handuk dapur"}
+            ], answer:"cut",
             why:"Sarung tangan tahan potong melindungi tangan saat mengiris."
           },
           {
-            type:"choice", teach:"Grill teriyaki menghasilkan panas tinggi. Kaos biasa tidak cukup sebagai pelindung.",
+            type:"drag", teach:"Grill teriyaki menghasilkan panas tinggi. Kaos biasa tidak cukup sebagai pelindung.",
             img:"apd-apron.jpg", name:"Grill Teriyaki", sub:"api dan percikan panas",
-            q:"Pelindung yang tepat adalah?",
-            options:["Handuk basah saja","Apron tahan panas","Kaos harian","Celemek plastik tipis"], answer:1,
+            q:"Seret pelindung yang tepat ke area grill.",
+            zoneHint:"Lepaskan pelindung di sini",
+            items:[
+              {id:"wet", label:"🧻 Handuk basah saja"},
+              {id:"apron", label:"🦺 Apron tahan panas"},
+              {id:"kaos", label:"👕 Kaos harian"},
+              {id:"thin", label:"🥼 Celemek plastik tipis"}
+            ], answer:"apron",
             why:"Apron tahan panas melindungi tubuh di depan grill."
           },
           {
-            type:"choice", teach:"Suhu minyak fryer sekitar 180°C. Jangan mendekatkan tangan ke minyak.",
+            type:"drag", teach:"Suhu minyak fryer sekitar 180°C. Jangan mendekatkan tangan ke minyak.",
             img:"apd-tongs.jpg", name:"Deep Fryer", sub:"minyak sekitar 180°C",
-            q:"Alat bantu yang aman adalah?",
-            options:["Tangan kosong","Sendok pendek","Penjepit panjang","Sumpit kayu pendek"], answer:2,
+            q:"Seret alat bantu yang aman ke stasiun fryer.",
+            zoneHint:"Lepaskan alat di sini",
+            items:[
+              {id:"hand", label:"✋ Tangan kosong"},
+              {id:"spoon", label:"🥄 Sendok pendek"},
+              {id:"tongs", label:"🥢 Penjepit panjang"},
+              {id:"chop", label:"🥢 Sumpit kayu pendek"}
+            ], answer:"tongs",
             why:"Penjepit panjang menjaga jarak dari minyak panas."
           },
           {
-            type:"sequence",
-            teach:"Tabung LPG 12 kg. Pilih langkah sesuai urutan yang aman, dari awal hingga pemeriksaan kebocoran.",
-            q:"Susun empat langkah penanganan gas. Pilih dari langkah yang pertama.",
+            type:"dragseq",
+            teach:"Tabung LPG 12 kg. Seret langkah ke kotak urutan yang aman, dari awal hingga pemeriksaan kebocoran.",
+            q:"Seret empat langkah pemasangan LPG ke urutan 1 sampai 4.",
             why:"Urutan yang aman: kenop OFF, tekan regulator tegak lurus, putar tuas pengunci 180°, periksa kebocoran sebelum api dinyalakan.",
             steps:[
-              {id:0, label:"Kenop OFF", img:"lpg-tank.jpg"},
-              {id:1, label:"Tekan regulator tegak lurus", img:"lpg-tank.jpg"},
-              {id:2, label:"Putar tuas pengunci 180°", img:"lpg-tank.jpg"},
-              {id:3, label:"Periksa kebocoran sebelum api dinyalakan", img:"lpg-tank.jpg"}
+              {id:0, label:"Kenop OFF"},
+              {id:1, label:"Tekan regulator tegak lurus"},
+              {id:2, label:"Putar tuas pengunci 180°"},
+              {id:3, label:"Periksa kebocoran sebelum api dinyalakan"}
             ]
           }
         ]
       },
       {
         id:4, icon:"🛵", title:"Pesanan Pengantaran",
-        brief:"Memasangkan: pilih tulisan, kemudian pilih gambar pasangannya.",
+        brief:"Kartu balik: temukan pasangan langkah dan gambar.",
         badge:null,
         qs:[
           {
-            type:"match",
-            teach:"Jangan memasak terlebih dahulu sebelum pengantar datang. Pasangkan empat langkah dengan gambarnya.",
-            q:"Pilih kartu kiri, kemudian pilih kartu kanan yang sesuai.",
+            type:"flip",
+            teach:"Jangan memasak terlebih dahulu sebelum pengantar datang. Balik kartu untuk menemukan empat pasangan.",
+            q:"Balik dua kartu. Temukan langkah yang cocok dengan gambarnya.",
             why:"Alur Sato: pesanan masuk, cek stok, pengantar datang, kemudian pengemasan. Dapur baru bekerja setelah pengantar tiba.",
             pairs:[
               {id:"order", left:"1. Pesanan masuk", right:"Notifikasi ponsel merchant", img:"order-phone.jpg"},
@@ -722,43 +848,121 @@
       },
       {
         id:5, icon:"💮", title:"Sikap Sato",
-        brief:"Dialog: pilih satu dari empat ucapan atau gestur.",
+        brief:"Cerita bercabang: pilihan Anda mengubah alur shift bersama senpai.",
         badge:"leader",
         qs:[
           {
-            type:"choice", teach:"Apabila rekan kesulitan dan tangan Anda kosong, bantulah sambil mengucapkan “tolong”.",
-            visual:"chat", who:"Rekan Prep", line:"Nampan saya hampir jatuh. Tangan Anda sedang kosong.", img:"senpai.jpg",
-            q:"Apa yang Anda ucapkan sambil membantu?",
-            options:["Tolong, biar saya bantu.","Segera kerjakan sendiri.","Berdiam diri dan lewat saja.","Nanti saja, saya sedang sibuk."], answer:0,
-            why:"Ucapan “tolong” disertai tindakan. Itulah kerja sama, bukan basa-basi."
-          },
-          {
-            type:"choice", teach:"Seseorang baru saja membantu Anda. Jangan anggap hal itu wajar. Ucapkan terima kasih.",
-            visual:"chat", who:"Senpai", line:"Tadi saya membantu menyelesaikan prep Anda.", img:"senpai.jpg",
-            q:"Tanggapan yang paling tepat?",
-            options:["Ya sudah.","Terima kasih.","Nanti saja.","Biasa saja."], answer:1,
-            why:"“Terima kasih” adalah kata penting yang kedua."
-          },
-          {
-            type:"choice", teach:"Menyenggol orang adalah tanggung jawab Anda. Ucapkan maaf, jangan bersikap defensif.",
-            visual:"chat", who:"Diri sendiri", line:"Tidak sengaja menyenggol rekan di line yang sempit.", img:"senpai.jpg",
-            q:"Ucapkanlah:",
-            options:["Maaf, saya kurang berhati-hati.","Bukan salah saya.","Tidak apa-apa, bukan urusan saya.","Anda yang jalannya salah."], answer:0,
-            why:"“Maaf” adalah kata penting yang ketiga. Akui kesalahan, kemudian perbaiki."
-          },
-          {
-            type:"choice", teach:"Ojigi adalah membungkuk sebagai tanda hormat ala Jepang. Gestur ini digunakan untuk menyambut tamu di area pelayanan.",
-            visual:"chat", who:"Tamu", line:"Tamu baru masuk ke area pelayanan.", img:"ojigi.jpg",
-            q:"Gestur khas Sato adalah?",
-            options:["Menggunakan ponsel terlebih dahulu.","Ojigi (membungkuk hormat)","Bersandar di dinding.","Memanggil dari jauh."], answer:1,
-            why:"Ojigi menandai rasa hormat. Tamu merasa disambut."
-          },
-          {
-            type:"choice", teach:"Modul hari kedua: sekitar 70% kesalahan kerja berkaitan dengan komunikasi yang buruk.",
-            visual:"chat", who:"Ketua Tim", line:"Mengapa line sering kacau padahal resepnya sudah dihafal?", img:"senpai.jpg",
-            q:"Berapa porsi kesalahan yang berkaitan dengan komunikasi yang buruk?",
-            options:["70%","10%","30%","50%"], answer:0,
-            why:"Sebanyak 70% kesalahan berkaitan dengan komunikasi. Kata yang tepat dan konfirmasi merupakan bagian dari pekerjaan."
+            type:"branch",
+            teach:"Kata penting Sato: tolong, terima kasih, maaf, plus ojigi.",
+            start:"help",
+            why:"Sikap di line adalah bagian dari pekerjaan, bukan basa-basi.",
+            nodes:{
+              help:{
+                path:"Awal shift",
+                who:"Rekan Prep", line:"Nampan saya hampir jatuh. Tangan Anda sedang kosong.", img:"senpai.jpg",
+                q:"Apa yang Anda lakukan?",
+                choices:[
+                  {text:"Tolong, biar saya bantu.", ok:true, next:"help_ok", why:"Ucapan “tolong” disertai tindakan. Itulah kerja sama, bukan basa-basi."},
+                  {text:"Segera kerjakan sendiri.", ok:false, next:"help_bad", why:"Rekan yang kesulitan harus dibantu. Ucapkan “tolong” sambil bertindak."},
+                  {text:"Berdiam diri dan lewat saja.", ok:false, next:"help_bad", why:"Melewatkan rekan yang hampir jatuh merusak kerja sama di line."},
+                  {text:"Nanti saja, saya sedang sibuk.", ok:false, next:"help_bad", why:"Tangan Anda kosong. Bantu dulu, baru kembali ke tugas sendiri."}
+                ]
+              },
+              help_ok:{
+                kind:"beat",
+                who:"Rekan Prep", line:"Nampan aman. Terima kasih sudah menolong.", img:"senpai.jpg",
+                next:"thanks"
+              },
+              help_bad:{
+                kind:"beat",
+                who:"Senpai Hana", line:"Nampan jatuh. Line jadi ramai. Lain kali bantu sambil mengucapkan tolong.", img:"senpai.jpg",
+                next:"thanks"
+              },
+              thanks:{
+                path:"Setelah bantu-membantu",
+                who:"Senpai", line:"Tadi saya membantu menyelesaikan prep Anda.", img:"senpai.jpg",
+                q:"Tanggapan yang paling tepat?",
+                choices:[
+                  {text:"Terima kasih.", ok:true, next:"thanks_ok", why:"“Terima kasih” adalah kata penting yang kedua."},
+                  {text:"Ya sudah.", ok:false, next:"thanks_bad", why:"Jangan anggap bantuan sebagai hal yang wajar. Ucapkan terima kasih."},
+                  {text:"Nanti saja.", ok:false, next:"thanks_bad", why:"Ucapan terima kasih tidak ditunda."},
+                  {text:"Biasa saja.", ok:false, next:"thanks_bad", why:"Bantuan senpai patut diucapkan terima kasih."}
+                ]
+              },
+              thanks_ok:{
+                kind:"beat",
+                who:"Senpai Hana", line:"Baik. Line terasa lebih rapi kalau rasa hormat dijaga.", img:"senpai.jpg",
+                next:"bump"
+              },
+              thanks_bad:{
+                kind:"beat",
+                who:"Senpai Hana", line:"Saya menunggu ucapan terima kasih. Itu bagian dari sikap Sato.", img:"senpai.jpg",
+                next:"bump"
+              },
+              bump:{
+                path:"Line sempit",
+                who:"Diri sendiri", line:"Tidak sengaja menyenggol rekan di line yang sempit.", img:"senpai.jpg",
+                q:"Ucapkanlah:",
+                choices:[
+                  {text:"Maaf, saya kurang berhati-hati.", ok:true, next:"bump_ok", why:"“Maaf” adalah kata penting yang ketiga. Akui kesalahan, kemudian perbaiki."},
+                  {text:"Bukan salah saya.", ok:false, next:"bump_bad", why:"Menyenggol orang adalah tanggung jawab Anda. Ucapkan maaf."},
+                  {text:"Tidak apa-apa, bukan urusan saya.", ok:false, next:"bump_bad", why:"Jangan bersikap defensif. Ucapkan maaf."},
+                  {text:"Anda yang jalannya salah.", ok:false, next:"bump_bad", why:"Menyalahkan rekan memperkeruh line."}
+                ]
+              },
+              bump_ok:{
+                kind:"beat",
+                who:"Rekan Prep", line:"Tidak apa-apa. Hati-hati di tikungan stove.", img:"senpai.jpg",
+                next:"guest"
+              },
+              bump_bad:{
+                kind:"beat",
+                who:"Senpai Hana", line:"Line jadi tegang. Ucapkan maaf, lalu lanjut kerja.", img:"senpai.jpg",
+                next:"guest"
+              },
+              guest:{
+                path:"Area pelayanan",
+                who:"Tamu", line:"Tamu baru masuk ke area pelayanan.", img:"ojigi.jpg",
+                q:"Gestur khas Sato adalah?",
+                choices:[
+                  {text:"Ojigi (membungkuk hormat)", ok:true, next:"guest_ok", why:"Ojigi menandai rasa hormat. Tamu merasa disambut."},
+                  {text:"Menggunakan ponsel terlebih dahulu.", ok:false, next:"guest_bad", why:"Ponsel diturunkan. Sambut tamu dengan ojigi."},
+                  {text:"Bersandar di dinding.", ok:false, next:"guest_bad", why:"Sikap santai di area pelayanan merusak kesan Sato."},
+                  {text:"Memanggil dari jauh.", ok:false, next:"guest_bad", why:"Sambut dengan ojigi, bukan teriakan."}
+                ]
+              },
+              guest_ok:{
+                kind:"beat",
+                who:"Tamu", line:"Selamat siang. Suasananya ramah.", img:"ojigi.jpg",
+                next:"lead"
+              },
+              guest_bad:{
+                kind:"beat",
+                who:"Senpai Hana", line:"Tamu menunggu sapaan. Ojigi dulu, baru berbicara.", img:"ojigi.jpg",
+                next:"lead"
+              },
+              lead:{
+                path:"Evaluasi shift",
+                who:"Ketua Tim", line:"Mengapa line sering kacau padahal resepnya sudah dihafal?", img:"senpai.jpg",
+                q:"Berapa porsi kesalahan yang berkaitan dengan komunikasi yang buruk?",
+                choices:[
+                  {text:"70%", ok:true, next:"lead_ok", why:"Sebanyak 70% kesalahan berkaitan dengan komunikasi. Kata yang tepat dan konfirmasi merupakan bagian dari pekerjaan."},
+                  {text:"10%", ok:false, next:"lead_bad", why:"Angkanya 70%. Komunikasi buruk lebih sering merusak line daripada resep yang lupa."},
+                  {text:"30%", ok:false, next:"lead_bad", why:"Angkanya 70%, bukan 30%."},
+                  {text:"50%", ok:false, next:"lead_bad", why:"Angkanya 70%. Separuh masih terlalu rendah."}
+                ]
+              },
+              lead_ok:{
+                kind:"beat",
+                who:"Ketua Tim", line:"Tepat. Resep hafal tidak cukup jika ucapan di line kacau.", img:"senpai.jpg",
+                next:"END"
+              },
+              lead_bad:{
+                kind:"beat",
+                who:"Ketua Tim", line:"Modul hari kedua: sekitar 70% kesalahan kerja berkaitan dengan komunikasi yang buruk.", img:"senpai.jpg",
+                next:"END"
+              }
+            }
           }
         ]
       }
@@ -773,8 +977,31 @@
     const S={
       nama:"", nik:"", idx:0, qIdx:0, score:0, levelScores:[0,0,0,0,0],
       correct:0, attempts:0, reviews:[], badges:new Set(), locked:false,
-      seqNext:0, seqWrong:0, seqMissedThis:false, matchSel:null, matchOk:0, matchMissed:new Set()
+      playLevels:[], fillSel:null, drag:null,
+      seqFilled:0, seqMissed:new Set(),
+      matchOk:0, matchMissed:new Set(), flipOpen:[], flipBusy:false,
+      branchNode:null, branchNext:null, lastLine:"", branchDone:0
     };
+
+    function curLv(){ return (S.playLevels[S.idx]||LEVELS[S.idx]); }
+    function cloneQ(q){
+      const c=JSON.parse(JSON.stringify(q));
+      if(c.type==="choice" && Array.isArray(c.options) && typeof c.answer==="number"){
+        const packed=c.options.map((t,i)=>({t,i}));
+        const sh=shuffle(packed);
+        c.options=sh.map(o=>o.t);
+        c.answer=sh.findIndex(o=>o.i===c.answer);
+      }
+      if(c.type==="fill" && c.options) c.options=shuffle(c.options);
+      if(c.type==="drag" && c.items) c.items=shuffle(c.items);
+      if(c.type==="dragseq" && c.steps) c.steps=shuffle(c.steps);
+      if(c.type==="branch" && c.nodes){
+        Object.keys(c.nodes).forEach(k=>{
+          if(c.nodes[k].choices) c.nodes[k].choices=shuffle(c.nodes[k].choices);
+        });
+      }
+      return c;
+    }
 
     function toast(msg){
       const t=document.getElementById("toast");
@@ -831,8 +1058,16 @@
     }
     function startGame(){
       sfx("click");
-      Object.assign(S,{idx:0,qIdx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],badges:new Set(),locked:false,seqNext:0,seqWrong:0,seqMissedThis:false,matchSel:null,matchOk:0});
-      S.matchMissed=new Set();
+      Object.assign(S,{
+        idx:0,qIdx:0,score:0,levelScores:[0,0,0,0,0],correct:0,attempts:0,reviews:[],
+        badges:new Set(),locked:false,fillSel:null,drag:null,seqFilled:0,
+        matchOk:0,flipOpen:[],flipBusy:false,branchNode:null,branchNext:null,lastLine:"",branchDone:0
+      });
+      S.matchMissed=new Set(); S.seqMissed=new Set();
+      S.playLevels=LEVELS.map((lv,i)=>{
+        const qs=lv.qs.map(cloneQ);
+        return Object.assign({}, lv, {qs: i===0 ? shuffle(qs) : qs});
+      });
       document.getElementById("hud").style.display="flex";
       updateHud(); loadQuestion(); show("sc-play");
     }
@@ -840,29 +1075,47 @@
     function updateHud(){
       document.getElementById("hud-score").textContent=S.score;
       document.getElementById("hud-lv").textContent=`${Math.min(S.idx+1,5)}/5`;
-      const total=LEVELS.reduce((a,l)=>a+l.qs.length,0);
-      const done=LEVELS.slice(0,S.idx).reduce((a,l)=>a+l.qs.length,0)+S.qIdx+(S.locked?1:0);
-      const p=Math.round((done/total)*100);
+      const lvs=S.playLevels.length?S.playLevels:LEVELS;
+      const total=lvs.reduce((a,l)=>a+l.qs.length,0);
+      const done=lvs.slice(0,S.idx).reduce((a,l)=>a+l.qs.length,0)+S.qIdx+(S.locked?1:0);
+      const p=Math.round((done/Math.max(1,total))*100);
       document.getElementById("pct").textContent=p+"%";
       document.getElementById("bar").style.width=p+"%";
-      document.getElementById("bar-label").textContent=LEVELS[Math.min(S.idx,4)].title;
+      document.getElementById("bar-label").textContent=lvs[Math.min(S.idx,4)].title;
     }
 
-    function senpaiPrompt(q){
-      if(q.type==="pick") return "Perhatikan gambar. Pilih mangkuk yang sesuai dengan pertanyaan. Saya akan menjelaskan setelah Anda memilih.";
-      if(q.type==="sequence") return "Susun langkah dari yang pertama. Saya akan menjelaskan setelah urutan selesai.";
-      if(q.type==="match") return "Pasangkan tulisan di kiri dengan gambar di kanan. Saya akan menjelaskan setelah semua pasangan selesai.";
-      return "Perhatikan soal di bawah, lalu pilih satu jawaban. Saya akan menjelaskan setelah Anda memilih.";
+    function senpaiPrompt(q, node){
+      if(q.type==="fill") return "Isi kotak kosong dengan kuah atau arti yang dimaksud. Ketuk pilihan, lalu kotak akan terisi.";
+      if(q.type==="drag") return "Seret APD yang benar ke area kerja. Tahan, geser, lalu lepas di kotak.";
+      if(q.type==="dragseq") return "Seret setiap langkah LPG ke nomor urutan yang sesuai.";
+      if(q.type==="flip") return "Balik dua kartu. Temukan pasangan langkah dan gambarnya.";
+      if(q.type==="branch"){
+        if(node && node.kind==="beat") return "Alur cerita berlanjut sesuai pilihan Anda.";
+        return "Ini alur shift Anda. Pilihan mengubah apa yang terjadi berikutnya.";
+      }
+      return "Perhatikan soal di bawah, lalu pilih satu jawaban. Posisi jawaban diacak setiap soal.";
+    }
+    function qCountLabel(lv,q){
+      if(q.type==="flip") return `Pasangan ${S.matchOk} dari ${q.pairs.length}, ${lv.title}`;
+      if(q.type==="branch") return `Adegan ${Math.min(S.branchDone+1,5)} dari 5, ${lv.title}`;
+      if(q.type==="dragseq") return `Urutan ${S.seqFilled} dari ${q.steps.length}, ${lv.title}`;
+      return `Soal ${S.qIdx+1} dari ${lv.qs.length}, ${lv.title}`;
     }
     function loadQuestion(){
-      S.locked=false; S.seqNext=0; S.seqWrong=0; S.seqMissedThis=false; S.matchSel=null; S.matchOk=0; S.matchMissed=new Set();
-      const lv=LEVELS[S.idx], q=lv.qs[S.qIdx];
-      document.getElementById("senpai-line").textContent=senpaiPrompt(q);
-      document.getElementById("q-count").textContent=`Soal ${S.qIdx+1} dari ${lv.qs.length}, ${lv.title}`;
+      clearGhost();
+      S.locked=false; S.fillSel=null; S.seqFilled=0; S.seqMissed=new Set();
+      S.matchOk=0; S.matchMissed=new Set(); S.flipOpen=[]; S.flipBusy=false;
+      const lv=curLv(), q=lv.qs[S.qIdx];
+      if(q.type==="branch" && !S.branchNode) S.branchNode=q.start;
+      const node=q.type==="branch"?q.nodes[S.branchNode]:null;
+      document.getElementById("senpai-line").textContent=senpaiPrompt(q, node);
+      document.getElementById("q-count").textContent=qCountLabel(lv,q);
       document.getElementById("coach").className="coach";
-      if(q.type==="pick") renderPick(q);
-      else if(q.type==="sequence") renderSeq(q);
-      else if(q.type==="match") renderMatch(q);
+      if(q.type==="fill") renderFill(q);
+      else if(q.type==="drag") renderDrag(q);
+      else if(q.type==="dragseq") renderDragSeq(q);
+      else if(q.type==="flip") renderFlip(q);
+      else if(q.type==="branch") renderBranch(q);
       else renderChoice(q);
       updateHud();
     }
@@ -899,135 +1152,314 @@
       showCoach(ok, q.why);
     }
 
-    function renderPick(q){
+    function renderFill(q){
+      S.fillSel=null;
       const stage=document.getElementById("stage");
-      const opts=shuffle(q.options);
-      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="pick-grid" id="opts"></div>`;
+      stage.innerHTML=`<p class="prompt">${q.q}</p>
+        <div class="fill-box" id="fill-slot">
+          <p class="slot-label">${q.boxLabel}</p>
+          <p class="slot-hint">${q.boxHint||""}</p>
+          <div class="fill-empty" id="fill-body">${q.empty||"🥣"}</div>
+        </div>
+        <div class="chip-row" id="opts"></div>`;
       const box=document.getElementById("opts");
-      opts.forEach(opt=>{
+      q.options.forEach(opt=>{
         const b=document.createElement("button");
-        b.type="button"; b.className="pick"; b.dataset.id=opt.id;
-        b.innerHTML=`<img src="${ART+opt.img}" alt="${opt.label}"><span>${opt.label}</span>`;
-        b.onclick=()=>gradePick(opt.id,q);
+        b.type="button"; b.className="chip-pick"+(opt.img?"":" text-only"); b.dataset.id=opt.id;
+        b.innerHTML=opt.img?`<img src="${ART+opt.img}" alt="${opt.label}"><span>${opt.label}</span>`:`<span>${opt.label}</span>`;
+        b.onclick=()=>gradeFill(opt,q);
         box.appendChild(b);
       });
     }
+    function gradeFill(opt,q){
+      if(S.locked) return;
+      S.locked=true; S.attempts++;
+      const slot=document.getElementById("fill-slot");
+      const body=document.getElementById("fill-body");
+      const ok=opt.id===q.answer;
+      if(ok){
+        S.correct++; S.levelScores[S.idx]+=4; sfx("ok");
+        slot.classList.add("ok");
+        body.innerHTML=opt.img?`<img src="${ART+opt.img}" alt="${opt.label}">`:`<b>${opt.label}</b>`;
+      } else {
+        sfx("bad");
+        slot.classList.add("bad");
+        const right=q.options.find(o=>o.id===q.answer);
+        body.innerHTML=right&&right.img?`<img src="${ART+right.img}" alt="${right.label}">`:`<b>${right?right.label:q.answer}</b>`;
+      }
+      [...document.getElementById("opts").children].forEach(el=>{
+        el.disabled=true;
+        if(el.dataset.id===q.answer) el.classList.add("sel");
+        if(el.dataset.id===opt.id && !ok) el.classList.add("used");
+      });
+      tally(); showCoach(ok, q.why);
+    }
 
-    function gradePick(id,q){
+    function clearGhost(){
+      document.querySelectorAll(".drag-ghost").forEach(g=>g.remove());
+      document.querySelectorAll(".dragging").forEach(el=>el.classList.remove("dragging"));
+      document.querySelectorAll(".hot").forEach(el=>el.classList.remove("hot"));
+      S.drag=null;
+    }
+    function hitZone(x,y){
+      if(S.drag&&S.drag.ghost) S.drag.ghost.style.visibility="hidden";
+      const stack=document.elementsFromPoint(x,y);
+      if(S.drag&&S.drag.ghost) S.drag.ghost.style.visibility="visible";
+      return stack.find(n=>n.classList&&(n.classList.contains("drop-zone")||n.classList.contains("seq-slot")));
+    }
+    function bindPointerDrag(el){
+      el.addEventListener("pointerdown", e=>{
+        if(S.locked || el.classList.contains("done")) return;
+        e.preventDefault();
+        try{ el.setPointerCapture(e.pointerId); }catch(err){}
+        const ghost=document.createElement("div");
+        ghost.className="drag-ghost";
+        ghost.textContent=el.textContent.trim();
+        document.body.appendChild(ghost);
+        ghost.style.left=e.clientX+"px";
+        ghost.style.top=e.clientY+"px";
+        el.classList.add("dragging");
+        S.drag={el, id:el.dataset.id, pointerId:e.pointerId, ghost, x:e.clientX, y:e.clientY};
+        sfx("click");
+      });
+      el.addEventListener("pointermove", e=>{
+        if(!S.drag || S.drag.el!==el) return;
+        S.drag.ghost.style.left=e.clientX+"px";
+        S.drag.ghost.style.top=e.clientY+"px";
+        document.querySelectorAll(".hot").forEach(z=>z.classList.remove("hot"));
+        const hit=hitZone(e.clientX, e.clientY);
+        if(hit) hit.classList.add("hot");
+      });
+      const end=e=>{
+        if(!S.drag || S.drag.el!==el) return;
+        const moved=Math.abs(e.clientX-(S.drag.x||e.clientX))+Math.abs(e.clientY-(S.drag.y||e.clientY));
+        try{ el.releasePointerCapture(e.pointerId); }catch(err){}
+        const hit=hitZone(e.clientX, e.clientY);
+        const id=S.drag.id;
+        const src=S.drag.el;
+        clearGhost();
+        if(hit && moved>8) onDrop(hit, id, src);
+        else {
+          document.querySelectorAll(".drag-item.sel").forEach(x=>x.classList.remove("sel"));
+          src.classList.add("sel");
+        }
+      };
+      el.addEventListener("pointerup", end);
+      el.addEventListener("pointercancel", end);
+    }
+    function onDrop(hit, id, src){
+      const q=curLv().qs[S.qIdx];
+      if(q.type==="drag") gradeDragDrop(hit, id, src, q);
+      else if(q.type==="dragseq") gradeSeqDrop(hit, id, src, q);
+    }
+
+    function renderDrag(q){
+      const stage=document.getElementById("stage");
+      stage.innerHTML=`<p class="prompt">${q.q}</p>
+        <div class="drop-zone" id="drop-zone">
+          ${q.img?`<img class="zone-art" src="${ART+q.img}" alt="${q.name||""}">`:""}
+          <div class="zone-title">${q.name||"Area kerja"}</div>
+          <div class="zone-hint">${q.zoneHint||"Lepaskan APD di sini"}</div>
+        </div>
+        <div class="drag-tray" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      q.items.forEach(it=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="drag-item"; b.dataset.id=it.id; b.textContent=it.label; b.draggable=false;
+        box.appendChild(b);
+        bindPointerDrag(b);
+      });
+      document.getElementById("drop-zone").addEventListener("click", ()=>{
+        const sel=document.querySelector(".drag-item.sel:not(.done)");
+        if(sel) onDrop(document.getElementById("drop-zone"), sel.dataset.id, sel);
+      });
+    }
+    function gradeDragDrop(zone, id, src, q){
       if(S.locked) return;
       S.locked=true; S.attempts++;
       const ok=id===q.answer;
-      if(ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); } else sfx("bad");
-      tally();
-      [...document.getElementById("opts").children].forEach(el=>{
-        el.disabled=true;
-        if(el.dataset.id===q.answer) el.classList.add("correct");
-        if(el.dataset.id===id && !ok) el.classList.add("wrong");
-      });
-      showCoach(ok, q.why);
+      if(ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); zone.classList.add("ok"); src.classList.add("done"); }
+      else {
+        sfx("bad"); zone.classList.add("bad");
+        const right=[...document.querySelectorAll(".drag-item")].find(el=>el.dataset.id===q.answer);
+        if(right) right.classList.add("done");
+      }
+      tally(); showCoach(ok, q.why);
     }
 
-    function renderSeq(q){
-      S.seqNext=0;
+    function renderDragSeq(q){
+      S.seqFilled=0; S.seqMissed=new Set();
       const stage=document.getElementById("stage");
-      const steps=shuffle(q.steps);
-      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="seq-list" id="opts"></div>`;
+      stage.innerHTML=`<p class="prompt">${q.q}</p>
+        <div class="seq-slots" id="seq-slots"></div>
+        <div class="drag-tray" id="opts"></div>`;
+      const slots=document.getElementById("seq-slots");
+      q.steps.forEach((_,i)=>{
+        const d=document.createElement("div");
+        d.className="seq-slot"; d.dataset.slot=String(i);
+        d.innerHTML=`<div class="n">${i+1}</div><div class="ph">Lepaskan langkah ke-${i+1}</div>`;
+        slots.appendChild(d);
+      });
       const box=document.getElementById("opts");
-      steps.forEach(st=>{
+      shuffle(q.steps).forEach(st=>{
         const b=document.createElement("button");
-        b.type="button"; b.className="seq-card"; b.dataset.id=String(st.id);
-        b.innerHTML=`<img src="${ART+st.img}" alt=""><div><b>${st.label}</b></div><div class="seq-num" aria-hidden="true">?</div>`;
-        b.onclick=()=>tapSeq(b, st.id, q);
+        b.type="button"; b.className="drag-item"; b.dataset.id=String(st.id); b.textContent=st.label; b.draggable=false;
         box.appendChild(b);
+        bindPointerDrag(b);
+      });
+      document.querySelectorAll(".seq-slot").forEach(slot=>{
+        slot.addEventListener("click", ()=>{
+          const sel=document.querySelector(".drag-item.sel:not(.done)");
+          if(sel) onDrop(slot, sel.dataset.id, sel);
+        });
       });
     }
-
-    function tapSeq(btn, id, q){
+    function gradeSeqDrop(slot, id, src, q){
       if(S.locked) return;
-      if(id!==S.seqNext){
-        S.seqWrong++;
-        S.seqMissedThis=true;
-        sfx("bad"); btn.classList.remove("bad"); void btn.offsetWidth; btn.classList.add("bad");
+      if(slot.classList.contains("ok")) return;
+      const want=Number(slot.dataset.slot);
+      const got=Number(id);
+      const ok=got===want;
+      if(!ok){
+        S.seqMissed.add(want);
+        sfx("bad");
+        slot.classList.remove("bad"); void slot.offsetWidth; slot.classList.add("bad");
+        setTimeout(()=>slot.classList.remove("bad","hot"), 420);
         return;
       }
       S.attempts++;
-      if(!S.seqMissedThis){ S.correct++; S.levelScores[S.idx]+=2; sfx("ok"); }
+      if(!S.seqMissed.has(want)){ S.correct++; S.levelScores[S.idx]+=2; sfx("ok"); }
       else sfx("click");
-      S.seqMissedThis=false; S.seqNext++;
-      tally();
-      btn.classList.add("done"); btn.disabled=true;
-      btn.querySelector(".seq-num").textContent=String(S.seqNext);
-      updateHud();
-      if(S.seqNext>=q.steps.length){ S.locked=true; showCoach(S.seqWrong===0, q.why); }
+      src.classList.add("done");
+      slot.classList.add("ok");
+      slot.querySelector(".ph").outerHTML=`<b>${src.textContent}</b>`;
+      S.seqFilled++;
+      tally(); updateHud();
+      document.getElementById("q-count").textContent=qCountLabel(curLv(), q);
+      if(S.seqFilled>=q.steps.length){ S.locked=true; showCoach(S.seqMissed.size===0, q.why); }
     }
 
-    function renderMatch(q){
-      S.matchOk=0; S.matchSel=null;
+    function renderFlip(q){
+      S.matchOk=0; S.matchMissed=new Set(); S.flipOpen=[]; S.flipBusy=false;
+      const cards=[];
+      q.pairs.forEach(p=>{
+        cards.push({pair:p.id, kind:"L", label:p.left});
+        cards.push({pair:p.id, kind:"R", label:p.right, img:p.img});
+      });
       const stage=document.getElementById("stage");
-      const left=shuffle(q.pairs);
-      const right=shuffle(q.pairs);
-      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="match"><div class="col" id="m-left"></div><div class="col" id="m-right"></div></div>`;
-      const L=document.getElementById("m-left"), R=document.getElementById("m-right");
-      left.forEach(p=>{
-        const b=document.createElement("button"); b.type="button"; b.className="m-card"; b.dataset.id=p.id; b.textContent=p.left;
-        b.onclick=()=>tapMatch("L",b,p.id,q); L.appendChild(b);
-      });
-      right.forEach(p=>{
-        const b=document.createElement("button"); b.type="button"; b.className="m-card"; b.dataset.id=p.id;
-        b.innerHTML=`<img src="${ART+p.img}" alt="${p.right}"><span>${p.right}</span>`;
-        b.onclick=()=>tapMatch("R",b,p.id,q); R.appendChild(b);
+      stage.innerHTML=`<p class="prompt">${q.q}</p><div class="flip-grid" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      shuffle(cards).forEach((c,i)=>{
+        const wrap=document.createElement("div");
+        wrap.className="flip-card"; wrap.dataset.pair=c.pair; wrap.dataset.idx=String(i);
+        wrap.innerHTML=`<button type="button" class="flip-btn" aria-label="Balik kartu">
+          <div class="flip-inner">
+            <div class="flip-front">和</div>
+            <div class="flip-back">${c.img?`<img src="${ART+c.img}" alt="">`:""}<span>${c.label}</span></div>
+          </div>
+        </button>`;
+        wrap.querySelector(".flip-btn").onclick=()=>tapFlip(wrap,q);
+        box.appendChild(wrap);
       });
     }
-
-    function tapMatch(side, btn, id, q){
-      if(S.locked) return;
-      if(btn.classList.contains("done")) return;
-      document.querySelectorAll(`.m-card.on`).forEach(el=>{ if(el.dataset.side===side) el.classList.remove("on"); });
-      btn.dataset.side=side; btn.classList.add("on");
-      if(!S.matchSel){ S.matchSel={side,id,btn}; sfx("click"); return; }
-      if(S.matchSel.side===side){ S.matchSel={side,id,btn}; sfx("click"); return; }
-      const ok=S.matchSel.id===id;
+    function tapFlip(card,q){
+      if(S.locked || S.flipBusy) return;
+      if(card.classList.contains("open") || card.classList.contains("matched")) return;
+      card.classList.add("open");
+      S.flipOpen.push(card);
+      sfx("click");
+      if(S.flipOpen.length<2) return;
+      S.flipBusy=true;
+      const [a,b]=S.flipOpen;
+      const ok=a.dataset.pair===b.dataset.pair;
       if(ok){
         S.attempts++;
-        const missed=S.matchMissed.has(id);
-        if(!missed){ S.correct++; S.levelScores[S.idx]+=5; sfx("ok"); }
+        const pid=a.dataset.pair;
+        if(!S.matchMissed.has(pid)){ S.correct++; S.levelScores[S.idx]+=5; sfx("ok"); }
         else sfx("click");
-        S.matchOk++; tally();
-        btn.classList.add("done"); S.matchSel.btn.classList.add("done");
-        btn.classList.remove("on"); S.matchSel.btn.classList.remove("on");
-        S.matchSel=null; updateHud();
+        a.classList.add("matched"); b.classList.add("matched");
+        S.matchOk++; S.flipOpen=[]; S.flipBusy=false;
+        tally(); updateHud();
+        document.getElementById("q-count").textContent=qCountLabel(curLv(), q);
         if(S.matchOk>=q.pairs.length){ S.locked=true; showCoach(S.matchMissed.size===0, q.why); }
       } else {
         sfx("bad");
-        S.matchMissed.add(S.matchSel.id);
-        const a=S.matchSel.btn;
-        btn.classList.add("wrong"); a.classList.add("wrong");
-        setTimeout(()=>{ btn.classList.remove("wrong","on"); a.classList.remove("wrong","on"); }, 450);
-        S.matchSel=null;
+        S.matchMissed.add(a.dataset.pair); S.matchMissed.add(b.dataset.pair);
+        a.classList.add("bad"); b.classList.add("bad");
+        setTimeout(()=>{
+          a.classList.remove("open","bad"); b.classList.remove("open","bad");
+          S.flipOpen=[]; S.flipBusy=false;
+        }, 720);
       }
+    }
+
+    function renderBranch(q){
+      const node=q.nodes[S.branchNode];
+      const stage=document.getElementById("stage");
+      const you=S.lastLine?`<div class="chat you"><div class="who">Anda</div><p>“${S.lastLine}”</p></div>`:"";
+      const path=node.path?`<div class="story-path">${node.path}</div>`:"";
+      const vis=`<div class="story">${path}${you}<div class="chat">${node.img?`<img class="chat-art" src="${ART+node.img}" alt="">`:""}<div class="who">${node.who}</div><p>“${node.line}”</p></div></div>`;
+      if(node.kind==="beat"){
+        stage.innerHTML=vis;
+        S.branchNext=node.next;
+        showCoach(S.lastOk!==false, node.line);
+        document.getElementById("ct").textContent="Cerita berlanjut.";
+        document.getElementById("btn-nextq").textContent = node.next==="END" ? "Tutup stasiun ini" : "Lanjut cerita";
+        return;
+      }
+      stage.innerHTML=`${vis}<p class="prompt">${node.q}</p><div class="opt4" id="opts"></div>`;
+      const box=document.getElementById("opts");
+      node.choices.forEach(ch=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="tap"; b.textContent=ch.text;
+        b.onclick=()=>gradeBranch(ch,q,node);
+        box.appendChild(b);
+      });
+    }
+    function gradeBranch(ch,q,node){
+      if(S.locked) return;
+      S.locked=true; S.attempts++; S.lastLine=ch.text;
+      if(ch.ok){ S.correct++; S.levelScores[S.idx]+=4; sfx("ok"); }
+      else sfx("bad");
+      S.branchDone++; S.branchNext=ch.next; S.lastOk=ch.ok;
+      tally();
+      [...document.getElementById("opts").children].forEach(el=>{
+        el.disabled=true;
+        if(el.textContent===ch.text) el.classList.add(ch.ok?"correct":"wrong");
+        if(ch.ok===false && node.choices.some(c=>c.ok && c.text===el.textContent)) el.classList.add("correct");
+      });
+      showCoach(ch.ok, ch.why);
+      document.getElementById("btn-nextq").textContent = ch.next==="END" ? "Tutup stasiun ini" : "Lanjut cerita";
     }
 
     function showCoach(ok, why){
       tally(); updateHud();
-      const lv=LEVELS[S.idx];
+      const lv=curLv();
       const q=lv.qs[S.qIdx];
-      document.getElementById("senpai-line").textContent=q.teach;
+      document.getElementById("senpai-line").textContent=q.teach||document.getElementById("senpai-line").textContent;
       const c=document.getElementById("coach");
       c.className="coach on "+(ok?"ok":"bad");
       document.getElementById("ct").textContent=ok?"Benar. Senpai mengangguk.":"Belum tepat. Ini yang benar.";
       document.getElementById("cp").textContent=why;
-      document.getElementById("btn-nextq").textContent = S.qIdx>=lv.qs.length-1 ? "Tutup stasiun ini" : "Lanjut";
+      const last=S.qIdx>=lv.qs.length-1 && !S.branchNext;
+      document.getElementById("btn-nextq").textContent = last ? "Tutup stasiun ini" : "Lanjut";
     }
 
     function nextQuestion(){
       sfx("click");
-      const lv=LEVELS[S.idx];
+      if(S.branchNext){
+        if(S.branchNext==="END"){ S.branchNext=null; S.branchNode=null; S.lastLine=""; finishLevel(); return; }
+        S.branchNode=S.branchNext; S.branchNext=null; S.locked=false;
+        loadQuestion();
+        return;
+      }
+      const lv=curLv();
       if(S.qIdx>=lv.qs.length-1){ finishLevel(); return; }
       S.qIdx++; loadQuestion();
     }
 
     function finishLevel(){
-      const lv=LEVELS[S.idx];
+      const lv=curLv();
       const pts=S.levelScores[S.idx];
       const ok=pts>=16;
       S.reviews.push({level:lv.title, ok, detail:`+${pts}/20. ${lv.brief}`});
@@ -1045,7 +1477,7 @@
       else { btn.textContent="Stasiun berikutnya"; btn.onclick=nextLevel; }
       show("sc-clear");
     }
-    function nextLevel(){ sfx("click"); S.idx++; S.qIdx=0; if(S.idx>=LEVELS.length) finish(); else { loadQuestion(); show("sc-play"); } }
+    function nextLevel(){ sfx("click"); S.idx++; S.qIdx=0; S.branchNode=null; S.branchNext=null; S.lastLine=""; S.branchDone=0; if(S.idx>=LEVELS.length) finish(); else { loadQuestion(); show("sc-play"); } }
 
     function finish(){
       const passed=S.score>=70;
